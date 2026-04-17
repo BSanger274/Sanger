@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const EMAIL = "benjamin.sanger@gmail.com";
@@ -7,13 +7,6 @@ const EMAIL = "benjamin.sanger@gmail.com";
 export default function Contact() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(EMAIL);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <section id="contact" className="py-32 px-6 bg-gray-50">
@@ -52,13 +45,13 @@ export default function Contact() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <button
-            onClick={handleCopy}
+          <a
+            href={`mailto:${EMAIL}`}
             className="flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-700 font-medium px-8 py-4 rounded-full hover:border-blue-400 hover:text-blue-600 transition-all shadow-sm"
           >
             <span>✉️</span>
-            <span>{copied ? "Copied!" : EMAIL}</span>
-          </button>
+            <span>Get in Touch</span>
+          </a>
           <a
             href="https://github.com/BSanger274"
             target="_blank"
