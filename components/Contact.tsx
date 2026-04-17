@@ -46,7 +46,7 @@ export default function Contact() {
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <a
-            href={`mailto:${EMAIL}`}
+            href={`mailto:${EMAIL}?subject=Let's Build Something`}
             className="flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-700 font-medium px-8 py-4 rounded-full hover:border-blue-400 hover:text-blue-600 transition-all shadow-sm"
           >
             <span>✉️</span>
