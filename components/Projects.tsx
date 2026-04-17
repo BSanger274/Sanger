@@ -44,9 +44,9 @@ const projects = [
     accent: "text-violet-500",
     pill: "bg-violet-50 text-violet-600",
     icon: "📊",
-    link: "#",
+    link: "https://covers-edge.vercel.app",
     stats: ["Line Movement", "Sharp Splits", "Dark Mode"],
-    comingSoon: true,
+    comingSoon: false,
   },
 ];
 
