@@ -163,195 +163,227 @@ export default function Projects() {
   return (
     <section id="work" className="relative py-32 px-6 bg-color-wash overflow-hidden">
 
-      {/* Hand-drawn sports sketches — pencil hatch style, no displacement filter */}
+      {/* Architectural sports diagrams — blueprint / technical drawing style */}
       <div className="absolute inset-0 pointer-events-none select-none">
 
-        {/* FOOTBALL FIELD — pencil hatch lines, bottom left */}
-        <svg className="absolute -bottom-28 -left-28 opacity-[0.13]" style={{transform:"rotate(-17deg)"}} width="720" height="370" viewBox="0 0 720 370" fill="none">
+        {/* FOOTBALL FIELD — top-down architectural plan, bottom left */}
+        <svg className="absolute -bottom-16 -left-16 opacity-[0.11]" style={{transform:"rotate(-14deg)"}} width="700" height="368" viewBox="0 0 700 368" fill="none">
           <defs>
-            <clipPath id="fb-ez-l"><rect x="14" y="18" width="68" height="334"/></clipPath>
-            <clipPath id="fb-ez-r"><rect x="638" y="18" width="68" height="334"/></clipPath>
+            <clipPath id="fb-ezl"><rect x="14" y="14" width="68" height="340"/></clipPath>
+            <clipPath id="fb-ezr"><rect x="618" y="14" width="68" height="340"/></clipPath>
           </defs>
-          <g stroke="#1e3a5f" strokeLinecap="round" strokeLinejoin="round">
-            {/* Field border — triple pencil lines */}
-            <rect x="14" y="18" width="692" height="334" strokeWidth="1.3" fill="none"/>
-            <rect x="15.8" y="19.8" width="688.4" height="330.4" strokeWidth="0.8" fill="none"/>
-            <rect x="12.5" y="16.5" width="695" height="337" strokeWidth="0.5" fill="none"/>
-            {/* End zone boundary lines — doubled */}
-            <line x1="82" y1="18" x2="82" y2="352" strokeWidth="1.3"/>
-            <line x1="83.8" y1="18" x2="83.8" y2="352" strokeWidth="0.7"/>
-            <line x1="638" y1="18" x2="638" y2="352" strokeWidth="1.3"/>
-            <line x1="639.8" y1="18" x2="639.8" y2="352" strokeWidth="0.7"/>
-            {/* Left end zone pencil hatch (/ direction, clipped) */}
-            <g clipPath="url(#fb-ez-l)">
-              {Array.from({length: 28}, (_, i) => (
-                <line key={i} x1={-320+i*16} y1={352} x2={14+i*16} y2={18}
-                  strokeWidth={i%4===0?1.05:0.72}/>
+          <g stroke="#1a3350" strokeLinecap="round" strokeLinejoin="round">
+            {/* Subtle internal grid */}
+            {Array.from({length: 12}, (_, i) => (
+              <line key={`fv${i}`} x1={14+i*57} y1={14} x2={14+i*57} y2={354} strokeWidth={0.25}/>
+            ))}
+            {Array.from({length: 7}, (_, i) => (
+              <line key={`fh${i}`} x1={14} y1={14+i*57} x2={686} y2={14+i*57} strokeWidth={0.25}/>
+            ))}
+            {/* Field border */}
+            <rect x="14" y="14" width="672" height="340" strokeWidth="1.5" fill="none"/>
+            {/* End zone boundaries */}
+            <line x1="82" y1="14" x2="82" y2="354" strokeWidth="1.2"/>
+            <line x1="618" y1="14" x2="618" y2="354" strokeWidth="1.2"/>
+            {/* End zone horizontal plan hatching (clipped) */}
+            <g clipPath="url(#fb-ezl)">
+              {Array.from({length: 16}, (_, i) => (
+                <line key={i} x1={14} y1={24+i*22} x2={82} y2={24+i*22} strokeWidth={0.35}/>
               ))}
             </g>
-            {/* Right end zone pencil hatch (/ direction, clipped) */}
-            <g clipPath="url(#fb-ez-r)">
-              {Array.from({length: 28}, (_, i) => (
-                <line key={i} x1={304+i*16} y1={352} x2={638+i*16} y2={18}
-                  strokeWidth={i%4===0?1.05:0.72}/>
+            <g clipPath="url(#fb-ezr)">
+              {Array.from({length: 16}, (_, i) => (
+                <line key={i} x1={618} y1={24+i*22} x2={686} y2={24+i*22} strokeWidth={0.35}/>
               ))}
             </g>
-            {/* Yard lines — doubled */}
-            {[138,192,246,300,360,420,474,528,582].map((x,i)=>(
+            {/* Yard lines */}
+            {[136,192,248,304,350,396,452,508,564].map((x,i)=>(
+              <line key={i} x1={x} y1={14} x2={x} y2={354} strokeWidth={0.8}/>
+            ))}
+            {/* Sideline tick marks at yard lines */}
+            {[136,192,248,304,350,396,452,508,564].map((x,i)=>(
               <g key={i}>
-                <line x1={x} y1={18} x2={x} y2={352} strokeWidth={1.1}/>
-                <line x1={x+1.8} y1={20} x2={x+1.8} y2={350} strokeWidth={0.7}/>
+                <line x1={x-4} y1={14} x2={x+4} y2={14} strokeWidth={1.1}/>
+                <line x1={x-4} y1={354} x2={x+4} y2={354} strokeWidth={1.1}/>
               </g>
             ))}
-            {/* Hash marks — doubled */}
-            {[138,192,246,300,360,420,474,528,582].map((x,i)=>(
+            {/* Hash marks */}
+            {[136,192,248,304,350,396,452,508,564].map((x,i)=>(
               <g key={i}>
-                <line x1={x-6} y1={129} x2={x+6} y2={129} strokeWidth={1.0}/>
-                <line x1={x-6} y1={130.8} x2={x+6} y2={130.8} strokeWidth={0.65}/>
-                <line x1={x-6} y1={240} x2={x+6} y2={240} strokeWidth={1.0}/>
-                <line x1={x-6} y1={241.8} x2={x+6} y2={241.8} strokeWidth={0.65}/>
+                <line x1={x-6} y1={128} x2={x+6} y2={128} strokeWidth={0.9}/>
+                <line x1={x-6} y1={226} x2={x+6} y2={226} strokeWidth={0.9}/>
               </g>
             ))}
-            {/* Offensive O's — doubled circles */}
-            {([
-              [420,185],[440,185],[460,185],[400,185],[380,185],
-              [478,180],[530,155],[310,158],[355,162],[420,210],[450,232],
-            ] as [number,number][]).map(([cx,cy],i)=>(
+            {/* Corner registration crosses */}
+            {([[14,14],[686,14],[14,354],[686,354],[350,14],[350,354]] as [number,number][]).map(([x,y],i)=>(
               <g key={i}>
-                <circle cx={cx} cy={cy} r={9} strokeWidth={1.2}/>
-                <circle cx={cx} cy={cy} r={10.5} strokeWidth={0.6}/>
+                <line x1={x-7} y1={y} x2={x+7} y2={y} strokeWidth={0.9}/>
+                <line x1={x} y1={y-7} x2={x} y2={y+7} strokeWidth={0.9}/>
               </g>
             ))}
-            {/* Defensive X's — round-cap strokes */}
+            {/* Offensive O's */}
+            {([[420,184],[440,184],[460,184],[400,184],[380,184],[478,179],[530,154],[310,157],[355,161],[420,209],[450,231]] as [number,number][]).map(([cx,cy],i)=>(
+              <circle key={i} cx={cx} cy={cy} r={9} strokeWidth={1.1}/>
+            ))}
+            {/* Defensive X's */}
             {([350,368,386,404] as number[]).map((x,i)=>(
               <g key={i}>
-                <line x1={x-7} y1={178} x2={x+7} y2={192} strokeWidth={1.3}/>
-                <line x1={x+7} y1={178} x2={x-7} y2={192} strokeWidth={1.3}/>
+                <line x1={x-7} y1={177} x2={x+7} y2={191} strokeWidth={1.1}/>
+                <line x1={x+7} y1={177} x2={x-7} y2={191} strokeWidth={1.1}/>
               </g>
             ))}
             {([345,368,392] as number[]).map((x,i)=>(
               <g key={i}>
-                <line x1={x-7} y1={160} x2={x+7} y2={174} strokeWidth={1.3}/>
-                <line x1={x+7} y1={160} x2={x-7} y2={174} strokeWidth={1.3}/>
+                <line x1={x-7} y1={159} x2={x+7} y2={173} strokeWidth={1.1}/>
+                <line x1={x+7} y1={159} x2={x-7} y2={173} strokeWidth={1.1}/>
               </g>
             ))}
-            <line x1={300} y1={148} x2={314} y2={162} strokeWidth={1.3}/>
-            <line x1={314} y1={148} x2={300} y2={162} strokeWidth={1.3}/>
-            <line x1={340} y1={138} x2={354} y2={152} strokeWidth={1.3}/>
-            <line x1={354} y1={138} x2={340} y2={152} strokeWidth={1.3}/>
-            {/* Route arrows — doubled paths */}
-            <path d="M 530 147 C 530 118 546 102 554 76" strokeWidth={1.1}/>
-            <path d="M 532 148 C 532 119 548 103 556 77" strokeWidth={0.65}/>
-            <path d="M 551 74 L 554 76 L 549 80" strokeWidth={1.1}/>
-            <path d="M 355 154 C 355 130 375 120 408 120 C 438 120 462 122 480 118" strokeWidth={1.1}/>
-            <path d="M 355 156 C 355 132 375 122 408 122 C 438 122 462 124 480 120" strokeWidth={0.65}/>
-            <path d="M 477 115 L 480 118 L 476 121" strokeWidth={1.1}/>
-            <path d="M 310 150 C 298 126 286 110 290 94 C 294 80 310 78 318 90" strokeWidth={1.1}/>
-            <path d="M 312 151 C 300 127 288 111 292 95 C 296 81 312 79 320 91" strokeWidth={0.65}/>
-            <path d="M 315 92 L 318 90 L 320 95" strokeWidth={1.1}/>
+            <line x1={300} y1={147} x2={314} y2={161} strokeWidth={1.1}/>
+            <line x1={314} y1={147} x2={300} y2={161} strokeWidth={1.1}/>
+            <line x1={340} y1={137} x2={354} y2={151} strokeWidth={1.1}/>
+            <line x1={354} y1={137} x2={340} y2={151} strokeWidth={1.1}/>
+            {/* Route arrows */}
+            <path d="M 530 146 C 530 117 546 101 554 75" strokeWidth={1.0}/>
+            <path d="M 551 73 L 554 75 L 549 79" strokeWidth={1.0}/>
+            <path d="M 355 153 C 355 129 375 119 408 119 C 438 119 462 121 480 117" strokeWidth={1.0}/>
+            <path d="M 477 114 L 480 117 L 476 120" strokeWidth={1.0}/>
+            <path d="M 310 149 C 298 125 286 109 290 93 C 294 79 310 77 318 89" strokeWidth={1.0}/>
+            <path d="M 315 91 L 318 89 L 320 94" strokeWidth={1.0}/>
           </g>
         </svg>
 
-        {/* BASKETBALL COURT — pencil hatch lines, top right */}
-        <svg className="absolute -top-16 -right-24 opacity-[0.11]" style={{transform:"rotate(11deg)"}} width="540" height="400" viewBox="0 0 540 400" fill="none">
+        {/* BASKETBALL COURT — geometrically correct top-down plan, top right */}
+        <svg className="absolute -top-12 -right-16 opacity-[0.11]" style={{transform:"rotate(10deg)"}} width="580" height="380" viewBox="0 0 580 380" fill="none">
           <defs>
-            <clipPath id="bk-pl"><rect x="16" y="118" width="118" height="164"/></clipPath>
-            <clipPath id="bk-pr"><rect x="406" y="118" width="118" height="164"/></clipPath>
+            <clipPath id="bk-lp"><rect x="20" y="148" width="108" height="84"/></clipPath>
+            <clipPath id="bk-rp"><rect x="452" y="148" width="108" height="84"/></clipPath>
           </defs>
-          <g stroke="#312e81" strokeLinecap="round" strokeLinejoin="round">
-            {/* Court border — triple pencil lines */}
-            <rect x="16" y="16" width="508" height="368" strokeWidth="1.3" fill="none"/>
-            <rect x="17.8" y="17.8" width="504.4" height="364.4" strokeWidth="0.8" fill="none"/>
-            <rect x="14.5" y="14.5" width="511" height="371" strokeWidth="0.5" fill="none"/>
-            {/* Half-court line — doubled */}
-            <line x1="270" y1="16" x2="270" y2="384" strokeWidth="1.2"/>
-            <line x1="271.8" y1="16" x2="271.8" y2="384" strokeWidth="0.7"/>
-            {/* Center circle — doubled */}
-            <circle cx="270" cy="200" r="52" strokeWidth="1.2"/>
-            <circle cx="270" cy="200" r="53.6" strokeWidth="0.65"/>
-            {/* Left paint outline — doubled */}
-            <rect x="16" y="118" width="118" height="164" strokeWidth="1.2" fill="none"/>
-            <rect x="17.8" y="119.8" width="114.4" height="160.4" strokeWidth="0.7" fill="none"/>
-            {/* Left paint cross-hatch (clipped) */}
-            <g clipPath="url(#bk-pl)">
-              {Array.from({length: 22}, (_, i) => (
-                <line key={`la${i}`} x1={-148+i*16} y1={282} x2={16+i*16} y2={118} strokeWidth={0.85}/>
-              ))}
-              {Array.from({length: 22}, (_, i) => (
-                <line key={`lb${i}`} x1={-148+i*16} y1={118} x2={16+i*16} y2={282} strokeWidth={0.6}/>
-              ))}
-            </g>
-            {/* Left free-throw arc — doubled */}
-            <path d="M 134 135 A 52 52 0 0 1 134 265" strokeWidth="1.2"/>
-            <path d="M 136 137 A 50 50 0 0 1 136 263" strokeWidth="0.7"/>
-            {/* Left three-point arc — doubled */}
-            <path d="M 16 74 C 16 74 210 74 248 200 C 210 326 16 326 16 326" strokeWidth="1.2"/>
-            <path d="M 18 76 C 18 76 212 76 250 200 C 212 324 18 324 18 324" strokeWidth="0.7"/>
-            {/* Left basket + backboard */}
-            <line x1="16" y1="194" x2="58" y2="194" strokeWidth="1.2"/>
-            <line x1="16" y1="195.8" x2="58" y2="195.8" strokeWidth="0.7"/>
-            <circle cx="62" cy="196" r="10" strokeWidth="1.2"/>
-            <circle cx="62" cy="196" r="11.6" strokeWidth="0.65"/>
-            <rect x="16" y="182" width="14" height="28" strokeWidth="1.0" fill="none"/>
-            {/* Right paint outline — doubled */}
-            <rect x="406" y="118" width="118" height="164" strokeWidth="1.2" fill="none"/>
-            <rect x="408" y="119.8" width="114.4" height="160.4" strokeWidth="0.7" fill="none"/>
-            {/* Right paint cross-hatch (clipped) */}
-            <g clipPath="url(#bk-pr)">
-              {Array.from({length: 22}, (_, i) => (
-                <line key={`ra${i}`} x1={242+i*16} y1={282} x2={406+i*16} y2={118} strokeWidth={0.85}/>
-              ))}
-              {Array.from({length: 22}, (_, i) => (
-                <line key={`rb${i}`} x1={242+i*16} y1={118} x2={406+i*16} y2={282} strokeWidth={0.6}/>
-              ))}
-            </g>
-            {/* Right free-throw arc — doubled */}
-            <path d="M 406 135 A 52 52 0 0 0 406 265" strokeWidth="1.2"/>
-            <path d="M 404 137 A 50 50 0 0 0 404 263" strokeWidth="0.7"/>
-            {/* Right three-point arc — doubled */}
-            <path d="M 524 74 C 524 74 330 74 292 200 C 330 326 524 326 524 326" strokeWidth="1.2"/>
-            <path d="M 522 76 C 522 76 328 76 290 200 C 328 324 522 324 522 324" strokeWidth="0.7"/>
-            {/* Right basket + backboard */}
-            <line x1="524" y1="194" x2="482" y2="194" strokeWidth="1.2"/>
-            <line x1="524" y1="195.8" x2="482" y2="195.8" strokeWidth="0.7"/>
-            <circle cx="478" cy="196" r="10" strokeWidth="1.2"/>
-            <circle cx="478" cy="196" r="11.6" strokeWidth="0.65"/>
-            <rect x="510" y="182" width="14" height="28" strokeWidth="1.0" fill="none"/>
+          <g stroke="#1a3350" strokeLinecap="round" strokeLinejoin="round">
+            {/* Court border */}
+            <rect x="20" y="20" width="540" height="340" strokeWidth="1.5" fill="none"/>
+            {/* Half-court line */}
+            <line x1="290" y1="20" x2="290" y2="360" strokeWidth="1.0"/>
+            {/* Center circle */}
+            <circle cx="290" cy="190" r="48" strokeWidth="1.0"/>
             {/* Center dot */}
-            <circle cx="270" cy="200" r="5" strokeWidth="1.2"/>
+            <circle cx="290" cy="190" r="4" strokeWidth="1.0"/>
+
+            {/* ── LEFT SIDE ── */}
+            {/* Left paint rectangle */}
+            <rect x="20" y="148" width="108" height="84" strokeWidth="1.1" fill="none"/>
+            {/* Left paint horizontal hatching */}
+            <g clipPath="url(#bk-lp)">
+              {Array.from({length: 12}, (_, i) => (
+                <line key={i} x1={20} y1={154+i*7} x2={128} y2={154+i*7} strokeWidth={0.3}/>
+              ))}
+            </g>
+            {/* Left free-throw circle — D outside paint */}
+            <path d="M 128 148 A 42 42 0 0 1 128 232" strokeWidth="1.0"/>
+            {/* Left free-throw circle — inside paint (dashed) */}
+            <path d="M 128 148 A 42 42 0 0 0 128 232" strokeWidth="0.5" strokeDasharray="4 3"/>
+            {/* Left three-point line — correct geometry */}
+            <line x1="20" y1="48" x2="84" y2="48" strokeWidth="1.0"/>
+            <path d="M 84 48 A 146 146 0 0 1 84 332" strokeWidth="1.0"/>
+            <line x1="84" y1="332" x2="20" y2="332" strokeWidth="1.0"/>
+            {/* Left backboard */}
+            <line x1="28" y1="170" x2="28" y2="210" strokeWidth="1.8"/>
+            {/* Left basket */}
+            <circle cx="50" cy="190" r="11" strokeWidth="1.0"/>
+            {/* Registration cross at basket */}
+            <line x1="42" y1="190" x2="58" y2="190" strokeWidth="0.7"/>
+            <line x1="50" y1="182" x2="50" y2="198" strokeWidth="0.7"/>
+
+            {/* ── RIGHT SIDE ── */}
+            {/* Right paint rectangle */}
+            <rect x="452" y="148" width="108" height="84" strokeWidth="1.1" fill="none"/>
+            {/* Right paint horizontal hatching */}
+            <g clipPath="url(#bk-rp)">
+              {Array.from({length: 12}, (_, i) => (
+                <line key={i} x1={452} y1={154+i*7} x2={560} y2={154+i*7} strokeWidth={0.3}/>
+              ))}
+            </g>
+            {/* Right free-throw circle — D outside paint */}
+            <path d="M 452 148 A 42 42 0 0 0 452 232" strokeWidth="1.0"/>
+            {/* Right free-throw circle — inside paint (dashed) */}
+            <path d="M 452 148 A 42 42 0 0 1 452 232" strokeWidth="0.5" strokeDasharray="4 3"/>
+            {/* Right three-point line — correct geometry */}
+            <line x1="560" y1="48" x2="496" y2="48" strokeWidth="1.0"/>
+            <path d="M 496 48 A 146 146 0 0 0 496 332" strokeWidth="1.0"/>
+            <line x1="496" y1="332" x2="560" y2="332" strokeWidth="1.0"/>
+            {/* Right backboard */}
+            <line x1="552" y1="170" x2="552" y2="210" strokeWidth="1.8"/>
+            {/* Right basket */}
+            <circle cx="530" cy="190" r="11" strokeWidth="1.0"/>
+            {/* Registration cross at basket */}
+            <line x1="522" y1="190" x2="538" y2="190" strokeWidth="0.7"/>
+            <line x1="530" y1="182" x2="530" y2="198" strokeWidth="0.7"/>
+
+            {/* Tick marks along boundary */}
+            {[80,160,240,320,400,480].map((d,i)=>(
+              <g key={i}>
+                <line x1={20+d} y1={20} x2={20+d} y2={28} strokeWidth={0.8}/>
+                <line x1={20+d} y1={360} x2={20+d} y2={352} strokeWidth={0.8}/>
+              </g>
+            ))}
+            {[70,140,210,280].map((d,i)=>(
+              <g key={i}>
+                <line x1={20} y1={20+d} x2={28} y2={20+d} strokeWidth={0.8}/>
+                <line x1={560} y1={20+d} x2={552} y2={20+d} strokeWidth={0.8}/>
+              </g>
+            ))}
+            {/* Corner registration crosses */}
+            {([[20,20],[560,20],[20,360],[560,360]] as [number,number][]).map(([x,y],i)=>(
+              <g key={i}>
+                <line x1={x-8} y1={y} x2={x+8} y2={y} strokeWidth={1.0}/>
+                <line x1={x} y1={y-8} x2={x} y2={y+8} strokeWidth={1.0}/>
+              </g>
+            ))}
           </g>
         </svg>
 
-        {/* GOLF GREEN — pencil contour lines, mid right */}
-        <svg className="absolute top-1/3 -right-8 opacity-[0.10]" style={{transform:"rotate(-12deg)"}} width="260" height="300" viewBox="0 0 260 300" fill="none">
-          <g stroke="#14532d" strokeLinecap="round" strokeLinejoin="round">
-            {/* Outer contour — triple */}
-            <ellipse cx="130" cy="190" rx="118" ry="88" strokeWidth="1.2"/>
-            <ellipse cx="130" cy="190" rx="119.5" ry="89.5" strokeWidth="0.65"/>
-            <ellipse cx="130" cy="190" rx="116.5" ry="86.5" strokeWidth="0.45"/>
-            {/* Mid contour — doubled */}
-            <ellipse cx="130" cy="190" rx="78" ry="54" strokeWidth="1.1"/>
-            <ellipse cx="130" cy="190" rx="79.5" ry="55.5" strokeWidth="0.65"/>
-            {/* Inner contour — doubled */}
-            <ellipse cx="130" cy="190" rx="38" ry="26" strokeWidth="1.0"/>
-            <ellipse cx="130" cy="190" rx="39.5" ry="27.5" strokeWidth="0.6"/>
-            {/* Cup — doubled */}
-            <ellipse cx="130" cy="206" rx="11" ry="6" strokeWidth="1.1"/>
-            <ellipse cx="130" cy="206" rx="12.5" ry="7.5" strokeWidth="0.65"/>
-            {/* Flag pole — doubled */}
-            <line x1="130" y1="60" x2="130" y2="202" strokeWidth="1.2"/>
-            <line x1="131.8" y1="61" x2="131.8" y2="203" strokeWidth="0.7"/>
-            {/* Flag — doubled */}
-            <path d="M 130 60 L 172 78 L 130 96 Z" strokeWidth="1.1"/>
-            <path d="M 132 62 L 174 80 L 132 98 Z" strokeWidth="0.6"/>
-            {/* Fairway approach lines — pencil bundle */}
-            <path d="M 48 180 Q 88 165 130 168 Q 172 165 212 180" strokeWidth="1.0"/>
-            <path d="M 50 182 Q 90 167 130 170 Q 172 167 210 182" strokeWidth="0.65"/>
-            <path d="M 52 184 Q 91 169 130 172 Q 170 169 208 184" strokeWidth="0.45"/>
-            <path d="M 62 218 Q 96 234 130 236 Q 164 234 198 218" strokeWidth="0.9"/>
-            <path d="M 64 220 Q 97 236 130 238 Q 163 236 196 220" strokeWidth="0.6"/>
-            <path d="M 75 270 Q 102 284 130 285 Q 158 284 185 270" strokeWidth="0.9"/>
-            <path d="M 77 272 Q 104 286 130 287 Q 156 286 183 272" strokeWidth="0.6"/>
+        {/* GOLF HOLE — architectural site plan, mid right */}
+        <svg className="absolute top-1/3 -right-6 opacity-[0.10]" style={{transform:"rotate(-11deg)"}} width="240" height="310" viewBox="0 0 240 310" fill="none">
+          <g stroke="#1a3350" strokeLinecap="round" strokeLinejoin="round">
+            {/* Fairway outline */}
+            <path d="M 78 295 C 58 272 38 244 40 210 C 42 174 58 150 80 140 C 100 130 122 136 130 148" strokeWidth="1.1"/>
+            <path d="M 162 295 C 182 272 202 244 200 210 C 198 174 182 150 160 140 C 140 130 118 136 130 148" strokeWidth="1.1"/>
+            {/* Fairway yardage reference lines */}
+            <line x1="68" y1="200" x2="172" y2="200" strokeWidth="0.35"/>
+            <line x1="62" y1="235" x2="178" y2="235" strokeWidth="0.35"/>
+            <line x1="74" y1="268" x2="166" y2="268" strokeWidth="0.35"/>
+            {/* Tee box */}
+            <rect x="106" y="278" width="28" height="16" strokeWidth="1.0" fill="none"/>
+            {/* Green outline */}
+            <ellipse cx="120" cy="90" rx="52" ry="44" strokeWidth="1.2"/>
+            {/* Green contour lines */}
+            <ellipse cx="120" cy="90" rx="36" ry="28" strokeWidth="0.6"/>
+            <ellipse cx="120" cy="90" rx="20" ry="14" strokeWidth="0.5"/>
+            {/* Hole cup */}
+            <circle cx="120" cy="90" r="5" strokeWidth="1.0"/>
+            {/* Flag pole */}
+            <line x1="120" y1="85" x2="120" y2="42" strokeWidth="1.1"/>
+            {/* Flag */}
+            <path d="M 120 42 L 150 54 L 120 66 Z" strokeWidth="1.0"/>
+            {/* Left bunker */}
+            <ellipse cx="83" cy="118" rx="20" ry="11" strokeWidth="0.9"/>
+            {Array.from({length: 4}, (_, i) => (
+              <line key={i} x1={68} y1={114+i*4} x2={98} y2={114+i*4} strokeWidth={0.3}/>
+            ))}
+            {/* Right bunker */}
+            <ellipse cx="158" cy="110" rx="16" ry="10" strokeWidth="0.9"/>
+            {Array.from({length: 4}, (_, i) => (
+              <line key={i} x1={146} y1={106+i*4} x2={170} y2={106+i*4} strokeWidth={0.3}/>
+            ))}
+            {/* Registration cross at hole */}
+            <line x1="112" y1="90" x2="128" y2="90" strokeWidth="0.8"/>
+            <line x1="120" y1="82" x2="120" y2="98" strokeWidth="0.8"/>
+            {/* Corner tick marks on green boundary area */}
+            {([[68,46],[172,46],[68,134],[172,134]] as [number,number][]).map(([x,y],i)=>(
+              <g key={i}>
+                <line x1={x-5} y1={y} x2={x+5} y2={y} strokeWidth={0.7}/>
+                <line x1={x} y1={y-5} x2={x} y2={y+5} strokeWidth={0.7}/>
+              </g>
+            ))}
           </g>
         </svg>
 
