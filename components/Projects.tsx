@@ -1,6 +1,109 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState, ReactNode, CSSProperties } from "react";
 import { motion, useInView } from "framer-motion";
+
+function BlueprintField({
+  className,
+  style,
+  width,
+  height,
+  viewBox,
+  baseOpacity,
+  defs,
+  children,
+  label,
+}: {
+  className?: string;
+  style?: CSSProperties;
+  width: number;
+  height: number;
+  viewBox: string;
+  baseOpacity: number;
+  defs?: ReactNode;
+  children: ReactNode;
+  label?: { x: number; y: number; title: string; dims: string; tie?: string };
+}) {
+  const ref = useRef<SVGSVGElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-10%" });
+  const [hover, setHover] = useState(false);
+
+  return (
+    <svg
+      ref={ref}
+      className={className}
+      style={{ ...style, pointerEvents: "auto", cursor: "pointer" }}
+      width={width}
+      height={height}
+      viewBox={viewBox}
+      fill="none"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {defs}
+      <g
+        style={{
+          opacity: hover ? 0.95 : baseOpacity,
+          transition: "opacity 0.4s ease",
+        }}
+      >
+        <g
+          className={inView ? "bp-draw-in" : ""}
+          stroke="white"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ opacity: inView ? 1 : 0 }}
+        >
+          {children}
+        </g>
+        {label && (
+          <g
+            style={{
+              opacity: hover ? 1 : 0,
+              transition: "opacity 0.3s ease",
+              pointerEvents: "none",
+            }}
+          >
+            <text
+              x={label.x}
+              y={label.y}
+              fill="white"
+              fontSize="14"
+              fontWeight="700"
+              fontFamily="Inter, sans-serif"
+              letterSpacing="2"
+            >
+              {label.title}
+            </text>
+            <text
+              x={label.x}
+              y={label.y + 16}
+              fill="white"
+              opacity="0.75"
+              fontSize="10"
+              fontFamily="Inter, sans-serif"
+              letterSpacing="1.5"
+            >
+              {label.dims}
+            </text>
+            {label.tie && (
+              <text
+                x={label.x}
+                y={label.y + 30}
+                fill="#93c5fd"
+                fontSize="10"
+                fontWeight="600"
+                fontFamily="Inter, sans-serif"
+                letterSpacing="1.5"
+              >
+                {label.tie}
+              </text>
+            )}
+          </g>
+        )}
+      </g>
+    </svg>
+  );
+}
 
 const projects = [
   {
@@ -167,12 +270,21 @@ export default function Projects() {
       <div className="absolute inset-0 pointer-events-none select-none">
 
         {/* FOOTBALL FIELD — top-down blueprint, bottom left */}
-        <svg className="absolute -bottom-20 -left-20 opacity-[0.38]" style={{transform:"rotate(-14deg)"}} width="700" height="368" viewBox="0 0 700 368" fill="none">
-          <defs>
-            <clipPath id="fb-ezl"><rect x="14" y="14" width="68" height="340"/></clipPath>
-            <clipPath id="fb-ezr"><rect x="618" y="14" width="68" height="340"/></clipPath>
-          </defs>
-          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+        <BlueprintField
+          className="absolute -bottom-20 -left-20"
+          style={{ transform: "rotate(-14deg)" }}
+          width={700}
+          height={368}
+          viewBox="0 0 700 368"
+          baseOpacity={0.38}
+          label={{ x: 90, y: 40, title: "NFL FIELD", dims: "120′ × 53⅓′" }}
+          defs={
+            <defs>
+              <clipPath id="fb-ezl"><rect x="14" y="14" width="68" height="340"/></clipPath>
+              <clipPath id="fb-ezr"><rect x="618" y="14" width="68" height="340"/></clipPath>
+            </defs>
+          }
+        >
             {/* Field border */}
             <rect x="14" y="14" width="672" height="340" strokeWidth="1.5" fill="none"/>
             {/* End zone boundaries */}
@@ -242,16 +354,24 @@ export default function Projects() {
             <path d="M 477 114 L 480 117 L 476 120" strokeWidth={1.0}/>
             <path d="M 310 149 C 298 125 286 109 290 93 C 294 79 310 77 318 89" strokeWidth={1.0}/>
             <path d="M 315 91 L 318 89 L 320 94" strokeWidth={1.0}/>
-          </g>
-        </svg>
+        </BlueprintField>
 
         {/* BASKETBALL COURT — blueprint plan, top right */}
-        <svg className="absolute -top-16 -right-20 opacity-[0.38]" style={{transform:"rotate(10deg)"}} width="580" height="380" viewBox="0 0 580 380" fill="none">
-          <defs>
-            <clipPath id="bk-lp"><rect x="20" y="148" width="108" height="84"/></clipPath>
-            <clipPath id="bk-rp"><rect x="452" y="148" width="108" height="84"/></clipPath>
-          </defs>
-          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+        <BlueprintField
+          className="absolute -top-16 -right-20"
+          style={{ transform: "rotate(10deg)" }}
+          width={580}
+          height={380}
+          viewBox="0 0 580 380"
+          baseOpacity={0.38}
+          label={{ x: 220, y: 340, title: "NBA COURT", dims: "94′ × 50′", tie: "→ SLAM-N-JAM" }}
+          defs={
+            <defs>
+              <clipPath id="bk-lp"><rect x="20" y="148" width="108" height="84"/></clipPath>
+              <clipPath id="bk-rp"><rect x="452" y="148" width="108" height="84"/></clipPath>
+            </defs>
+          }
+        >
             {/* Court border */}
             <rect x="20" y="20" width="540" height="340" strokeWidth="1.5" fill="none"/>
             {/* Half-court line */}
@@ -331,12 +451,18 @@ export default function Projects() {
                 <line x1={x} y1={y-8} x2={x} y2={y+8} strokeWidth={1.0}/>
               </g>
             ))}
-          </g>
-        </svg>
+        </BlueprintField>
 
         {/* BASEBALL DIAMOND — blueprint, top left */}
-        <svg className="absolute top-24 -left-10 opacity-[0.35]" style={{transform:"rotate(-18deg)"}} width="300" height="300" viewBox="0 0 300 300" fill="none">
-          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+        <BlueprintField
+          className="absolute top-24 -left-10"
+          style={{ transform: "rotate(-18deg)" }}
+          width={300}
+          height={300}
+          viewBox="0 0 300 300"
+          baseOpacity={0.35}
+          label={{ x: 30, y: 280, title: "MLB DIAMOND", dims: "90′ BASEPATHS" }}
+        >
             {/* Outfield fence arc */}
             <path d="M 30 180 A 140 140 0 0 1 270 180" strokeWidth="1.3"/>
             {/* Foul lines from home plate through 1B & 3B */}
@@ -363,12 +489,18 @@ export default function Projects() {
             {/* Registration cross at mound */}
             <line x1="142" y1="175" x2="158" y2="175" strokeWidth="0.5"/>
             <line x1="150" y1="167" x2="150" y2="183" strokeWidth="0.5"/>
-          </g>
-        </svg>
+        </BlueprintField>
 
         {/* HOCKEY RINK — blueprint, bottom right */}
-        <svg className="absolute bottom-20 -right-14 opacity-[0.36]" style={{transform:"rotate(8deg)"}} width="440" height="200" viewBox="0 0 440 200" fill="none">
-          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+        <BlueprintField
+          className="absolute bottom-20 -right-14"
+          style={{ transform: "rotate(8deg)" }}
+          width={440}
+          height={200}
+          viewBox="0 0 440 200"
+          baseOpacity={0.36}
+          label={{ x: 170, y: 196, title: "NHL RINK", dims: "200′ × 85′" }}
+        >
             {/* Rink boards (rounded rectangle) */}
             <rect x="20" y="20" width="400" height="160" rx="70" ry="70" strokeWidth="1.5" fill="none"/>
             {/* Center red line */}
@@ -406,12 +538,18 @@ export default function Projects() {
             {/* Center-line registration marks */}
             <line x1="220" y1="18" x2="220" y2="26" strokeWidth="1.0"/>
             <line x1="220" y1="174" x2="220" y2="182" strokeWidth="1.0"/>
-          </g>
-        </svg>
+        </BlueprintField>
 
         {/* SOCCER PITCH — blueprint, mid center */}
-        <svg className="absolute top-[44%] left-[28%] opacity-[0.28]" style={{transform:"translate(-50%,-50%) rotate(-6deg)"}} width="440" height="280" viewBox="0 0 440 280" fill="none">
-          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+        <BlueprintField
+          className="absolute top-[44%] left-[28%]"
+          style={{ transform: "translate(-50%,-50%) rotate(-6deg)" }}
+          width={440}
+          height={280}
+          viewBox="0 0 440 280"
+          baseOpacity={0.28}
+          label={{ x: 170, y: 276, title: "FIFA PITCH", dims: "115y × 75y" }}
+        >
             {/* Pitch border */}
             <rect x="20" y="20" width="400" height="240" strokeWidth="1.5" fill="none"/>
             {/* Halfway line */}
@@ -447,8 +585,7 @@ export default function Projects() {
             {/* Center-line registration ticks */}
             <line x1="220" y1="18" x2="220" y2="26" strokeWidth="1.0"/>
             <line x1="220" y1="254" x2="220" y2="262" strokeWidth="1.0"/>
-          </g>
-        </svg>
+        </BlueprintField>
 
       </div>
 

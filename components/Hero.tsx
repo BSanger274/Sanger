@@ -84,14 +84,30 @@ export default function Hero() {
           ⚡ Portfolio · Web Developer
         </motion.p>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[5.5rem] sm:text-[8rem] md:text-[11rem] leading-[0.85] font-black text-white tracking-tighter mb-3 select-none"
-        >
-          SANGER
-        </motion.h1>
+        <div className="relative inline-block mb-3">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="text-[5.5rem] sm:text-[8rem] md:text-[11rem] leading-[0.85] font-black text-white tracking-tighter select-none"
+          >
+            SANGER
+          </motion.h1>
+          {([
+            { pos: "-top-4 -left-4", border: "border-t-2 border-l-2" },
+            { pos: "-top-4 -right-6 md:-right-8", border: "border-t-2 border-r-2" },
+            { pos: "-bottom-4 -left-4", border: "border-b-2 border-l-2" },
+            { pos: "-bottom-4 -right-6 md:-right-8", border: "border-b-2 border-r-2" },
+          ] as const).map((b, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 1.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className={`absolute ${b.pos} w-8 h-8 md:w-12 md:h-12 ${b.border} border-white/60`}
+            />
+          ))}
+        </div>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
