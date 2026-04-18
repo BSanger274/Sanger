@@ -88,10 +88,19 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[5.5rem] sm:text-[8rem] md:text-[11rem] leading-[0.85] font-black text-white tracking-tighter mb-10 select-none"
+          className="text-[5.5rem] sm:text-[8rem] md:text-[11rem] leading-[0.85] font-black text-white tracking-tighter mb-3 select-none"
         >
           SANGER
         </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="text-white/90 text-xl sm:text-2xl md:text-3xl font-semibold tracking-[0.5em] uppercase mb-10 select-none"
+        >
+          Designs
+        </motion.p>
 
         <motion.div
           initial={{ opacity: 0 }}
