@@ -161,25 +161,18 @@ export default function Projects() {
   const isInView = useInView(headerRef, { once: true, margin: "-50px" });
 
   return (
-    <section id="work" className="relative py-32 px-6 bg-color-wash overflow-hidden">
+    <section id="work" className="relative py-32 px-6 bg-blueprint overflow-hidden">
 
-      {/* Architectural sports diagrams — blueprint / technical drawing style */}
+      {/* Blueprint sports diagrams — white lines on blueprint blue */}
       <div className="absolute inset-0 pointer-events-none select-none">
 
-        {/* FOOTBALL FIELD — top-down architectural plan, bottom left */}
-        <svg className="absolute -bottom-16 -left-16 opacity-[0.11]" style={{transform:"rotate(-14deg)"}} width="700" height="368" viewBox="0 0 700 368" fill="none">
+        {/* FOOTBALL FIELD — top-down blueprint, bottom left */}
+        <svg className="absolute -bottom-20 -left-20 opacity-[0.38]" style={{transform:"rotate(-14deg)"}} width="700" height="368" viewBox="0 0 700 368" fill="none">
           <defs>
             <clipPath id="fb-ezl"><rect x="14" y="14" width="68" height="340"/></clipPath>
             <clipPath id="fb-ezr"><rect x="618" y="14" width="68" height="340"/></clipPath>
           </defs>
-          <g stroke="#1a3350" strokeLinecap="round" strokeLinejoin="round">
-            {/* Subtle internal grid */}
-            {Array.from({length: 12}, (_, i) => (
-              <line key={`fv${i}`} x1={14+i*57} y1={14} x2={14+i*57} y2={354} strokeWidth={0.25}/>
-            ))}
-            {Array.from({length: 7}, (_, i) => (
-              <line key={`fh${i}`} x1={14} y1={14+i*57} x2={686} y2={14+i*57} strokeWidth={0.25}/>
-            ))}
+          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
             {/* Field border */}
             <rect x="14" y="14" width="672" height="340" strokeWidth="1.5" fill="none"/>
             {/* End zone boundaries */}
@@ -252,13 +245,13 @@ export default function Projects() {
           </g>
         </svg>
 
-        {/* BASKETBALL COURT — geometrically correct top-down plan, top right */}
-        <svg className="absolute -top-12 -right-16 opacity-[0.11]" style={{transform:"rotate(10deg)"}} width="580" height="380" viewBox="0 0 580 380" fill="none">
+        {/* BASKETBALL COURT — blueprint plan, top right */}
+        <svg className="absolute -top-16 -right-20 opacity-[0.38]" style={{transform:"rotate(10deg)"}} width="580" height="380" viewBox="0 0 580 380" fill="none">
           <defs>
             <clipPath id="bk-lp"><rect x="20" y="148" width="108" height="84"/></clipPath>
             <clipPath id="bk-rp"><rect x="452" y="148" width="108" height="84"/></clipPath>
           </defs>
-          <g stroke="#1a3350" strokeLinecap="round" strokeLinejoin="round">
+          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
             {/* Court border */}
             <rect x="20" y="20" width="540" height="340" strokeWidth="1.5" fill="none"/>
             {/* Half-court line */}
@@ -341,49 +334,119 @@ export default function Projects() {
           </g>
         </svg>
 
-        {/* GOLF HOLE — architectural site plan, mid right */}
-        <svg className="absolute top-1/3 -right-6 opacity-[0.10]" style={{transform:"rotate(-11deg)"}} width="240" height="310" viewBox="0 0 240 310" fill="none">
-          <g stroke="#1a3350" strokeLinecap="round" strokeLinejoin="round">
-            {/* Fairway outline */}
-            <path d="M 78 295 C 58 272 38 244 40 210 C 42 174 58 150 80 140 C 100 130 122 136 130 148" strokeWidth="1.1"/>
-            <path d="M 162 295 C 182 272 202 244 200 210 C 198 174 182 150 160 140 C 140 130 118 136 130 148" strokeWidth="1.1"/>
-            {/* Fairway yardage reference lines */}
-            <line x1="68" y1="200" x2="172" y2="200" strokeWidth="0.35"/>
-            <line x1="62" y1="235" x2="178" y2="235" strokeWidth="0.35"/>
-            <line x1="74" y1="268" x2="166" y2="268" strokeWidth="0.35"/>
-            {/* Tee box */}
-            <rect x="106" y="278" width="28" height="16" strokeWidth="1.0" fill="none"/>
-            {/* Green outline */}
-            <ellipse cx="120" cy="90" rx="52" ry="44" strokeWidth="1.2"/>
-            {/* Green contour lines */}
-            <ellipse cx="120" cy="90" rx="36" ry="28" strokeWidth="0.6"/>
-            <ellipse cx="120" cy="90" rx="20" ry="14" strokeWidth="0.5"/>
-            {/* Hole cup */}
-            <circle cx="120" cy="90" r="5" strokeWidth="1.0"/>
-            {/* Flag pole */}
-            <line x1="120" y1="85" x2="120" y2="42" strokeWidth="1.1"/>
-            {/* Flag */}
-            <path d="M 120 42 L 150 54 L 120 66 Z" strokeWidth="1.0"/>
-            {/* Left bunker */}
-            <ellipse cx="83" cy="118" rx="20" ry="11" strokeWidth="0.9"/>
-            {Array.from({length: 4}, (_, i) => (
-              <line key={i} x1={68} y1={114+i*4} x2={98} y2={114+i*4} strokeWidth={0.3}/>
-            ))}
-            {/* Right bunker */}
-            <ellipse cx="158" cy="110" rx="16" ry="10" strokeWidth="0.9"/>
-            {Array.from({length: 4}, (_, i) => (
-              <line key={i} x1={146} y1={106+i*4} x2={170} y2={106+i*4} strokeWidth={0.3}/>
-            ))}
-            {/* Registration cross at hole */}
-            <line x1="112" y1="90" x2="128" y2="90" strokeWidth="0.8"/>
-            <line x1="120" y1="82" x2="120" y2="98" strokeWidth="0.8"/>
-            {/* Corner tick marks on green boundary area */}
-            {([[68,46],[172,46],[68,134],[172,134]] as [number,number][]).map(([x,y],i)=>(
-              <g key={i}>
-                <line x1={x-5} y1={y} x2={x+5} y2={y} strokeWidth={0.7}/>
-                <line x1={x} y1={y-5} x2={x} y2={y+5} strokeWidth={0.7}/>
-              </g>
-            ))}
+        {/* BASEBALL DIAMOND — blueprint, top left */}
+        <svg className="absolute top-24 -left-10 opacity-[0.35]" style={{transform:"rotate(-18deg)"}} width="300" height="300" viewBox="0 0 300 300" fill="none">
+          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+            {/* Outfield fence arc */}
+            <path d="M 30 180 A 140 140 0 0 1 270 180" strokeWidth="1.3"/>
+            {/* Foul lines from home plate through 1B & 3B */}
+            <line x1="150" y1="240" x2="30" y2="180" strokeWidth="1.0"/>
+            <line x1="150" y1="240" x2="270" y2="180" strokeWidth="1.0"/>
+            {/* Infield grass arc */}
+            <path d="M 90 200 A 70 70 0 0 1 210 200" strokeWidth="0.6" strokeDasharray="4 3"/>
+            {/* Diamond */}
+            <path d="M 150 240 L 215 175 L 150 110 L 85 175 Z" strokeWidth="1.3"/>
+            {/* Pitcher's mound */}
+            <circle cx="150" cy="175" r="10" strokeWidth="1.0"/>
+            {/* Pitcher's plate */}
+            <line x1="144" y1="175" x2="156" y2="175" strokeWidth="1.2"/>
+            {/* Bases */}
+            <rect x="146" y="236" width="8" height="8" strokeWidth="0.9" fill="none"/>
+            <rect x="211" y="171" width="8" height="8" strokeWidth="0.9" fill="none"/>
+            <rect x="146" y="106" width="8" height="8" strokeWidth="0.9" fill="none"/>
+            <rect x="81" y="171" width="8" height="8" strokeWidth="0.9" fill="none"/>
+            {/* Batter's boxes */}
+            <rect x="128" y="238" width="12" height="18" strokeWidth="0.7" fill="none"/>
+            <rect x="160" y="238" width="12" height="18" strokeWidth="0.7" fill="none"/>
+            {/* Catcher's box */}
+            <path d="M 138 258 L 150 268 L 162 258" strokeWidth="0.7"/>
+            {/* Registration cross at mound */}
+            <line x1="142" y1="175" x2="158" y2="175" strokeWidth="0.5"/>
+            <line x1="150" y1="167" x2="150" y2="183" strokeWidth="0.5"/>
+          </g>
+        </svg>
+
+        {/* HOCKEY RINK — blueprint, bottom right */}
+        <svg className="absolute bottom-20 -right-14 opacity-[0.36]" style={{transform:"rotate(8deg)"}} width="440" height="200" viewBox="0 0 440 200" fill="none">
+          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+            {/* Rink boards (rounded rectangle) */}
+            <rect x="20" y="20" width="400" height="160" rx="70" ry="70" strokeWidth="1.5" fill="none"/>
+            {/* Center red line */}
+            <line x1="220" y1="20" x2="220" y2="180" strokeWidth="1.3"/>
+            {/* Blue lines */}
+            <line x1="150" y1="20" x2="150" y2="180" strokeWidth="1.0"/>
+            <line x1="290" y1="20" x2="290" y2="180" strokeWidth="1.0"/>
+            {/* Goal lines */}
+            <line x1="55" y1="40" x2="55" y2="160" strokeWidth="0.8"/>
+            <line x1="385" y1="40" x2="385" y2="160" strokeWidth="0.8"/>
+            {/* Center face-off circle */}
+            <circle cx="220" cy="100" r="30" strokeWidth="1.0"/>
+            <circle cx="220" cy="100" r="2.5" strokeWidth="1.0"/>
+            {/* Neutral zone face-off dots */}
+            <circle cx="185" cy="65" r="2.5" strokeWidth="1.0"/>
+            <circle cx="185" cy="135" r="2.5" strokeWidth="1.0"/>
+            <circle cx="255" cy="65" r="2.5" strokeWidth="1.0"/>
+            <circle cx="255" cy="135" r="2.5" strokeWidth="1.0"/>
+            {/* End zone face-off circles */}
+            <circle cx="90" cy="65" r="18" strokeWidth="0.9"/>
+            <circle cx="90" cy="135" r="18" strokeWidth="0.9"/>
+            <circle cx="350" cy="65" r="18" strokeWidth="0.9"/>
+            <circle cx="350" cy="135" r="18" strokeWidth="0.9"/>
+            {/* End zone face-off dots */}
+            <circle cx="90" cy="65" r="2" strokeWidth="0.8"/>
+            <circle cx="90" cy="135" r="2" strokeWidth="0.8"/>
+            <circle cx="350" cy="65" r="2" strokeWidth="0.8"/>
+            <circle cx="350" cy="135" r="2" strokeWidth="0.8"/>
+            {/* Goals */}
+            <rect x="47" y="90" width="8" height="20" strokeWidth="1.1" fill="none"/>
+            <rect x="385" y="90" width="8" height="20" strokeWidth="1.1" fill="none"/>
+            {/* Goal creases (blue semicircles) */}
+            <path d="M 55 90 A 14 14 0 0 1 55 110" strokeWidth="0.9"/>
+            <path d="M 385 90 A 14 14 0 0 0 385 110" strokeWidth="0.9"/>
+            {/* Center-line registration marks */}
+            <line x1="220" y1="18" x2="220" y2="26" strokeWidth="1.0"/>
+            <line x1="220" y1="174" x2="220" y2="182" strokeWidth="1.0"/>
+          </g>
+        </svg>
+
+        {/* SOCCER PITCH — blueprint, mid center */}
+        <svg className="absolute top-[44%] left-[28%] opacity-[0.28]" style={{transform:"translate(-50%,-50%) rotate(-6deg)"}} width="440" height="280" viewBox="0 0 440 280" fill="none">
+          <g stroke="white" strokeLinecap="round" strokeLinejoin="round">
+            {/* Pitch border */}
+            <rect x="20" y="20" width="400" height="240" strokeWidth="1.5" fill="none"/>
+            {/* Halfway line */}
+            <line x1="220" y1="20" x2="220" y2="260" strokeWidth="1.0"/>
+            {/* Center circle + spot */}
+            <circle cx="220" cy="140" r="36" strokeWidth="1.0"/>
+            <circle cx="220" cy="140" r="2.5" strokeWidth="1.0"/>
+            {/* Left penalty box */}
+            <rect x="20" y="70" width="66" height="140" strokeWidth="1.0" fill="none"/>
+            {/* Left goal box */}
+            <rect x="20" y="108" width="26" height="64" strokeWidth="0.9" fill="none"/>
+            {/* Left penalty spot */}
+            <circle cx="66" cy="140" r="2" strokeWidth="0.9"/>
+            {/* Left penalty arc */}
+            <path d="M 86 122 A 20 20 0 0 1 86 158" strokeWidth="0.9"/>
+            {/* Left goal */}
+            <rect x="10" y="124" width="10" height="32" strokeWidth="1.1" fill="none"/>
+            {/* Right penalty box */}
+            <rect x="354" y="70" width="66" height="140" strokeWidth="1.0" fill="none"/>
+            {/* Right goal box */}
+            <rect x="394" y="108" width="26" height="64" strokeWidth="0.9" fill="none"/>
+            {/* Right penalty spot */}
+            <circle cx="374" cy="140" r="2" strokeWidth="0.9"/>
+            {/* Right penalty arc */}
+            <path d="M 354 122 A 20 20 0 0 0 354 158" strokeWidth="0.9"/>
+            {/* Right goal */}
+            <rect x="420" y="124" width="10" height="32" strokeWidth="1.1" fill="none"/>
+            {/* Corner arcs */}
+            <path d="M 20 27 A 7 7 0 0 1 27 20" strokeWidth="0.8"/>
+            <path d="M 420 27 A 7 7 0 0 0 413 20" strokeWidth="0.8"/>
+            <path d="M 20 253 A 7 7 0 0 0 27 260" strokeWidth="0.8"/>
+            <path d="M 420 253 A 7 7 0 0 1 413 260" strokeWidth="0.8"/>
+            {/* Center-line registration ticks */}
+            <line x1="220" y1="18" x2="220" y2="26" strokeWidth="1.0"/>
+            <line x1="220" y1="254" x2="220" y2="262" strokeWidth="1.0"/>
           </g>
         </svg>
 
@@ -395,7 +458,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-blue-600 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
+            className="text-blue-200 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
           >
             My Work
           </motion.p>
@@ -403,7 +466,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl font-black text-gray-900 leading-tight"
+            className="text-5xl font-black text-white leading-tight"
           >
             Live Projects
           </motion.h2>
@@ -411,7 +474,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-gray-500 text-lg mt-4 max-w-xl"
+            className="text-white/75 text-lg mt-4 max-w-xl"
           >
             Real tools built for real leagues — data-driven, always live, built
             to handle game day.

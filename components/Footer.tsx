@@ -6,7 +6,7 @@ export default function Footer() {
           <span className="text-white font-black text-xl">
             SANGER<span className="text-blue-400">.</span>
           </span>
-          <span className="text-[10px] font-semibold tracking-[0.25em] uppercase text-blue-400">
+          <span className="text-[10px] font-semibold tracking-[0.25em] uppercase text-center text-blue-400">
             Designs
           </span>
         </div>

@@ -38,7 +38,7 @@ export default function Navbar() {
             SANGER<span className="text-blue-500">.</span>
           </span>
           <span
-            className={`text-[10px] font-semibold tracking-[0.25em] uppercase transition-colors ${
+            className={`text-[10px] font-semibold tracking-[0.25em] uppercase text-center transition-colors ${
               scrolled ? "text-blue-500" : "text-blue-300"
             }`}
           >
