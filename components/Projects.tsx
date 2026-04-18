@@ -162,50 +162,47 @@ function ProjectCard({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-80px" });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = cardRef.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.02)`;
-  };
-
-  const handleMouseLeave = () => {
-    const card = cardRef.current;
-    if (!card) return;
-    card.style.transform =
-      "perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1)";
-  };
+  const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 0.7,
-        delay: index * 0.15,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl overflow-hidden"
+      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="relative bg-white rounded-2xl border border-gray-100 overflow-hidden"
       style={{
-        transformStyle: "preserve-3d",
-        transition: "transform 0.15s ease, box-shadow 0.3s ease",
+        transition: "box-shadow 0.35s ease, transform 0.35s ease",
+        transform: hovered ? "translateY(-5px)" : "translateY(0)",
+        boxShadow: hovered
+          ? "0 20px 40px -10px rgba(15,23,42,0.2)"
+          : "0 1px 3px rgba(0,0,0,0.06)",
       }}
     >
+      {/* Shimmer sweep */}
+      <div
+        className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl z-10"
+        style={{ opacity: hovered ? 1 : 0, transition: "opacity 0.2s ease" }}
+      >
+        <div
+          className="absolute top-0 bottom-0 w-1/3"
+          style={{
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)",
+            animation: hovered ? "card-scan 1.4s linear infinite" : "none",
+          }}
+        />
+      </div>
+
       <div className={`h-1.5 bg-gradient-to-r ${project.gradient}`} />
+
       <div className="p-8">
         <div className="flex items-start justify-between mb-6">
           <div>
             <span className="text-4xl mb-3 block">{project.icon}</span>
             <h3 className="text-2xl font-bold text-gray-900">{project.name}</h3>
-            <p className={`text-sm font-medium ${project.accent} mt-1`}>
-              {project.tagline}
-            </p>
+            <p className={`text-sm font-medium ${project.accent} mt-1`}>{project.tagline}</p>
           </div>
           {project.comingSoon && (
             <span className="text-xs font-semibold bg-violet-100 text-violet-600 px-3 py-1 rounded-full shrink-0">
@@ -214,36 +211,32 @@ function ProjectCard({
           )}
         </div>
 
-        <p className="text-gray-500 text-sm leading-relaxed mb-6">
-          {project.description}
-        </p>
+        <p className="text-gray-500 text-sm leading-relaxed mb-6">{project.description}</p>
 
-        <div className="flex gap-2 flex-wrap mb-5">
+        {/* Stats pills — lift on hover */}
+        <div
+          className="flex gap-2 flex-wrap mb-5"
+          style={{
+            transform: hovered ? "translateY(-6px)" : "translateY(0)",
+            transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)",
+            filter: hovered
+              ? "drop-shadow(0 8px 12px rgba(0,0,0,0.18))"
+              : "drop-shadow(0 0px 0px transparent)",
+          }}
+        >
           {project.stats.map((s) => (
-            <span
-              key={s}
-              className={`text-xs font-semibold px-3 py-1.5 rounded-full ${project.pill}`}
-            >
-              {s}
-            </span>
+            <span key={s} className={`text-xs font-semibold px-3 py-1.5 rounded-full ${project.pill}`}>{s}</span>
           ))}
         </div>
 
         <div className="flex gap-2 flex-wrap mb-8">
           {project.tech.map((t) => (
-            <span
-              key={t}
-              className="text-xs font-medium px-2.5 py-1 rounded-md bg-gray-100 text-gray-500"
-            >
-              {t}
-            </span>
+            <span key={t} className="text-xs font-medium px-2.5 py-1 rounded-md bg-gray-100 text-gray-500">{t}</span>
           ))}
         </div>
 
         {project.comingSoon ? (
-          <span className="text-sm font-semibold text-gray-300">
-            In Development
-          </span>
+          <span className="text-sm font-semibold text-gray-300">In Development</span>
         ) : (
           <a
             href={project.link}

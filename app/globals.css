@@ -89,6 +89,11 @@ body {
   to   { stroke-dashoffset: 0; }
 }
 
+@keyframes card-scan {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(420%); }
+}
+
 .bp-draw-in line,
 .bp-draw-in rect,
 .bp-draw-in circle,
