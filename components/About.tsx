@@ -103,10 +103,10 @@ export default function About() {
               {capabilities.map((cap) => (
                 <div
                   key={cap.label}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100"
+                  className="card-stack flex items-center gap-3 p-3"
                 >
                   <span className="text-xl">{cap.icon}</span>
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-semibold text-slate-700">
                     {cap.label}
                   </span>
                 </div>
@@ -121,7 +121,7 @@ export default function About() {
             transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="space-y-6"
           >
-            <div className="bg-gray-50 rounded-3xl p-10 grid grid-cols-2 gap-10">
+            <div className="card-stack p-10 grid grid-cols-2 gap-10" style={{ "--card-accent": "#2563eb" } as React.CSSProperties}>
               <StatCounter end={3} suffix="+" label="Live Websites" />
               <StatCounter end={255} suffix="+" label="Players Tracked" />
               <StatCounter end={100} suffix="%" label="Custom Built" />

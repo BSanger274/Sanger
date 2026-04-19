@@ -47,7 +47,8 @@ export default function Contact() {
         >
           <a
             href={`mailto:${EMAIL}?subject=Let's Build Something`}
-            className="flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-700 font-medium px-8 py-4 rounded-full hover:border-blue-400 hover:text-blue-600 transition-all shadow-sm"
+            className="card-stack flex items-center justify-center gap-3 px-8 py-4 text-slate-700 font-semibold text-sm hover:text-blue-600"
+            style={{ "--card-accent": "#2563eb" } as React.CSSProperties}
           >
             <span>✉️</span>
             <span>Get in Touch</span>
@@ -56,7 +57,8 @@ export default function Contact() {
             href="https://github.com/BSanger274"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 bg-gray-900 text-white font-medium px-8 py-4 rounded-full hover:bg-gray-800 transition-all shadow-sm"
+            className="card-stack flex items-center justify-center gap-3 px-8 py-4 font-semibold text-sm text-white"
+            style={{ background: "#0f172a", "--card-accent": "#2563eb" } as React.CSSProperties}
           >
             <span>🐙</span>
             <span>GitHub</span>

@@ -37,42 +37,20 @@ body {
 ::-webkit-scrollbar-track { background: #f1f5f9; }
 ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
 
-/* ── PROJECT SECTION BACKGROUND OPTIONS ── */
+/* ── BLUEPRINT BACKGROUNDS ── */
 
-/* Option 1: Dot grid */
-.bg-dot-grid {
-  background-color: #f9fafb;
-  background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* Option 2: Fine graph paper grid */
-.bg-graph-paper {
-  background-color: #f9fafb;
+/* Light paper — white with blue grid lines */
+.bg-blueprint-light {
+  background-color: #f8fbff;
   background-image:
-    linear-gradient(rgba(99,102,241,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99,102,241,0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
+    linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px),
+    linear-gradient(rgba(37,99,235,0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.14) 1px, transparent 1px);
+  background-size: 14px 14px, 14px 14px, 70px 70px, 70px 70px;
 }
 
-/* Option 3: Diagonal hatching */
-.bg-hatched {
-  background-color: #f9fafb;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 18px,
-    rgba(0,0,0,0.025) 18px,
-    rgba(0,0,0,0.025) 19px
-  );
-}
-
-/* Option 4: Soft color wash gradient */
-.bg-color-wash {
-  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 50%, #fdf2f8 100%);
-}
-
-/* Option 5: Blueprint paper with fine + major grid */
+/* Dark blueprint — kept for reference */
 .bg-blueprint {
   background-color: #1a5f9e;
   background-image:
@@ -81,6 +59,64 @@ body {
     linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px);
   background-size: 12px 12px, 12px 12px, 60px 60px, 60px 60px;
+}
+
+/* ── STACK CARD ── */
+.card-stack {
+  background: #fff;
+  border: 1px solid #0f172a;
+  box-shadow: 4px 4px 0 0 var(--card-accent, #0f172a);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-stack:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--card-accent, #0f172a);
+}
+
+/* ── GLOSSY PILL ── */
+.pill-glossy {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35em 0.9em;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: linear-gradient(180deg, var(--pill-bg, #dbeafe) 0%, color-mix(in srgb, var(--pill-bg, #dbeafe) 92%, black) 100%);
+  color: var(--pill-fg, #1d4ed8);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(15,23,42,0.1),
+    0 1px 2px rgba(15,23,42,0.1);
+}
+
+/* ── STITCH DIVIDER ── */
+@keyframes stitch {
+  to { background-position-x: 24px; }
+}
+.flow-stitch {
+  background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);
+  background-size: 12px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 50%;
+  animation: stitch 1.2s linear infinite;
+  height: 2px;
+}
+
+/* ── GHOST WORDMARK ── */
+.ghost-mark {
+  position: relative;
+  display: inline-block;
+  line-height: 0.85;
+}
+.ghost-mark .ghost {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.22);
+  pointer-events: none;
+  font-size: inherit;
+  font-weight: 900;
+  letter-spacing: inherit;
 }
 
 /* Blueprint draw-in stroke animation */

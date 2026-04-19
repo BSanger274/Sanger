@@ -1,109 +1,6 @@
 "use client";
-import { useRef, useState, ReactNode, CSSProperties } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-
-function BlueprintField({
-  className,
-  style,
-  width,
-  height,
-  viewBox,
-  baseOpacity,
-  defs,
-  children,
-  label,
-}: {
-  className?: string;
-  style?: CSSProperties;
-  width: number;
-  height: number;
-  viewBox: string;
-  baseOpacity: number;
-  defs?: ReactNode;
-  children: ReactNode;
-  label?: { x: number; y: number; title: string; dims: string; tie?: string };
-}) {
-  const ref = useRef<SVGSVGElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10%" });
-  const [hover, setHover] = useState(false);
-
-  return (
-    <svg
-      ref={ref}
-      className={className}
-      style={{ ...style, pointerEvents: "auto", cursor: "pointer" }}
-      width={width}
-      height={height}
-      viewBox={viewBox}
-      fill="none"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      {defs}
-      <g
-        style={{
-          opacity: hover ? 0.95 : baseOpacity,
-          transition: "opacity 0.4s ease",
-        }}
-      >
-        <g
-          className={inView ? "bp-draw-in" : ""}
-          stroke="white"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ opacity: inView ? 1 : 0 }}
-        >
-          {children}
-        </g>
-        {label && (
-          <g
-            style={{
-              opacity: hover ? 1 : 0,
-              transition: "opacity 0.3s ease",
-              pointerEvents: "none",
-            }}
-          >
-            <text
-              x={label.x}
-              y={label.y}
-              fill="white"
-              fontSize="14"
-              fontWeight="700"
-              fontFamily="Inter, sans-serif"
-              letterSpacing="2"
-            >
-              {label.title}
-            </text>
-            <text
-              x={label.x}
-              y={label.y + 16}
-              fill="white"
-              opacity="0.75"
-              fontSize="10"
-              fontFamily="Inter, sans-serif"
-              letterSpacing="1.5"
-            >
-              {label.dims}
-            </text>
-            {label.tie && (
-              <text
-                x={label.x}
-                y={label.y + 30}
-                fill="#93c5fd"
-                fontSize="10"
-                fontWeight="600"
-                fontFamily="Inter, sans-serif"
-                letterSpacing="1.5"
-              >
-                {label.tie}
-              </text>
-            )}
-          </g>
-        )}
-      </g>
-    </svg>
-  );
-}
 
 const projects = [
   {
@@ -113,13 +10,13 @@ const projects = [
     description:
       "A live fantasy scoring platform for a 17-team draft league. Real-time player tracking, auto-elimination per round, live score ticker, pulsing LIVE indicator, and admin tools for manual box score entry.",
     tech: ["Node.js", "Express", "ESPN API", "JSON", "Render"],
-    gradient: "from-orange-400 to-rose-500",
-    accent: "text-orange-500",
-    pill: "bg-orange-50 text-orange-600",
+    accent: "#fb923c",
+    pillBg: "#ffedd5",
+    pillFg: "#c2410c",
     icon: "🏀",
     link: "https://slam-n-jam.onrender.com",
-    stats: ["17 Teams", "255 Players", "Live Scoring"],
-    comingSoon: false,
+    stats: [{ k: "17", v: "Teams" }, { k: "255", v: "Players" }, { k: "LIVE", v: "Scoring" }],
+    gradient: "from-orange-400 to-rose-500",
   },
   {
     id: 2,
@@ -128,38 +25,323 @@ const projects = [
     description:
       "Fantasy golf scoring platform for PGA major championships. Live leaderboard, countdown timers, money leaders, and a Best 4-of-5 cumulative scoring format across the full major season.",
     tech: ["Node.js", "Express", "Golf API", "Render"],
-    gradient: "from-emerald-400 to-teal-500",
-    accent: "text-emerald-500",
-    pill: "bg-emerald-50 text-emerald-600",
+    accent: "#34d399",
+    pillBg: "#d1fae5",
+    pillFg: "#047857",
     icon: "⛳",
     link: "https://fantasy-golf-7h8x.onrender.com",
-    stats: ["Live Leaderboard", "PGA Majors", "Money Leaders"],
-    comingSoon: false,
+    stats: [{ k: "LIVE", v: "Leaderboard" }, { k: "PGA", v: "Majors" }, { k: "$$", v: "Money" }],
+    gradient: "from-emerald-400 to-teal-500",
   },
   {
     id: 3,
     name: "CoversEdge",
     tagline: "NCAAM Betting Line Comparison",
     description:
-      "A polished sports-betting analytics tool surfacing line movement, sharp vs. public splits, and cross-book discrepancies for NCAA Men's Basketball. Newspaper-editorial aesthetic with full dark mode.",
+      "Sports-betting analytics surfacing line movement, sharp vs. public splits, and cross-book discrepancies for NCAA Men's Basketball. Newspaper-editorial aesthetic with full dark mode.",
     tech: ["HTML", "CSS", "JavaScript", "Sportsbook APIs"],
-    gradient: "from-violet-500 to-purple-600",
-    accent: "text-violet-500",
-    pill: "bg-violet-50 text-violet-600",
+    accent: "#a78bfa",
+    pillBg: "#ede9fe",
+    pillFg: "#6d28d9",
     icon: "📊",
     link: "https://covers-edge.vercel.app",
-    stats: ["Line Movement", "Sharp Splits", "Dark Mode"],
-    comingSoon: false,
+    stats: [{ k: "MOVE", v: "Line" }, { k: "SHARP", v: "Splits" }, { k: "DARK", v: "Mode" }],
+    gradient: "from-violet-500 to-purple-600",
   },
 ];
 
-function ProjectCard({
-  project,
-  index,
+// ── Architectural SVG drawings ──────────────────────────────────
+const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+
+const NBAPlan = () => (
+  <svg viewBox="0 0 240 140" className="w-56 h-32" {...svg}>
+    <rect x="6" y="6" width="228" height="128" strokeWidth="1.2" />
+    <line x1="120" y1="6" x2="120" y2="134" strokeWidth="0.9" />
+    <circle cx="120" cy="70" r="20" strokeWidth="0.9" />
+    <circle cx="120" cy="70" r="6" strokeWidth="0.6" />
+    <rect x="6" y="46" width="54" height="48" strokeWidth="0.9" />
+    <line x1="60" y1="46" x2="60" y2="94" strokeWidth="0.9" />
+    <path d="M 60 46 A 24 24 0 0 1 60 94" strokeWidth="0.7" />
+    <path d="M 60 46 A 24 24 0 0 0 60 94" strokeWidth="0.6" strokeDasharray="3 2" />
+    <line x1="14" y1="62" x2="14" y2="78" strokeWidth="1.1" />
+    <circle cx="18" cy="70" r="2.2" strokeWidth="0.8" />
+    <path d="M 18 62 A 8 8 0 0 1 18 78" strokeWidth="0.5" />
+    <line x1="6" y1="17" x2="34" y2="17" strokeWidth="0.8" />
+    <line x1="6" y1="123" x2="34" y2="123" strokeWidth="0.8" />
+    <path d="M 34 17 A 72 72 0 0 1 34 123" strokeWidth="0.9" />
+    <rect x="180" y="46" width="54" height="48" strokeWidth="0.9" />
+    <line x1="180" y1="46" x2="180" y2="94" strokeWidth="0.9" />
+    <path d="M 180 46 A 24 24 0 0 0 180 94" strokeWidth="0.7" />
+    <path d="M 180 46 A 24 24 0 0 1 180 94" strokeWidth="0.6" strokeDasharray="3 2" />
+    <line x1="226" y1="62" x2="226" y2="78" strokeWidth="1.1" />
+    <circle cx="222" cy="70" r="2.2" strokeWidth="0.8" />
+    <path d="M 222 62 A 8 8 0 0 0 222 78" strokeWidth="0.5" />
+    <line x1="234" y1="17" x2="206" y2="17" strokeWidth="0.8" />
+    <line x1="234" y1="123" x2="206" y2="123" strokeWidth="0.8" />
+    <path d="M 206 17 A 72 72 0 0 0 206 123" strokeWidth="0.9" />
+  </svg>
+);
+
+const NFLPlan = () => (
+  <svg viewBox="0 0 280 120" className="w-64 h-28" {...svg}>
+    <rect x="4" y="4" width="272" height="112" strokeWidth="1.2" />
+    <line x1="36" y1="4" x2="36" y2="116" strokeWidth="0.9" />
+    <line x1="244" y1="4" x2="244" y2="116" strokeWidth="0.9" />
+    {[56, 76, 96, 116, 140, 164, 184, 204, 224].map((x, k) => (
+      <line key={k} x1={x} y1="4" x2={x} y2="116" strokeWidth="0.5" />
+    ))}
+    {[56, 76, 96, 116, 140, 164, 184, 204, 224].map((x, k) => (
+      <g key={k}>
+        <line x1={x - 4} y1="44" x2={x + 4} y2="44" strokeWidth="0.6" />
+        <line x1={x - 4} y1="76" x2={x + 4} y2="76" strokeWidth="0.6" />
+      </g>
+    ))}
+    <line x1="140" y1="4" x2="140" y2="116" strokeWidth="1" />
+  </svg>
+);
+
+const MLBPlan = () => (
+  <svg viewBox="0 0 200 180" className="w-48 h-44" {...svg}>
+    <path d="M 20 140 A 100 100 0 0 1 180 140" strokeWidth="1.1" />
+    <line x1="100" y1="160" x2="20" y2="120" strokeWidth="0.9" />
+    <line x1="100" y1="160" x2="180" y2="120" strokeWidth="0.9" />
+    <path d="M 60 130 A 50 50 0 0 1 140 130" strokeWidth="0.6" strokeDasharray="3 3" />
+    <path d="M 100 160 L 150 110 L 100 60 L 50 110 Z" strokeWidth="1.1" />
+    <circle cx="100" cy="110" r="8" strokeWidth="0.9" />
+    <line x1="95" y1="110" x2="105" y2="110" strokeWidth="1" />
+    <rect x="96" y="156" width="8" height="8" strokeWidth="0.7" />
+    <rect x="146" y="106" width="8" height="8" strokeWidth="0.7" />
+    <rect x="96" y="56" width="8" height="8" strokeWidth="0.7" />
+    <rect x="46" y="106" width="8" height="8" strokeWidth="0.7" />
+  </svg>
+);
+
+const NHLPlan = () => (
+  <svg viewBox="0 0 240 120" className="w-56 h-28" {...svg}>
+    <rect x="6" y="6" width="228" height="108" rx="44" ry="44" strokeWidth="1.2" />
+    <line x1="120" y1="6" x2="120" y2="114" strokeWidth="1" />
+    <line x1="82" y1="6" x2="82" y2="114" strokeWidth="0.8" />
+    <line x1="158" y1="6" x2="158" y2="114" strokeWidth="0.8" />
+    <circle cx="120" cy="60" r="18" strokeWidth="0.9" />
+    <circle cx="120" cy="60" r="1.5" strokeWidth="1" />
+    <circle cx="40" cy="40" r="11" strokeWidth="0.8" />
+    <circle cx="40" cy="80" r="11" strokeWidth="0.8" />
+    <circle cx="200" cy="40" r="11" strokeWidth="0.8" />
+    <circle cx="200" cy="80" r="11" strokeWidth="0.8" />
+    <path d="M 32 54 A 8 8 0 0 1 32 66" strokeWidth="0.7" />
+    <path d="M 208 54 A 8 8 0 0 0 208 66" strokeWidth="0.7" />
+  </svg>
+);
+
+const FIFAPlan = () => (
+  <svg viewBox="0 0 260 160" className="w-64 h-36" {...svg}>
+    <rect x="6" y="6" width="248" height="148" strokeWidth="1.2" />
+    <line x1="130" y1="6" x2="130" y2="154" strokeWidth="0.9" />
+    <circle cx="130" cy="80" r="22" strokeWidth="0.9" />
+    <circle cx="130" cy="80" r="1.5" strokeWidth="1" />
+    <rect x="6" y="42" width="40" height="76" strokeWidth="0.9" />
+    <rect x="6" y="60" width="16" height="40" strokeWidth="0.8" />
+    <rect x="214" y="42" width="40" height="76" strokeWidth="0.9" />
+    <rect x="238" y="60" width="16" height="40" strokeWidth="0.8" />
+    <circle cx="36" cy="80" r="1.5" strokeWidth="0.9" />
+    <circle cx="224" cy="80" r="1.5" strokeWidth="0.9" />
+  </svg>
+);
+
+const DomeSection = () => (
+  <svg viewBox="0 0 240 120" className="w-56 h-28" {...svg}>
+    <line x1="6" y1="110" x2="234" y2="110" strokeWidth="1.2" />
+    <path d="M 12 110 L 48 56 L 192 56 L 228 110" strokeWidth="1" />
+    <path d="M 48 56 Q 120 12 192 56" strokeWidth="1.1" />
+    <line x1="48" y1="56" x2="192" y2="56" strokeWidth="0.6" strokeDasharray="3 3" />
+    {[62, 80, 98, 116, 134, 152, 170].map((x, k) => (
+      <line key={k} x1={x} y1="56" x2={x} y2={56 - Math.sqrt(6400 - (x - 120) * (x - 120)) + 38} strokeWidth="0.4" />
+    ))}
+    <rect x="16" y="100" width="14" height="10" strokeWidth="0.6" />
+    <rect x="210" y="100" width="14" height="10" strokeWidth="0.6" />
+  </svg>
+);
+
+const DomeElevation = () => (
+  <svg viewBox="0 0 240 160" className="w-56 h-40" {...svg}>
+    <ellipse cx="120" cy="115" rx="105" ry="24" strokeWidth="1" />
+    <path d="M 15 115 L 15 100 Q 120 40 225 100 L 225 115" strokeWidth="1.1" />
+    <path d="M 15 100 Q 120 40 225 100" strokeWidth="0.5" strokeDasharray="3 3" />
+    {[40, 60, 80, 100, 120, 140, 160, 180, 200].map((x, k) => (
+      <line key={k} x1={x} y1="100" x2={x} y2="115" strokeWidth="0.4" />
+    ))}
+    <line x1="15" y1="125" x2="225" y2="125" strokeWidth="0.5" />
+    <line x1="15" y1="122" x2="15" y2="128" strokeWidth="0.8" />
+    <line x1="225" y1="122" x2="225" y2="128" strokeWidth="0.8" />
+  </svg>
+);
+
+const OpenAirElevation = () => (
+  <svg viewBox="0 0 260 140" className="w-60 h-32" {...svg}>
+    <line x1="6" y1="130" x2="254" y2="130" strokeWidth="1.2" />
+    <path d="M 14 130 L 30 86 L 230 86 L 246 130" strokeWidth="1" />
+    <path d="M 30 86 L 50 58 L 210 58 L 230 86" strokeWidth="1" />
+    {[46, 62, 78, 94, 110, 126, 142, 158, 174, 190, 206, 222].map((x, k) => (
+      <line key={k} x1={x} y1="58" x2={x + 12} y2="86" strokeWidth="0.35" />
+    ))}
+    {[30, 50, 70, 90, 110, 130, 150, 170, 190, 210].map((x, k) => (
+      <line key={k} x1={x} y1="86" x2={x + 16} y2="130" strokeWidth="0.35" />
+    ))}
+    <rect x="118" y="72" width="24" height="14" strokeWidth="0.7" />
+    <line x1="6" y1="136" x2="254" y2="136" strokeWidth="0.5" />
+  </svg>
+);
+
+const ArenaElevation = () => (
+  <svg viewBox="0 0 240 140" className="w-56 h-32" {...svg}>
+    <line x1="6" y1="130" x2="234" y2="130" strokeWidth="1.2" />
+    <path d="M 20 130 Q 20 70 60 70 L 180 70 Q 220 70 220 130" strokeWidth="1.1" />
+    <path d="M 40 130 Q 40 86 72 86 L 168 86 Q 200 86 200 130" strokeWidth="0.8" />
+    <rect x="105" y="56" width="30" height="16" strokeWidth="0.7" />
+    <line x1="110" y1="56" x2="110" y2="40" strokeWidth="0.7" />
+    <line x1="130" y1="56" x2="130" y2="40" strokeWidth="0.7" />
+    <circle cx="120" cy="40" r="2" strokeWidth="0.8" />
+    {[30, 50, 70, 90, 110, 130, 150, 170, 190, 210].map((x, k) => (
+      <line key={k} x1={x} y1="130" x2={x} y2="124" strokeWidth="0.5" />
+    ))}
+  </svg>
+);
+
+const BowlSection = () => (
+  <svg viewBox="0 0 260 140" className="w-60 h-32" {...svg}>
+    <line x1="6" y1="128" x2="254" y2="128" strokeWidth="1" />
+    <path d="M 20 128 L 42 96 L 78 96 L 92 74 L 120 74" strokeWidth="1" />
+    <path d="M 240 128 L 218 96 L 182 96 L 168 74 L 140 74" strokeWidth="1" />
+    <line x1="120" y1="74" x2="140" y2="74" strokeWidth="0.7" strokeDasharray="2 2" />
+    <rect x="14" y="120" width="22" height="8" strokeWidth="0.6" />
+    <rect x="224" y="120" width="22" height="8" strokeWidth="0.6" />
+    <line x1="30" y1="134" x2="230" y2="134" strokeWidth="0.4" />
+    <line x1="30" y1="132" x2="30" y2="136" strokeWidth="0.7" />
+    <line x1="230" y1="132" x2="230" y2="136" strokeWidth="0.7" />
+  </svg>
+);
+
+const RetractableRoof = () => (
+  <svg viewBox="0 0 240 130" className="w-56 h-28" {...svg}>
+    <path d="M 12 108 L 36 70 L 204 70 L 228 108" strokeWidth="1.1" />
+    <line x1="12" y1="108" x2="228" y2="108" strokeWidth="0.6" />
+    <path d="M 40 70 Q 72 34 120 34" strokeWidth="1" />
+    <path d="M 200 70 Q 168 34 120 34" strokeWidth="1" strokeDasharray="4 3" />
+    <line x1="120" y1="34" x2="120" y2="70" strokeWidth="0.5" strokeDasharray="2 2" />
+    <path d="M 72 34 L 72 24" strokeWidth="0.6" />
+    <path d="M 168 34 L 168 24" strokeWidth="0.6" />
+    <circle cx="72" cy="20" r="3" strokeWidth="0.8" />
+    <circle cx="168" cy="20" r="3" strokeWidth="0.8" />
+    <path d="M 40 52 A 80 36 0 0 1 200 52" strokeWidth="0.4" strokeDasharray="3 3" />
+  </svg>
+);
+
+const PressTower = () => (
+  <svg viewBox="0 0 160 200" className="w-40 h-48" {...svg}>
+    <line x1="10" y1="190" x2="150" y2="190" strokeWidth="1" />
+    <rect x="60" y="30" width="40" height="160" strokeWidth="1.1" />
+    {Array.from({ length: 10 }, (_, k) => (
+      <line key={k} x1="64" y1={40 + k * 15} x2="96" y2={40 + k * 15} strokeWidth="0.3" />
+    ))}
+    <rect x="64" y="40" width="32" height="16" strokeWidth="0.7" />
+    <rect x="64" y="60" width="32" height="16" strokeWidth="0.7" />
+    <rect x="64" y="80" width="32" height="16" strokeWidth="0.7" />
+    <rect x="64" y="100" width="32" height="16" strokeWidth="0.7" />
+    <path d="M 60 30 L 80 10 L 100 30" strokeWidth="1" />
+    <line x1="80" y1="10" x2="80" y2="0" strokeWidth="0.7" />
+    <circle cx="80" cy="-2" r="2" strokeWidth="0.8" />
+  </svg>
+);
+
+const IsoStadium = () => (
+  <svg viewBox="0 0 240 160" className="w-56 h-36" {...svg}>
+    <path d="M 40 120 L 120 80 L 200 120 L 120 160 Z" strokeWidth="1.1" />
+    <path d="M 60 110 L 120 80 L 180 110 L 120 140 Z" strokeWidth="0.8" />
+    <path d="M 80 100 L 120 80 L 160 100 L 120 120 Z" strokeWidth="0.6" strokeDasharray="2 2" />
+    <path d="M 40 120 L 40 100 L 120 60 L 200 100 L 200 120" strokeWidth="0.9" />
+    <path d="M 120 60 L 120 80" strokeWidth="0.5" />
+    <line x1="40" y1="100" x2="60" y2="110" strokeWidth="0.4" />
+    <line x1="200" y1="100" x2="180" y2="110" strokeWidth="0.4" />
+    <rect x="114" y="44" width="12" height="10" strokeWidth="0.6" />
+  </svg>
+);
+
+function Drawing({
+  pos,
+  rot = 0,
+  scale = 1,
+  label,
+  dims,
+  children,
 }: {
-  project: (typeof projects)[0];
-  index: number;
+  pos: string;
+  rot?: number;
+  scale?: number;
+  label: string;
+  dims?: string;
+  children: React.ReactNode;
 }) {
+  return (
+    <div
+      className={`absolute pointer-events-none ${pos}`}
+      style={{
+        transform: `rotate(${rot}deg) scale(${scale})`,
+        color: "#1d4ed8",
+        opacity: 0.7,
+      }}
+    >
+      {children}
+      <div className="mt-1.5 flex items-center gap-2" style={{ color: "#1d4ed8" }}>
+        <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase">{label}</span>
+        <span className="flex-1 h-px bg-blue-200" />
+        {dims && <span className="font-mono text-[9px] opacity-60">{dims}</span>}
+      </div>
+    </div>
+  );
+}
+
+function StadiumArt() {
+  return (
+    <>
+      <div className="absolute -top-24 -left-16 w-[560px] h-[560px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(closest-side, rgba(37,99,235,0.06), transparent)" }} />
+      <div className="absolute top-1/2 -right-24 w-[560px] h-[560px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(closest-side, rgba(147,197,253,0.1), transparent)" }} />
+      <div className="absolute bottom-0 left-1/3 w-[480px] h-[480px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(closest-side, rgba(59,130,246,0.06), transparent)" }} />
+
+      <Drawing pos="top-[2%] right-[-160px]" rot={-4} scale={2.1} label="SEC A / DOME" dims="REV-02"><DomeElevation /></Drawing>
+      <Drawing pos="top-[4%] left-[-120px]" rot={3} scale={1.9} label="COURT / PLAN" dims="1:200"><NBAPlan /></Drawing>
+      <Drawing pos="top-[22%] left-[42%]" rot={-2} scale={1.55} label="ISO / ARENA" dims="AXON-01"><IsoStadium /></Drawing>
+      <Drawing pos="top-[30%] right-[34%]" rot={6} scale={1.35} label="PRESS TWR" dims="ELEV"><PressTower /></Drawing>
+
+      <Drawing pos="top-[44%] left-[-180px]" rot={-6} scale={2.2} label="SEC B / BOWL" dims="1:150"><BowlSection /></Drawing>
+      <Drawing pos="top-[42%] right-[-140px]" rot={5} scale={2.0} label="ROOF / RETRACT" dims="OPT-2"><RetractableRoof /></Drawing>
+      <Drawing pos="top-[58%] left-[40%]" rot={-3} scale={1.6} label="PITCH / PLAN" dims="115y"><FIFAPlan /></Drawing>
+
+      <Drawing pos="bottom-[22%] left-[-100px]" rot={4} scale={1.85} label="FIELD / PLAN" dims="53⅓′"><NFLPlan /></Drawing>
+      <Drawing pos="bottom-[16%] right-[-120px]" rot={-6} scale={1.9} label="ELEV / OPEN-AIR" dims="SOUTH"><OpenAirElevation /></Drawing>
+      <Drawing pos="bottom-[32%] left-[36%]" rot={-2} scale={1.45} label="DIAMOND" dims="90′ BASE"><MLBPlan /></Drawing>
+
+      <Drawing pos="bottom-[2%] left-[8%]" rot={-4} scale={1.75} label="ELEV / ARENA" dims="WEST"><ArenaElevation /></Drawing>
+      <Drawing pos="bottom-[4%] right-[10%]" rot={5} scale={1.7} label="RINK / PLAN" dims="200′×85′"><NHLPlan /></Drawing>
+      <Drawing pos="bottom-[-40px] left-[44%]" rot={2} scale={1.25} label="SECTION / A-A" dims="1:250"><DomeSection /></Drawing>
+
+      {/* Corner registration marks */}
+      {([["4%", "4%", "top", "left"], ["4%", "4%", "top", "right"], ["4%", "4%", "bottom", "left"], ["4%", "4%", "bottom", "right"]] as const).map((p, k) => (
+        <svg key={k} className="absolute w-6 h-6 pointer-events-none"
+          style={{ [p[2]]: p[0], [p[3]]: p[1], color: "rgba(29,78,216,0.3)" }}
+          viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="2" y1="12" x2="22" y2="12" strokeWidth="1" />
+          <line x1="12" y1="2" x2="12" y2="22" strokeWidth="1" />
+          <circle cx="12" cy="12" r="4" strokeWidth="0.8" />
+        </svg>
+      ))}
+    </>
+  );
+}
+
+function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-80px" });
   const [hovered, setHovered] = useState(false);
@@ -172,81 +354,66 @@ function ProjectCard({
       transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative bg-white rounded-2xl border border-gray-100 overflow-hidden"
+      className="relative bg-white overflow-hidden"
       style={{
-        transition: "box-shadow 0.35s ease, transform 0.35s ease",
-        transform: hovered ? "translateY(-5px)" : "translateY(0)",
+        border: `1px solid #0f172a`,
         boxShadow: hovered
-          ? "0 20px 40px -10px rgba(15,23,42,0.2)"
-          : "0 1px 3px rgba(0,0,0,0.06)",
+          ? `6px 6px 0 0 ${project.accent}`
+          : `4px 4px 0 0 ${project.accent}`,
+        transform: hovered ? "translate(-2px, -2px)" : "translate(0, 0)",
+        transition: "box-shadow 0.2s ease, transform 0.2s ease",
       }}
     >
-      {/* Shimmer sweep */}
-      <div
-        className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl z-10"
-        style={{ opacity: hovered ? 1 : 0, transition: "opacity 0.2s ease" }}
-      >
+      {/* Shimmer — top bar only */}
+      <div className="relative overflow-hidden" style={{ height: 6 }}>
+        <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient}`} />
         <div
-          className="absolute top-0 bottom-0 w-1/3"
+          className="absolute top-0 bottom-0 w-1/2 pointer-events-none"
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent)",
-            animation: hovered ? "card-scan 1.4s linear infinite" : "none",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.75), transparent)",
+            animation: hovered ? "card-scan 2.8s linear infinite" : "none",
           }}
         />
       </div>
 
-      <div className={`h-1.5 bg-gradient-to-r ${project.gradient}`} />
+      <div className="p-7">
+        <div className="mb-5">
+          <span className="text-4xl mb-3 block">{project.icon}</span>
+          <h3 className="text-2xl font-black text-slate-900">{project.name}</h3>
+          <p className="text-sm font-semibold mt-1" style={{ color: project.accent }}>{project.tagline}</p>
+        </div>
 
-      <div className="p-8">
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <span className="text-4xl mb-3 block">{project.icon}</span>
-            <h3 className="text-2xl font-bold text-gray-900">{project.name}</h3>
-            <p className={`text-sm font-medium ${project.accent} mt-1`}>{project.tagline}</p>
-          </div>
-          {project.comingSoon && (
-            <span className="text-xs font-semibold bg-violet-100 text-violet-600 px-3 py-1 rounded-full shrink-0">
-              Coming Soon
+        <p className="text-slate-500 text-sm leading-relaxed mb-6">{project.description}</p>
+
+        {/* Glossy stat pills */}
+        <div className="flex gap-2 flex-wrap mb-4">
+          {project.stats.map((s, k) => (
+            <span
+              key={k}
+              className="pill-glossy"
+              style={{ "--pill-bg": project.pillBg, "--pill-fg": project.pillFg } as React.CSSProperties}
+            >
+              <strong>{s.k}</strong>&nbsp;{s.v}
             </span>
-          )}
-        </div>
-
-        <p className="text-gray-500 text-sm leading-relaxed mb-6">{project.description}</p>
-
-        {/* Stats pills — lift on hover */}
-        <div
-          className="flex gap-2 flex-wrap mb-5"
-          style={{
-            transform: hovered ? "translateY(-6px)" : "translateY(0)",
-            transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)",
-            filter: hovered
-              ? "drop-shadow(0 8px 12px rgba(0,0,0,0.18))"
-              : "drop-shadow(0 0px 0px transparent)",
-          }}
-        >
-          {project.stats.map((s) => (
-            <span key={s} className={`text-xs font-semibold px-3 py-1.5 rounded-full ${project.pill}`}>{s}</span>
           ))}
         </div>
 
-        <div className="flex gap-2 flex-wrap mb-8">
+        {/* Tech chips */}
+        <div className="flex gap-1.5 flex-wrap mb-6">
           {project.tech.map((t) => (
-            <span key={t} className="text-xs font-medium px-2.5 py-1 rounded-md bg-gray-100 text-gray-500">{t}</span>
+            <span key={t} className="text-xs font-medium px-2.5 py-1 rounded-md bg-slate-100 text-slate-500">{t}</span>
           ))}
         </div>
 
-        {project.comingSoon ? (
-          <span className="text-sm font-semibold text-gray-300">In Development</span>
-        ) : (
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-flex items-center gap-1.5 text-sm font-semibold ${project.accent} hover:gap-3 transition-all duration-200`}
-          >
-            View Live Site →
-          </a>
-        )}
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-bold hover:gap-3 transition-all duration-200"
+          style={{ color: project.accent }}
+        >
+          View Live Site →
+        </a>
       </div>
     </motion.div>
   );
@@ -257,338 +424,18 @@ export default function Projects() {
   const isInView = useInView(headerRef, { once: true, margin: "-50px" });
 
   return (
-    <section id="work" className="relative py-32 px-6 bg-blueprint overflow-hidden">
-
-      {/* Blueprint sports diagrams — white lines on blueprint blue */}
+    <section id="work" className="relative py-32 px-6 bg-blueprint-light overflow-hidden">
       <div className="absolute inset-0 pointer-events-none select-none">
-
-        {/* FOOTBALL FIELD — top-down blueprint, bottom left */}
-        <BlueprintField
-          className="absolute -bottom-20 -left-20"
-          style={{ transform: "rotate(-14deg)" }}
-          width={700}
-          height={368}
-          viewBox="0 0 700 368"
-          baseOpacity={0.38}
-          label={{ x: 90, y: 40, title: "NFL FIELD", dims: "120′ × 53⅓′" }}
-          defs={
-            <defs>
-              <clipPath id="fb-ezl"><rect x="14" y="14" width="68" height="340"/></clipPath>
-              <clipPath id="fb-ezr"><rect x="618" y="14" width="68" height="340"/></clipPath>
-            </defs>
-          }
-        >
-            {/* Field border */}
-            <rect x="14" y="14" width="672" height="340" strokeWidth="1.5" fill="none"/>
-            {/* End zone boundaries */}
-            <line x1="82" y1="14" x2="82" y2="354" strokeWidth="1.2"/>
-            <line x1="618" y1="14" x2="618" y2="354" strokeWidth="1.2"/>
-            {/* End zone horizontal plan hatching (clipped) */}
-            <g clipPath="url(#fb-ezl)">
-              {Array.from({length: 16}, (_, i) => (
-                <line key={i} x1={14} y1={24+i*22} x2={82} y2={24+i*22} strokeWidth={0.35}/>
-              ))}
-            </g>
-            <g clipPath="url(#fb-ezr)">
-              {Array.from({length: 16}, (_, i) => (
-                <line key={i} x1={618} y1={24+i*22} x2={686} y2={24+i*22} strokeWidth={0.35}/>
-              ))}
-            </g>
-            {/* Yard lines */}
-            {[136,192,248,304,350,396,452,508,564].map((x,i)=>(
-              <line key={i} x1={x} y1={14} x2={x} y2={354} strokeWidth={0.8}/>
-            ))}
-            {/* Sideline tick marks at yard lines */}
-            {[136,192,248,304,350,396,452,508,564].map((x,i)=>(
-              <g key={i}>
-                <line x1={x-4} y1={14} x2={x+4} y2={14} strokeWidth={1.1}/>
-                <line x1={x-4} y1={354} x2={x+4} y2={354} strokeWidth={1.1}/>
-              </g>
-            ))}
-            {/* Hash marks */}
-            {[136,192,248,304,350,396,452,508,564].map((x,i)=>(
-              <g key={i}>
-                <line x1={x-6} y1={128} x2={x+6} y2={128} strokeWidth={0.9}/>
-                <line x1={x-6} y1={226} x2={x+6} y2={226} strokeWidth={0.9}/>
-              </g>
-            ))}
-            {/* Corner registration crosses */}
-            {([[14,14],[686,14],[14,354],[686,354],[350,14],[350,354]] as [number,number][]).map(([x,y],i)=>(
-              <g key={i}>
-                <line x1={x-7} y1={y} x2={x+7} y2={y} strokeWidth={0.9}/>
-                <line x1={x} y1={y-7} x2={x} y2={y+7} strokeWidth={0.9}/>
-              </g>
-            ))}
-            {/* Offensive O's */}
-            {([[420,184],[440,184],[460,184],[400,184],[380,184],[478,179],[530,154],[310,157],[355,161],[420,209],[450,231]] as [number,number][]).map(([cx,cy],i)=>(
-              <circle key={i} cx={cx} cy={cy} r={9} strokeWidth={1.1}/>
-            ))}
-            {/* Defensive X's */}
-            {([350,368,386,404] as number[]).map((x,i)=>(
-              <g key={i}>
-                <line x1={x-7} y1={177} x2={x+7} y2={191} strokeWidth={1.1}/>
-                <line x1={x+7} y1={177} x2={x-7} y2={191} strokeWidth={1.1}/>
-              </g>
-            ))}
-            {([345,368,392] as number[]).map((x,i)=>(
-              <g key={i}>
-                <line x1={x-7} y1={159} x2={x+7} y2={173} strokeWidth={1.1}/>
-                <line x1={x+7} y1={159} x2={x-7} y2={173} strokeWidth={1.1}/>
-              </g>
-            ))}
-            <line x1={300} y1={147} x2={314} y2={161} strokeWidth={1.1}/>
-            <line x1={314} y1={147} x2={300} y2={161} strokeWidth={1.1}/>
-            <line x1={340} y1={137} x2={354} y2={151} strokeWidth={1.1}/>
-            <line x1={354} y1={137} x2={340} y2={151} strokeWidth={1.1}/>
-            {/* Route arrows */}
-            <path d="M 530 146 C 530 117 546 101 554 75" strokeWidth={1.0}/>
-            <path d="M 551 73 L 554 75 L 549 79" strokeWidth={1.0}/>
-            <path d="M 355 153 C 355 129 375 119 408 119 C 438 119 462 121 480 117" strokeWidth={1.0}/>
-            <path d="M 477 114 L 480 117 L 476 120" strokeWidth={1.0}/>
-            <path d="M 310 149 C 298 125 286 109 290 93 C 294 79 310 77 318 89" strokeWidth={1.0}/>
-            <path d="M 315 91 L 318 89 L 320 94" strokeWidth={1.0}/>
-        </BlueprintField>
-
-        {/* BASKETBALL COURT — blueprint plan, top right */}
-        <BlueprintField
-          className="absolute -top-16 -right-20"
-          style={{ transform: "rotate(10deg)" }}
-          width={580}
-          height={380}
-          viewBox="0 0 580 380"
-          baseOpacity={0.38}
-          label={{ x: 220, y: 340, title: "NBA COURT", dims: "94′ × 50′", tie: "→ SLAM-N-JAM" }}
-          defs={
-            <defs>
-              <clipPath id="bk-lp"><rect x="20" y="148" width="108" height="84"/></clipPath>
-              <clipPath id="bk-rp"><rect x="452" y="148" width="108" height="84"/></clipPath>
-            </defs>
-          }
-        >
-            {/* Court border */}
-            <rect x="20" y="20" width="540" height="340" strokeWidth="1.5" fill="none"/>
-            {/* Half-court line */}
-            <line x1="290" y1="20" x2="290" y2="360" strokeWidth="1.0"/>
-            {/* Center circle */}
-            <circle cx="290" cy="190" r="48" strokeWidth="1.0"/>
-            {/* Center dot */}
-            <circle cx="290" cy="190" r="4" strokeWidth="1.0"/>
-
-            {/* ── LEFT SIDE ── */}
-            {/* Left paint rectangle */}
-            <rect x="20" y="148" width="108" height="84" strokeWidth="1.1" fill="none"/>
-            {/* Left paint horizontal hatching */}
-            <g clipPath="url(#bk-lp)">
-              {Array.from({length: 12}, (_, i) => (
-                <line key={i} x1={20} y1={154+i*7} x2={128} y2={154+i*7} strokeWidth={0.3}/>
-              ))}
-            </g>
-            {/* Left free-throw circle — D outside paint */}
-            <path d="M 128 148 A 42 42 0 0 1 128 232" strokeWidth="1.0"/>
-            {/* Left free-throw circle — inside paint (dashed) */}
-            <path d="M 128 148 A 42 42 0 0 0 128 232" strokeWidth="0.5" strokeDasharray="4 3"/>
-            {/* Left three-point line — correct geometry */}
-            <line x1="20" y1="48" x2="84" y2="48" strokeWidth="1.0"/>
-            <path d="M 84 48 A 146 146 0 0 1 84 332" strokeWidth="1.0"/>
-            <line x1="84" y1="332" x2="20" y2="332" strokeWidth="1.0"/>
-            {/* Left backboard */}
-            <line x1="28" y1="170" x2="28" y2="210" strokeWidth="1.8"/>
-            {/* Left basket */}
-            <circle cx="50" cy="190" r="11" strokeWidth="1.0"/>
-            {/* Registration cross at basket */}
-            <line x1="42" y1="190" x2="58" y2="190" strokeWidth="0.7"/>
-            <line x1="50" y1="182" x2="50" y2="198" strokeWidth="0.7"/>
-
-            {/* ── RIGHT SIDE ── */}
-            {/* Right paint rectangle */}
-            <rect x="452" y="148" width="108" height="84" strokeWidth="1.1" fill="none"/>
-            {/* Right paint horizontal hatching */}
-            <g clipPath="url(#bk-rp)">
-              {Array.from({length: 12}, (_, i) => (
-                <line key={i} x1={452} y1={154+i*7} x2={560} y2={154+i*7} strokeWidth={0.3}/>
-              ))}
-            </g>
-            {/* Right free-throw circle — D outside paint */}
-            <path d="M 452 148 A 42 42 0 0 0 452 232" strokeWidth="1.0"/>
-            {/* Right free-throw circle — inside paint (dashed) */}
-            <path d="M 452 148 A 42 42 0 0 1 452 232" strokeWidth="0.5" strokeDasharray="4 3"/>
-            {/* Right three-point line — correct geometry */}
-            <line x1="560" y1="48" x2="496" y2="48" strokeWidth="1.0"/>
-            <path d="M 496 48 A 146 146 0 0 0 496 332" strokeWidth="1.0"/>
-            <line x1="496" y1="332" x2="560" y2="332" strokeWidth="1.0"/>
-            {/* Right backboard */}
-            <line x1="552" y1="170" x2="552" y2="210" strokeWidth="1.8"/>
-            {/* Right basket */}
-            <circle cx="530" cy="190" r="11" strokeWidth="1.0"/>
-            {/* Registration cross at basket */}
-            <line x1="522" y1="190" x2="538" y2="190" strokeWidth="0.7"/>
-            <line x1="530" y1="182" x2="530" y2="198" strokeWidth="0.7"/>
-
-            {/* Tick marks along boundary */}
-            {[80,160,240,320,400,480].map((d,i)=>(
-              <g key={i}>
-                <line x1={20+d} y1={20} x2={20+d} y2={28} strokeWidth={0.8}/>
-                <line x1={20+d} y1={360} x2={20+d} y2={352} strokeWidth={0.8}/>
-              </g>
-            ))}
-            {[70,140,210,280].map((d,i)=>(
-              <g key={i}>
-                <line x1={20} y1={20+d} x2={28} y2={20+d} strokeWidth={0.8}/>
-                <line x1={560} y1={20+d} x2={552} y2={20+d} strokeWidth={0.8}/>
-              </g>
-            ))}
-            {/* Corner registration crosses */}
-            {([[20,20],[560,20],[20,360],[560,360]] as [number,number][]).map(([x,y],i)=>(
-              <g key={i}>
-                <line x1={x-8} y1={y} x2={x+8} y2={y} strokeWidth={1.0}/>
-                <line x1={x} y1={y-8} x2={x} y2={y+8} strokeWidth={1.0}/>
-              </g>
-            ))}
-        </BlueprintField>
-
-        {/* BASEBALL DIAMOND — blueprint, top left */}
-        <BlueprintField
-          className="absolute top-24 -left-10"
-          style={{ transform: "rotate(-18deg)" }}
-          width={300}
-          height={300}
-          viewBox="0 0 300 300"
-          baseOpacity={0.35}
-          label={{ x: 30, y: 280, title: "MLB DIAMOND", dims: "90′ BASEPATHS" }}
-        >
-            {/* Outfield fence arc */}
-            <path d="M 30 180 A 140 140 0 0 1 270 180" strokeWidth="1.3"/>
-            {/* Foul lines from home plate through 1B & 3B */}
-            <line x1="150" y1="240" x2="30" y2="180" strokeWidth="1.0"/>
-            <line x1="150" y1="240" x2="270" y2="180" strokeWidth="1.0"/>
-            {/* Infield grass arc */}
-            <path d="M 90 200 A 70 70 0 0 1 210 200" strokeWidth="0.6" strokeDasharray="4 3"/>
-            {/* Diamond */}
-            <path d="M 150 240 L 215 175 L 150 110 L 85 175 Z" strokeWidth="1.3"/>
-            {/* Pitcher's mound */}
-            <circle cx="150" cy="175" r="10" strokeWidth="1.0"/>
-            {/* Pitcher's plate */}
-            <line x1="144" y1="175" x2="156" y2="175" strokeWidth="1.2"/>
-            {/* Bases */}
-            <rect x="146" y="236" width="8" height="8" strokeWidth="0.9" fill="none"/>
-            <rect x="211" y="171" width="8" height="8" strokeWidth="0.9" fill="none"/>
-            <rect x="146" y="106" width="8" height="8" strokeWidth="0.9" fill="none"/>
-            <rect x="81" y="171" width="8" height="8" strokeWidth="0.9" fill="none"/>
-            {/* Batter's boxes */}
-            <rect x="128" y="238" width="12" height="18" strokeWidth="0.7" fill="none"/>
-            <rect x="160" y="238" width="12" height="18" strokeWidth="0.7" fill="none"/>
-            {/* Catcher's box */}
-            <path d="M 138 258 L 150 268 L 162 258" strokeWidth="0.7"/>
-            {/* Registration cross at mound */}
-            <line x1="142" y1="175" x2="158" y2="175" strokeWidth="0.5"/>
-            <line x1="150" y1="167" x2="150" y2="183" strokeWidth="0.5"/>
-        </BlueprintField>
-
-        {/* HOCKEY RINK — blueprint, bottom right */}
-        <BlueprintField
-          className="absolute bottom-20 -right-14"
-          style={{ transform: "rotate(8deg)" }}
-          width={440}
-          height={200}
-          viewBox="0 0 440 200"
-          baseOpacity={0.36}
-          label={{ x: 170, y: 196, title: "NHL RINK", dims: "200′ × 85′" }}
-        >
-            {/* Rink boards (rounded rectangle) */}
-            <rect x="20" y="20" width="400" height="160" rx="70" ry="70" strokeWidth="1.5" fill="none"/>
-            {/* Center red line */}
-            <line x1="220" y1="20" x2="220" y2="180" strokeWidth="1.3"/>
-            {/* Blue lines */}
-            <line x1="150" y1="20" x2="150" y2="180" strokeWidth="1.0"/>
-            <line x1="290" y1="20" x2="290" y2="180" strokeWidth="1.0"/>
-            {/* Goal lines */}
-            <line x1="55" y1="40" x2="55" y2="160" strokeWidth="0.8"/>
-            <line x1="385" y1="40" x2="385" y2="160" strokeWidth="0.8"/>
-            {/* Center face-off circle */}
-            <circle cx="220" cy="100" r="30" strokeWidth="1.0"/>
-            <circle cx="220" cy="100" r="2.5" strokeWidth="1.0"/>
-            {/* Neutral zone face-off dots */}
-            <circle cx="185" cy="65" r="2.5" strokeWidth="1.0"/>
-            <circle cx="185" cy="135" r="2.5" strokeWidth="1.0"/>
-            <circle cx="255" cy="65" r="2.5" strokeWidth="1.0"/>
-            <circle cx="255" cy="135" r="2.5" strokeWidth="1.0"/>
-            {/* End zone face-off circles */}
-            <circle cx="90" cy="65" r="18" strokeWidth="0.9"/>
-            <circle cx="90" cy="135" r="18" strokeWidth="0.9"/>
-            <circle cx="350" cy="65" r="18" strokeWidth="0.9"/>
-            <circle cx="350" cy="135" r="18" strokeWidth="0.9"/>
-            {/* End zone face-off dots */}
-            <circle cx="90" cy="65" r="2" strokeWidth="0.8"/>
-            <circle cx="90" cy="135" r="2" strokeWidth="0.8"/>
-            <circle cx="350" cy="65" r="2" strokeWidth="0.8"/>
-            <circle cx="350" cy="135" r="2" strokeWidth="0.8"/>
-            {/* Goals */}
-            <rect x="47" y="90" width="8" height="20" strokeWidth="1.1" fill="none"/>
-            <rect x="385" y="90" width="8" height="20" strokeWidth="1.1" fill="none"/>
-            {/* Goal creases (blue semicircles) */}
-            <path d="M 55 90 A 14 14 0 0 1 55 110" strokeWidth="0.9"/>
-            <path d="M 385 90 A 14 14 0 0 0 385 110" strokeWidth="0.9"/>
-            {/* Center-line registration marks */}
-            <line x1="220" y1="18" x2="220" y2="26" strokeWidth="1.0"/>
-            <line x1="220" y1="174" x2="220" y2="182" strokeWidth="1.0"/>
-        </BlueprintField>
-
-        {/* SOCCER PITCH — blueprint, mid center */}
-        <BlueprintField
-          className="absolute top-[44%] left-[28%]"
-          style={{ transform: "translate(-50%,-50%) rotate(-6deg)" }}
-          width={440}
-          height={280}
-          viewBox="0 0 440 280"
-          baseOpacity={0.28}
-          label={{ x: 170, y: 276, title: "FIFA PITCH", dims: "115y × 75y" }}
-        >
-            {/* Pitch border */}
-            <rect x="20" y="20" width="400" height="240" strokeWidth="1.5" fill="none"/>
-            {/* Halfway line */}
-            <line x1="220" y1="20" x2="220" y2="260" strokeWidth="1.0"/>
-            {/* Center circle + spot */}
-            <circle cx="220" cy="140" r="36" strokeWidth="1.0"/>
-            <circle cx="220" cy="140" r="2.5" strokeWidth="1.0"/>
-            {/* Left penalty box */}
-            <rect x="20" y="70" width="66" height="140" strokeWidth="1.0" fill="none"/>
-            {/* Left goal box */}
-            <rect x="20" y="108" width="26" height="64" strokeWidth="0.9" fill="none"/>
-            {/* Left penalty spot */}
-            <circle cx="66" cy="140" r="2" strokeWidth="0.9"/>
-            {/* Left penalty arc */}
-            <path d="M 86 122 A 20 20 0 0 1 86 158" strokeWidth="0.9"/>
-            {/* Left goal */}
-            <rect x="10" y="124" width="10" height="32" strokeWidth="1.1" fill="none"/>
-            {/* Right penalty box */}
-            <rect x="354" y="70" width="66" height="140" strokeWidth="1.0" fill="none"/>
-            {/* Right goal box */}
-            <rect x="394" y="108" width="26" height="64" strokeWidth="0.9" fill="none"/>
-            {/* Right penalty spot */}
-            <circle cx="374" cy="140" r="2" strokeWidth="0.9"/>
-            {/* Right penalty arc */}
-            <path d="M 354 122 A 20 20 0 0 0 354 158" strokeWidth="0.9"/>
-            {/* Right goal */}
-            <rect x="420" y="124" width="10" height="32" strokeWidth="1.1" fill="none"/>
-            {/* Corner arcs */}
-            <path d="M 20 27 A 7 7 0 0 1 27 20" strokeWidth="0.8"/>
-            <path d="M 420 27 A 7 7 0 0 0 413 20" strokeWidth="0.8"/>
-            <path d="M 20 253 A 7 7 0 0 0 27 260" strokeWidth="0.8"/>
-            <path d="M 420 253 A 7 7 0 0 1 413 260" strokeWidth="0.8"/>
-            {/* Center-line registration ticks */}
-            <line x1="220" y1="18" x2="220" y2="26" strokeWidth="1.0"/>
-            <line x1="220" y1="254" x2="220" y2="262" strokeWidth="1.0"/>
-        </BlueprintField>
-
+        <StadiumArt />
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <div ref={headerRef} className="mb-16">
+        <div ref={headerRef} className="mb-14 max-w-2xl">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-blue-200 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
+            className="text-blue-600 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
           >
             My Work
           </motion.p>
@@ -596,7 +443,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl font-black text-white leading-tight"
+            className="text-5xl font-black text-slate-900 leading-tight"
           >
             Live Projects
           </motion.h2>
@@ -604,14 +451,23 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-white/75 text-lg mt-4 max-w-xl"
+            className="text-slate-600 text-lg mt-4"
           >
-            Real tools built for real leagues — data-driven, always live, built
-            to handle game day.
+            Real tools built for real leagues — data-driven, always live, built to handle game day.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="mt-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase text-blue-600/70"
+          >
+            <span>Sheet 01 / 03</span>
+            <span className="flex-1 h-px bg-blue-200" />
+            <span>Scale 1:400</span>
+          </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
           {projects.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i} />
           ))}
@@ -620,4 +476,3 @@ export default function Projects() {
     </section>
   );
 }
-
