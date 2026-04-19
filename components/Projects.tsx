@@ -529,20 +529,16 @@ function Drawing({
 function StadiumArt() {
   return (
     <>
-      {/* LEFT COLUMN — bleed off left edge, stacked top to bottom */}
-      <Drawing pos="top-[3%] -left-16" rot={3} scale={1.8} label="COURT / PLAN" dims="1:200"><NBAPlan /></Drawing>
-      <Drawing pos="top-[32%] -left-24" rot={-5} scale={2.0} label="SEC B / BOWL" dims="1:150"><BowlSection /></Drawing>
-      <Drawing pos="top-[62%] -left-16" rot={4} scale={1.8} label="FIELD / PLAN" dims="53⅓′"><NFLPlan /></Drawing>
+      {/* LEFT COLUMN — bleed off left edge */}
+      <Drawing pos="top-[3%] -left-28" rot={3} scale={2.6} label="COURT / PLAN" dims="1:200"><NBAPlan /></Drawing>
+      <Drawing pos="top-[58%] -left-28" rot={4} scale={2.6} label="FIELD / PLAN" dims="53⅓′"><NFLPlan /></Drawing>
 
-      {/* RIGHT COLUMN — bleed off right edge, stacked top to bottom */}
-      <Drawing pos="top-[3%] -right-24" rot={-4} scale={1.8} label="SEC A / DOME" dims="REV-02"><DomeElevation /></Drawing>
-      <Drawing pos="top-[30%] -right-20" rot={4} scale={1.8} label="ROOF / RETRACT" dims="OPT-2"><RetractableRoof /></Drawing>
-      <Drawing pos="top-[60%] -right-20" rot={-5} scale={1.8} label="ELEV / OPEN-AIR" dims="SOUTH"><OpenAirElevation /></Drawing>
+      {/* RIGHT COLUMN — baseball stadium plan */}
+      <Drawing pos="top-[4%] -right-24" rot={-3} scale={2.4} label="DIAMOND" dims="90′ BASE"><MLBPlan /></Drawing>
 
-      {/* BOTTOM — bleed off bottom, spread across */}
-      <Drawing pos="-bottom-6 left-[6%]" rot={-3} scale={1.6} label="ELEV / ARENA" dims="WEST"><ArenaElevation /></Drawing>
-      <Drawing pos="top-[2%] left-[50%]" rot={-2} scale={2.2} center label="DIAMOND" dims="90′ BASE"><MLBPlan /></Drawing>
-      <Drawing pos="-bottom-4 right-[6%]" rot={5} scale={1.6} label="RINK / PLAN" dims="200′×85′"><NHLPlan /></Drawing>
+      {/* BOTTOM — bleed off bottom */}
+      <Drawing pos="-bottom-6 left-[6%]" rot={-3} scale={1.8} label="ELEV / ARENA" dims="WEST"><ArenaElevation /></Drawing>
+      <Drawing pos="-bottom-4 right-[6%]" rot={5} scale={2.4} label="RINK / PLAN" dims="200′×85′"><NHLPlan /></Drawing>
 
       {/* Corner registration marks */}
       {([["3%", "3%", "top", "left"], ["3%", "3%", "top", "right"], ["3%", "3%", "bottom", "left"], ["3%", "3%", "bottom", "right"]] as const).map((p, k) => (
