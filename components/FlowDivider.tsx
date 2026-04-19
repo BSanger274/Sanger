@@ -13,10 +13,28 @@ export default function FlowDivider({
 }) {
   if (kind === "bleed") {
     return (
-      <div className="relative h-32 -mt-px -mb-px overflow-hidden hero-gradient">
+      <div className="relative h-64 -mt-px -mb-px overflow-hidden">
+        {/* Hero gradient fading out */}
+        <div className="absolute inset-0 hero-gradient" />
+        {/* Blueprint grid fading in over the bottom half */}
         <div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(180deg, rgba(0,0,0,0) 0%, ${to} 100%)` }}
+          style={{
+            backgroundImage: [
+              "linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px)",
+              "linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px)",
+              "linear-gradient(rgba(37,99,235,0.16) 1px, transparent 1px)",
+              "linear-gradient(90deg, rgba(37,99,235,0.16) 1px, transparent 1px)",
+            ].join(", "),
+            backgroundSize: "14px 14px, 14px 14px, 70px 70px, 70px 70px",
+            maskImage: "linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.6) 60%, black 100%)",
+            WebkitMaskImage: "linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.6) 60%, black 100%)",
+          }}
+        />
+        {/* Solid fade to blueprint background color */}
+        <div
+          className="absolute inset-0"
+          style={{ background: `linear-gradient(180deg, transparent 0%, rgba(248,251,255,0.4) 50%, ${to} 100%)` }}
         />
       </div>
     );

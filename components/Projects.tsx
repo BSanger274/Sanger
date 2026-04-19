@@ -53,68 +53,292 @@ const projects = [
 // ── Architectural SVG drawings ──────────────────────────────────
 const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 
-const NBAPlan = () => (
-  <svg viewBox="0 0 240 140" className="w-56 h-32" {...svg}>
-    <rect x="6" y="6" width="228" height="128" strokeWidth="1.2" />
-    <line x1="120" y1="6" x2="120" y2="134" strokeWidth="0.9" />
-    <circle cx="120" cy="70" r="20" strokeWidth="0.9" />
-    <circle cx="120" cy="70" r="6" strokeWidth="0.6" />
-    <rect x="6" y="46" width="54" height="48" strokeWidth="0.9" />
-    <line x1="60" y1="46" x2="60" y2="94" strokeWidth="0.9" />
-    <path d="M 60 46 A 24 24 0 0 1 60 94" strokeWidth="0.7" />
-    <path d="M 60 46 A 24 24 0 0 0 60 94" strokeWidth="0.6" strokeDasharray="3 2" />
-    <line x1="14" y1="62" x2="14" y2="78" strokeWidth="1.1" />
-    <circle cx="18" cy="70" r="2.2" strokeWidth="0.8" />
-    <path d="M 18 62 A 8 8 0 0 1 18 78" strokeWidth="0.5" />
-    <line x1="6" y1="17" x2="34" y2="17" strokeWidth="0.8" />
-    <line x1="6" y1="123" x2="34" y2="123" strokeWidth="0.8" />
-    <path d="M 34 17 A 72 72 0 0 1 34 123" strokeWidth="0.9" />
-    <rect x="180" y="46" width="54" height="48" strokeWidth="0.9" />
-    <line x1="180" y1="46" x2="180" y2="94" strokeWidth="0.9" />
-    <path d="M 180 46 A 24 24 0 0 0 180 94" strokeWidth="0.7" />
-    <path d="M 180 46 A 24 24 0 0 1 180 94" strokeWidth="0.6" strokeDasharray="3 2" />
-    <line x1="226" y1="62" x2="226" y2="78" strokeWidth="1.1" />
-    <circle cx="222" cy="70" r="2.2" strokeWidth="0.8" />
-    <path d="M 222 62 A 8 8 0 0 0 222 78" strokeWidth="0.5" />
-    <line x1="234" y1="17" x2="206" y2="17" strokeWidth="0.8" />
-    <line x1="234" y1="123" x2="206" y2="123" strokeWidth="0.8" />
-    <path d="M 206 17 A 72 72 0 0 0 206 123" strokeWidth="0.9" />
-  </svg>
-);
+const NBAPlan = () => {
+  // 94' × 50' court. Scale: 5px/ft. Court rect: (7,111) to (477,361) in 484×472 viewBox
+  // Center y = 236. Basket x (left) = 7+26 = 33. Right = 477-26 = 451
+  const cy = 236, lbx = 33, rbx = 451;
+  const paintT = cy - 40, paintB = cy + 40; // 16ft wide = ±8ft = ±40px
+  const lPaintR = 7 + 95, rPaintL = 477 - 95; // 19ft long = 95px
+  const hashYs = [20, 50, 80, 130, 180, 230, 280, 330, 350, 380, 410, 440]; // boundary ticks
+  return (
+    <svg viewBox="0 0 484 472" className="w-72 h-72" {...svg}>
+      {/* Court border */}
+      <rect x="7" y="111" width="470" height="250" strokeWidth="1.4" />
+      {/* Boundary ticks */}
+      {[50,100,150,200,250,300,350,400].map(x => (
+        <g key={x}>
+          <line x1={7+x} y1="111" x2={7+x} y2="119" strokeWidth="0.6" />
+          <line x1={7+x} y1="361" x2={7+x} y2="353" strokeWidth="0.6" />
+        </g>
+      ))}
+      {[30,60,90,120,150,180,210].map(y => (
+        <g key={y}>
+          <line x1="7" y1={111+y} x2="15" y2={111+y} strokeWidth="0.6" />
+          <line x1="477" y1={111+y} x2="469" y2={111+y} strokeWidth="0.6" />
+        </g>
+      ))}
+      {/* Half-court line */}
+      <line x1="242" y1="111" x2="242" y2="361" strokeWidth="1.0" />
+      {/* Center circles */}
+      <circle cx="242" cy={cy} r="30" strokeWidth="0.9" />
+      <circle cx="242" cy={cy} r="6" strokeWidth="0.8" />
 
-const NFLPlan = () => (
-  <svg viewBox="0 0 280 120" className="w-64 h-28" {...svg}>
-    <rect x="4" y="4" width="272" height="112" strokeWidth="1.2" />
-    <line x1="36" y1="4" x2="36" y2="116" strokeWidth="0.9" />
-    <line x1="244" y1="4" x2="244" y2="116" strokeWidth="0.9" />
-    {[56, 76, 96, 116, 140, 164, 184, 204, 224].map((x, k) => (
-      <line key={k} x1={x} y1="4" x2={x} y2="116" strokeWidth="0.5" />
-    ))}
-    {[56, 76, 96, 116, 140, 164, 184, 204, 224].map((x, k) => (
-      <g key={k}>
-        <line x1={x - 4} y1="44" x2={x + 4} y2="44" strokeWidth="0.6" />
-        <line x1={x - 4} y1="76" x2={x + 4} y2="76" strokeWidth="0.6" />
-      </g>
-    ))}
-    <line x1="140" y1="4" x2="140" y2="116" strokeWidth="1" />
-  </svg>
-);
+      {/* ── LEFT ── */}
+      {/* Paint */}
+      <rect x="7" y={paintT} width={lPaintR-7} height={paintB-paintT} strokeWidth="1.0" />
+      {/* Lane ticks inside paint */}
+      {[14,28,42,56,70,84].map(d => (
+        <g key={d}>
+          <line x1="7" y1={paintT+d} x2="14" y2={paintT+d} strokeWidth="0.5" />
+          <line x1={lPaintR} y1={paintT+d} x2={lPaintR+7} y2={paintT+d} strokeWidth="0.5" />
+        </g>
+      ))}
+      {/* FT circle solid (away from basket) */}
+      <path d={`M ${lPaintR} ${paintT} A 40 40 0 0 1 ${lPaintR} ${paintB}`} strokeWidth="0.9" />
+      {/* FT circle dashed (toward basket) */}
+      <path d={`M ${lPaintR} ${paintT} A 40 40 0 0 0 ${lPaintR} ${paintB}`} strokeWidth="0.7" strokeDasharray="4 3" />
+      {/* Backboard */}
+      <line x1="21" y1={cy-15} x2="21" y2={cy+15} strokeWidth="2.2" />
+      {/* Basket */}
+      <circle cx={lbx} cy={cy} r="9" strokeWidth="1.0" />
+      {/* Restricted arc */}
+      <path d={`M ${lbx} ${cy-13} A 13 13 0 0 1 ${lbx} ${cy+13}`} strokeWidth="0.7" />
+      {/* 3-point line */}
+      <line x1="7" y1={cy-117} x2="78" y2={cy-117} strokeWidth="0.9" />
+      <path d={`M 78 ${cy-117} A 120 120 0 0 1 78 ${cy+117}`} strokeWidth="1.0" />
+      <line x1="7" y1={cy+117} x2="78" y2={cy+117} strokeWidth="0.9" />
 
-const MLBPlan = () => (
-  <svg viewBox="0 0 200 180" className="w-48 h-44" {...svg}>
-    <path d="M 20 140 A 100 100 0 0 1 180 140" strokeWidth="1.1" />
-    <line x1="100" y1="160" x2="20" y2="120" strokeWidth="0.9" />
-    <line x1="100" y1="160" x2="180" y2="120" strokeWidth="0.9" />
-    <path d="M 60 130 A 50 50 0 0 1 140 130" strokeWidth="0.6" strokeDasharray="3 3" />
-    <path d="M 100 160 L 150 110 L 100 60 L 50 110 Z" strokeWidth="1.1" />
-    <circle cx="100" cy="110" r="8" strokeWidth="0.9" />
-    <line x1="95" y1="110" x2="105" y2="110" strokeWidth="1" />
-    <rect x="96" y="156" width="8" height="8" strokeWidth="0.7" />
-    <rect x="146" y="106" width="8" height="8" strokeWidth="0.7" />
-    <rect x="96" y="56" width="8" height="8" strokeWidth="0.7" />
-    <rect x="46" y="106" width="8" height="8" strokeWidth="0.7" />
-  </svg>
-);
+      {/* ── RIGHT (mirror) ── */}
+      <rect x={rPaintL} y={paintT} width={477-rPaintL} height={paintB-paintT} strokeWidth="1.0" />
+      {[14,28,42,56,70,84].map(d => (
+        <g key={d}>
+          <line x1={rPaintL} y1={paintT+d} x2={rPaintL-7} y2={paintT+d} strokeWidth="0.5" />
+          <line x1="477" y1={paintT+d} x2="470" y2={paintT+d} strokeWidth="0.5" />
+        </g>
+      ))}
+      <path d={`M ${rPaintL} ${paintT} A 40 40 0 0 0 ${rPaintL} ${paintB}`} strokeWidth="0.9" />
+      <path d={`M ${rPaintL} ${paintT} A 40 40 0 0 1 ${rPaintL} ${paintB}`} strokeWidth="0.7" strokeDasharray="4 3" />
+      <line x1="463" y1={cy-15} x2="463" y2={cy+15} strokeWidth="2.2" />
+      <circle cx={rbx} cy={cy} r="9" strokeWidth="1.0" />
+      <path d={`M ${rbx} ${cy-13} A 13 13 0 0 0 ${rbx} ${cy+13}`} strokeWidth="0.7" />
+      <line x1="477" y1={cy-117} x2="406" y2={cy-117} strokeWidth="0.9" />
+      <path d={`M 406 ${cy-117} A 120 120 0 0 0 406 ${cy+117}`} strokeWidth="1.0" />
+      <line x1="477" y1={cy+117} x2="406" y2={cy+117} strokeWidth="0.9" />
+
+      {/* Labels */}
+      <text x="242" y="95" textAnchor="middle" fontSize="11" fontFamily="monospace" fontWeight="600" letterSpacing="2" fill="currentColor">NBA COURT · 94′ × 50′</text>
+      <text x="242" y="400" textAnchor="middle" fontSize="9" fontFamily="monospace" fill="currentColor" opacity="0.7">SCALE 1:120</text>
+    </svg>
+  );
+};
+
+const NFLPlan = () => {
+  // Scale: 3px/yd. Field: 120yds×53.33yds = 360px×160px
+  const fx = 20, fy = 80;
+  const fw = 360, fh = 160;
+  const ezW = 30;
+  const pfx = fx + ezW, pfw = fw - 2 * ezW; // playing field: x=50, w=300
+  const cx = fx + fw / 2;                    // 200
+  const cy = fy + fh / 2;                    // 160
+  const h1 = fy + 20, h2 = fy + fh - 20;    // hash rows (~6.7 yds from sideline)
+
+  return (
+    <svg viewBox="0 0 400 330" className="w-72 h-72" {...svg}>
+      <defs>
+        <clipPath id="nflLEZ"><rect x={fx} y={fy} width={ezW} height={fh} /></clipPath>
+        <clipPath id="nflREZ"><rect x={pfx + pfw} y={fy} width={ezW} height={fh} /></clipPath>
+      </defs>
+
+      {/* Title */}
+      <text x={cx} y={fy - 16} textAnchor="middle" fontSize="10" fontFamily="monospace"
+        fontWeight="600" letterSpacing="2" fill="currentColor">NFL FIELD · 360′ × 160′</text>
+
+      {/* Field border */}
+      <rect x={fx} y={fy} width={fw} height={fh} strokeWidth="1.4" />
+
+      {/* End zone separators */}
+      <line x1={pfx} y1={fy} x2={pfx} y2={fy + fh} strokeWidth="1.2" />
+      <line x1={pfx + pfw} y1={fy} x2={pfx + pfw} y2={fy + fh} strokeWidth="1.2" />
+
+      {/* End zone diagonal hatching */}
+      {Array.from({ length: 18 }, (_, i) => {
+        const s = -fh + i * 12;
+        return <line key={`l${i}`} x1={fx + s} y1={fy + fh} x2={fx + s + fh} y2={fy}
+          strokeWidth="0.4" clipPath="url(#nflLEZ)" />;
+      })}
+      {Array.from({ length: 18 }, (_, i) => {
+        const s = -fh + i * 12;
+        return <line key={`r${i}`} x1={pfx + pfw + s} y1={fy + fh} x2={pfx + pfw + s + fh} y2={fy}
+          strokeWidth="0.4" clipPath="url(#nflREZ)" />;
+      })}
+
+      {/* Yard lines every 10 yards */}
+      {Array.from({ length: 9 }, (_, i) => (
+        <line key={i} x1={pfx + (i + 1) * 30} y1={fy} x2={pfx + (i + 1) * 30} y2={fy + fh}
+          strokeWidth={i === 4 ? "1.2" : "0.8"} />
+      ))}
+
+      {/* Hash marks at every yard */}
+      {Array.from({ length: 99 }, (_, i) => {
+        const x = pfx + (i + 1) * 3;
+        return (
+          <g key={i}>
+            <line x1={x} y1={h1 - 3} x2={x} y2={h1 + 3} strokeWidth="0.5" />
+            <line x1={x} y1={h2 - 3} x2={x} y2={h2 + 3} strokeWidth="0.5" />
+          </g>
+        );
+      })}
+
+      {/* Yard number labels — top & bottom */}
+      {[10, 20, 30, 40, 50, 40, 30, 20, 10].map((n, k) => (
+        <text key={k} x={pfx + (k + 1) * 30} y={fy + 13} textAnchor="middle"
+          fontSize="8" fontFamily="monospace" fill="currentColor" opacity="0.85">{n}</text>
+      ))}
+      {[10, 20, 30, 40, 50, 40, 30, 20, 10].map((n, k) => (
+        <text key={`b${k}`} x={pfx + (k + 1) * 30} y={fy + fh - 4} textAnchor="middle"
+          fontSize="8" fontFamily="monospace" fill="currentColor" opacity="0.85">{n}</text>
+      ))}
+
+      {/* Coaches area / sideline markers */}
+      <line x1={pfx} y1={fy - 8} x2={pfx + pfw} y2={fy - 8} strokeWidth="0.4" strokeDasharray="4 3" />
+      <line x1={pfx} y1={fy + fh + 8} x2={pfx + pfw} y2={fy + fh + 8} strokeWidth="0.4" strokeDasharray="4 3" />
+
+      {/* Goal post — left (H-shape outside back of EZ) */}
+      <line x1={fx - 8} y1={cy} x2={fx} y2={cy} strokeWidth="0.9" />
+      <line x1={fx - 8} y1={cy - 12} x2={fx - 8} y2={cy + 12} strokeWidth="1.0" />
+      <circle cx={fx - 8} cy={cy - 12} r="1.5" fill="none" strokeWidth="0.9" />
+      <circle cx={fx - 8} cy={cy + 12} r="1.5" fill="none" strokeWidth="0.9" />
+
+      {/* Goal post — right */}
+      <line x1={fx + fw} y1={cy} x2={fx + fw + 8} y2={cy} strokeWidth="0.9" />
+      <line x1={fx + fw + 8} y1={cy - 12} x2={fx + fw + 8} y2={cy + 12} strokeWidth="1.0" />
+      <circle cx={fx + fw + 8} cy={cy - 12} r="1.5" fill="none" strokeWidth="0.9" />
+      <circle cx={fx + fw + 8} cy={cy + 12} r="1.5" fill="none" strokeWidth="0.9" />
+
+      {/* End zone labels */}
+      <text x={fx + ezW / 2} y={cy} textAnchor="middle" fontSize="8" fontFamily="monospace"
+        fontWeight="700" letterSpacing="1" fill="currentColor"
+        transform={`rotate(-90, ${fx + ezW / 2}, ${cy})`}>END ZONE</text>
+      <text x={pfx + pfw + ezW / 2} y={cy} textAnchor="middle" fontSize="8" fontFamily="monospace"
+        fontWeight="700" letterSpacing="1" fill="currentColor"
+        transform={`rotate(90, ${pfx + pfw + ezW / 2}, ${cy})`}>END ZONE</text>
+
+      {/* Overall dimension annotation */}
+      <line x1={fx} y1={fy + fh + 24} x2={fx + fw} y2={fy + fh + 24} strokeWidth="0.5" />
+      <line x1={fx} y1={fy + fh + 20} x2={fx} y2={fy + fh + 28} strokeWidth="0.7" />
+      <line x1={fx + fw} y1={fy + fh + 20} x2={fx + fw} y2={fy + fh + 28} strokeWidth="0.7" />
+      <text x={cx} y={fy + fh + 40} textAnchor="middle" fontSize="8.5" fontFamily="monospace"
+        fill="currentColor" opacity="0.7">120 YDS — OVERALL</text>
+      <text x={cx} y={fy + fh + 58} textAnchor="middle" fontSize="8.5" fontFamily="monospace"
+        fill="currentColor" opacity="0.6">SCALE 1:120</text>
+    </svg>
+  );
+};
+
+const MLBPlan = () => {
+  const cx = 200, cy = 210;
+  const hp = { x: cx, y: 330 };       // home plate
+  const b1 = { x: cx + 78, y: cy + 42 }; // 1st base
+  const b2 = { x: cx, y: cy - 36 };   // 2nd base
+  const b3 = { x: cx - 78, y: cy + 42 }; // 3rd base
+
+  // Seating section radial lines — outer ring to inner concourse
+  const sections = Array.from({ length: 28 }, (_, i) => {
+    const a = (i / 28) * Math.PI * 2 - Math.PI / 2;
+    return {
+      x1: cx + Math.cos(a) * 148, y1: cy + Math.sin(a) * 148,
+      x2: cx + Math.cos(a) * 178, y2: cy + Math.sin(a) * 178,
+    };
+  });
+
+  // Upper deck radial lines (more sections)
+  const upper = Array.from({ length: 42 }, (_, i) => {
+    const a = (i / 42) * Math.PI * 2 - Math.PI / 2;
+    return {
+      x1: cx + Math.cos(a) * 178, y1: cy + Math.sin(a) * 178,
+      x2: cx + Math.cos(a) * 194, y2: cy + Math.sin(a) * 194,
+    };
+  });
+
+  return (
+    <svg viewBox="0 0 400 420" className="w-72 h-72" {...svg}>
+      {/* Outer stadium wall */}
+      <ellipse cx={cx} cy={cy} rx={194} ry={186} strokeWidth="1.4" />
+      {/* Upper deck */}
+      <ellipse cx={cx} cy={cy} rx={178} ry={170} strokeWidth="0.7" />
+      {/* Lower concourse */}
+      <ellipse cx={cx} cy={cy} rx={148} ry={140} strokeWidth="0.7" />
+      {/* Inner concourse / field edge */}
+      <ellipse cx={cx} cy={cy} rx={118} ry={110} strokeWidth="0.5" strokeDasharray="3 2" />
+
+      {/* Upper deck section dividers */}
+      {upper.map((l, i) => <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} strokeWidth="0.35" />)}
+      {/* Lower deck section dividers */}
+      {sections.map((l, i) => <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} strokeWidth="0.5" />)}
+
+      {/* Outfield wall arc */}
+      <path d={`M ${hp.x - 96} ${hp.y - 52} A 155 155 0 0 1 ${hp.x + 96} ${hp.y - 52}`} strokeWidth="1.1" />
+      {/* Warning track */}
+      <path d={`M ${hp.x - 105} ${hp.y - 44} A 165 165 0 0 1 ${hp.x + 105} ${hp.y - 44}`} strokeWidth="0.6" strokeDasharray="4 2" />
+
+      {/* Foul lines */}
+      <line x1={hp.x} y1={hp.y} x2={hp.x - 130} y2={hp.y - 148} strokeWidth="0.8" />
+      <line x1={hp.x} y1={hp.y} x2={hp.x + 130} y2={hp.y - 148} strokeWidth="0.8" />
+
+      {/* Infield dirt arc */}
+      <path d={`M ${b3.x - 14} ${b3.y + 14} A 62 62 0 0 1 ${b1.x + 14} ${b1.y + 14}`} strokeWidth="0.7" strokeDasharray="3 2" />
+
+      {/* Diamond */}
+      <path d={`M ${hp.x} ${hp.y} L ${b1.x} ${b1.y} L ${b2.x} ${b2.y} L ${b3.x} ${b3.y} Z`} strokeWidth="1.1" />
+
+      {/* Bases */}
+      <rect x={hp.x - 5} y={hp.y - 5} width="10" height="10" strokeWidth="0.9" />
+      <rect x={b1.x - 4} y={b1.y - 4} width="8" height="8" strokeWidth="0.8" />
+      <rect x={b2.x - 4} y={b2.y - 4} width="8" height="8" strokeWidth="0.8" />
+      <rect x={b3.x - 4} y={b3.y - 4} width="8" height="8" strokeWidth="0.8" />
+
+      {/* Pitcher's mound */}
+      <circle cx={cx} cy={cy + 3} r="9" strokeWidth="0.8" />
+      <line x1={cx - 5} y1={cy + 3} x2={cx + 5} y2={cy + 3} strokeWidth="0.7" />
+
+      {/* Batter's boxes */}
+      <rect x={hp.x - 20} y={hp.y - 13} width="10" height="20" strokeWidth="0.55" />
+      <rect x={hp.x + 10} y={hp.y - 13} width="10" height="20" strokeWidth="0.55" />
+
+      {/* Scoreboard — center field top */}
+      <rect x={cx - 28} y={cy - 178} width="56" height="28" strokeWidth="0.9" />
+      <line x1={cx - 28} y1={cy - 167} x2={cx + 28} y2={cy - 167} strokeWidth="0.4" />
+      <line x1={cx - 14} y1={cy - 178} x2={cx - 14} y2={cy - 150} strokeWidth="0.4" />
+      <line x1={cx + 14} y1={cy - 178} x2={cx + 14} y2={cy - 150} strokeWidth="0.4" />
+
+      {/* Press box — bottom center */}
+      <rect x={cx - 40} y={cy + 152} width="80" height="18" strokeWidth="0.9" />
+      <line x1={cx - 40} y1={cy + 161} x2={cx + 40} y2={cy + 161} strokeWidth="0.4" />
+      {[-20, 0, 20].map(o => <line key={o} x1={cx + o} y1={cy + 152} x2={cx + o} y2={cy + 170} strokeWidth="0.4" />)}
+
+      {/* Distance markers (text via line + tick) */}
+      <line x1={cx} y1={cy - 148} x2={cx} y2={cy - 140} strokeWidth="0.7" />
+      <line x1={cx - 80} y1={cy - 92} x2={cx - 75} y2={cy - 86} strokeWidth="0.6" />
+      <line x1={cx + 80} y1={cy - 92} x2={cx + 75} y2={cy - 86} strokeWidth="0.6" />
+
+      {/* Compass rose — top left */}
+      <circle cx="36" cy="36" r="14" strokeWidth="0.7" />
+      <line x1="36" y1="22" x2="36" y2="50" strokeWidth="0.8" />
+      <line x1="22" y1="36" x2="50" y2="36" strokeWidth="0.8" />
+      <path d="M 36 22 L 33 29 L 36 27 L 39 29 Z" strokeWidth="0.7" />
+      <circle cx="36" cy="36" r="3" strokeWidth="0.7" />
+
+      {/* Right-field standing room structure */}
+      <rect x={cx + 138} y={cy - 80} width="22" height="60" strokeWidth="0.7" />
+      {[0, 12, 24, 36, 48].map(o => <line key={o} x1={cx + 138} y1={cy - 80 + o} x2={cx + 160} y2={cy - 80 + o} strokeWidth="0.3" />)}
+
+      {/* Registration ticks */}
+      <line x1={cx} y1={cy - 200} x2={cx} y2={cy - 194} strokeWidth="0.8" />
+      <line x1={cx - 195} y1={cy} x2={cx - 189} y2={cy} strokeWidth="0.8" />
+      <line x1={cx + 195} y1={cy} x2={cx + 189} y2={cy} strokeWidth="0.8" />
+    </svg>
+  );
+};
 
 const NHLPlan = () => (
   <svg viewBox="0 0 240 120" className="w-56 h-28" {...svg}>
@@ -270,6 +494,7 @@ function Drawing({
   pos,
   rot = 0,
   scale = 1,
+  center = false,
   label,
   dims,
   children,
@@ -277,6 +502,7 @@ function Drawing({
   pos: string;
   rot?: number;
   scale?: number;
+  center?: boolean;
   label: string;
   dims?: string;
   children: React.ReactNode;
@@ -285,15 +511,15 @@ function Drawing({
     <div
       className={`absolute pointer-events-none ${pos}`}
       style={{
-        transform: `rotate(${rot}deg) scale(${scale})`,
-        color: "#1d4ed8",
-        opacity: 0.7,
+        transform: `${center ? "translateX(-50%) " : ""}rotate(${rot}deg) scale(${scale})`,
+        color: "#93c5fd",
+        opacity: 0.55,
       }}
     >
       {children}
-      <div className="mt-1.5 flex items-center gap-2" style={{ color: "#1d4ed8" }}>
+      <div className="mt-1.5 flex items-center gap-2" style={{ color: "#93c5fd" }}>
         <span className="font-mono text-[9px] font-bold tracking-[0.25em] uppercase">{label}</span>
-        <span className="flex-1 h-px bg-blue-200" />
+        <span className="flex-1 h-px" style={{ background: "rgba(147,197,253,0.4)" }} />
         {dims && <span className="font-mono text-[9px] opacity-60">{dims}</span>}
       </div>
     </div>
@@ -303,34 +529,25 @@ function Drawing({
 function StadiumArt() {
   return (
     <>
-      <div className="absolute -top-24 -left-16 w-[560px] h-[560px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(closest-side, rgba(37,99,235,0.06), transparent)" }} />
-      <div className="absolute top-1/2 -right-24 w-[560px] h-[560px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(closest-side, rgba(147,197,253,0.1), transparent)" }} />
-      <div className="absolute bottom-0 left-1/3 w-[480px] h-[480px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(closest-side, rgba(59,130,246,0.06), transparent)" }} />
+      {/* LEFT COLUMN — bleed off left edge, stacked top to bottom */}
+      <Drawing pos="top-[3%] -left-16" rot={3} scale={1.8} label="COURT / PLAN" dims="1:200"><NBAPlan /></Drawing>
+      <Drawing pos="top-[32%] -left-24" rot={-5} scale={2.0} label="SEC B / BOWL" dims="1:150"><BowlSection /></Drawing>
+      <Drawing pos="top-[62%] -left-16" rot={4} scale={1.8} label="FIELD / PLAN" dims="53⅓′"><NFLPlan /></Drawing>
 
-      <Drawing pos="top-[2%] right-[-160px]" rot={-4} scale={2.1} label="SEC A / DOME" dims="REV-02"><DomeElevation /></Drawing>
-      <Drawing pos="top-[4%] left-[-120px]" rot={3} scale={1.9} label="COURT / PLAN" dims="1:200"><NBAPlan /></Drawing>
-      <Drawing pos="top-[22%] left-[42%]" rot={-2} scale={1.55} label="ISO / ARENA" dims="AXON-01"><IsoStadium /></Drawing>
-      <Drawing pos="top-[30%] right-[34%]" rot={6} scale={1.35} label="PRESS TWR" dims="ELEV"><PressTower /></Drawing>
+      {/* RIGHT COLUMN — bleed off right edge, stacked top to bottom */}
+      <Drawing pos="top-[3%] -right-24" rot={-4} scale={1.8} label="SEC A / DOME" dims="REV-02"><DomeElevation /></Drawing>
+      <Drawing pos="top-[30%] -right-20" rot={4} scale={1.8} label="ROOF / RETRACT" dims="OPT-2"><RetractableRoof /></Drawing>
+      <Drawing pos="top-[60%] -right-20" rot={-5} scale={1.8} label="ELEV / OPEN-AIR" dims="SOUTH"><OpenAirElevation /></Drawing>
 
-      <Drawing pos="top-[44%] left-[-180px]" rot={-6} scale={2.2} label="SEC B / BOWL" dims="1:150"><BowlSection /></Drawing>
-      <Drawing pos="top-[42%] right-[-140px]" rot={5} scale={2.0} label="ROOF / RETRACT" dims="OPT-2"><RetractableRoof /></Drawing>
-      <Drawing pos="top-[58%] left-[40%]" rot={-3} scale={1.6} label="PITCH / PLAN" dims="115y"><FIFAPlan /></Drawing>
-
-      <Drawing pos="bottom-[22%] left-[-100px]" rot={4} scale={1.85} label="FIELD / PLAN" dims="53⅓′"><NFLPlan /></Drawing>
-      <Drawing pos="bottom-[16%] right-[-120px]" rot={-6} scale={1.9} label="ELEV / OPEN-AIR" dims="SOUTH"><OpenAirElevation /></Drawing>
-      <Drawing pos="bottom-[32%] left-[36%]" rot={-2} scale={1.45} label="DIAMOND" dims="90′ BASE"><MLBPlan /></Drawing>
-
-      <Drawing pos="bottom-[2%] left-[8%]" rot={-4} scale={1.75} label="ELEV / ARENA" dims="WEST"><ArenaElevation /></Drawing>
-      <Drawing pos="bottom-[4%] right-[10%]" rot={5} scale={1.7} label="RINK / PLAN" dims="200′×85′"><NHLPlan /></Drawing>
-      <Drawing pos="bottom-[-40px] left-[44%]" rot={2} scale={1.25} label="SECTION / A-A" dims="1:250"><DomeSection /></Drawing>
+      {/* BOTTOM — bleed off bottom, spread across */}
+      <Drawing pos="-bottom-6 left-[6%]" rot={-3} scale={1.6} label="ELEV / ARENA" dims="WEST"><ArenaElevation /></Drawing>
+      <Drawing pos="top-[2%] left-[50%]" rot={-2} scale={2.2} center label="DIAMOND" dims="90′ BASE"><MLBPlan /></Drawing>
+      <Drawing pos="-bottom-4 right-[6%]" rot={5} scale={1.6} label="RINK / PLAN" dims="200′×85′"><NHLPlan /></Drawing>
 
       {/* Corner registration marks */}
-      {([["4%", "4%", "top", "left"], ["4%", "4%", "top", "right"], ["4%", "4%", "bottom", "left"], ["4%", "4%", "bottom", "right"]] as const).map((p, k) => (
+      {([["3%", "3%", "top", "left"], ["3%", "3%", "top", "right"], ["3%", "3%", "bottom", "left"], ["3%", "3%", "bottom", "right"]] as const).map((p, k) => (
         <svg key={k} className="absolute w-6 h-6 pointer-events-none"
-          style={{ [p[2]]: p[0], [p[3]]: p[1], color: "rgba(29,78,216,0.3)" }}
+          style={{ [p[2]]: p[0], [p[3]]: p[1], color: "rgba(147,197,253,0.4)" }}
           viewBox="0 0 24 24" fill="none" stroke="currentColor">
           <line x1="2" y1="12" x2="22" y2="12" strokeWidth="1" />
           <line x1="12" y1="2" x2="12" y2="22" strokeWidth="1" />
