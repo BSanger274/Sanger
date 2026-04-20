@@ -13,28 +13,41 @@ export default function FlowDivider({
 }) {
   if (kind === "bleed") {
     return (
-      <div className="relative h-64 -mt-px -mb-px overflow-hidden">
-        {/* Hero gradient fading out */}
+      <div className="relative h-[480px] -mt-px -mb-px overflow-hidden">
+        {/* Animated hero gradient — full coverage base */}
         <div className="absolute inset-0 hero-gradient" />
-        {/* Blueprint grid fading in over the bottom half */}
+
+        {/* Progressive white wash — drains colour slowly top → bottom */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.18) 20%, rgba(255,255,255,0.52) 42%, rgba(255,255,255,0.82) 62%, rgba(255,255,255,0.96) 78%, #ffffff 100%)",
+          }}
+        />
+
+        {/* Blueprint grid — eases in gently from the midpoint */}
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: [
               "linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px)",
               "linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px)",
-              "linear-gradient(rgba(37,99,235,0.16) 1px, transparent 1px)",
-              "linear-gradient(90deg, rgba(37,99,235,0.16) 1px, transparent 1px)",
+              "linear-gradient(rgba(37,99,235,0.14) 1px, transparent 1px)",
+              "linear-gradient(90deg, rgba(37,99,235,0.14) 1px, transparent 1px)",
             ].join(", "),
             backgroundSize: "14px 14px, 14px 14px, 70px 70px, 70px 70px",
-            maskImage: "linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.6) 60%, black 100%)",
-            WebkitMaskImage: "linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.6) 60%, black 100%)",
+            maskImage:
+              "linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.7) 75%, black 100%)",
+            WebkitMaskImage:
+              "linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.7) 75%, black 100%)",
           }}
         />
-        {/* Solid fade to blueprint background color */}
+
+        {/* Blueprint colour cap — locks the bottom edge to the exact section bg */}
         <div
-          className="absolute inset-0"
-          style={{ background: `linear-gradient(180deg, transparent 0%, rgba(248,251,255,0.4) 50%, ${to} 100%)` }}
+          className="absolute inset-x-0 bottom-0 h-24"
+          style={{ background: `linear-gradient(180deg, transparent, ${to})` }}
         />
       </div>
     );
