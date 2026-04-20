@@ -15,6 +15,7 @@ const projects = [
     pillFg: "#c2410c",
     icon: "🏀",
     link: "https://slam-n-jam.onrender.com",
+    preview: "/previews/slam-n-jam.jpeg",
     stats: [{ k: "17", v: "Teams" }, { k: "255", v: "Players" }, { k: "LIVE", v: "Scoring" }],
     gradient: "from-orange-400 to-rose-500",
   },
@@ -30,6 +31,7 @@ const projects = [
     pillFg: "#047857",
     icon: "⛳",
     link: "https://fantasy-golf-7h8x.onrender.com",
+    preview: "/previews/fantasy-golf.jpeg",
     stats: [{ k: "LIVE", v: "Leaderboard" }, { k: "PGA", v: "Majors" }, { k: "$$", v: "Money" }],
     gradient: "from-emerald-400 to-teal-500",
   },
@@ -45,6 +47,7 @@ const projects = [
     pillFg: "#6d28d9",
     icon: "📊",
     link: "https://covers-edge.vercel.app",
+    preview: "/previews/covers-edge.jpeg",
     stats: [{ k: "MOVE", v: "Line" }, { k: "SHARP", v: "Splits" }, { k: "DARK", v: "Mode" }],
     gradient: "from-violet-500 to-purple-600",
   },
@@ -589,9 +592,41 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
         />
       </div>
 
+      {/* Browser mockup preview */}
+      <div className="relative overflow-hidden border-b border-slate-100" style={{ height: 200 }}>
+        {/* Browser chrome bar */}
+        <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-1.5 px-3 h-8 bg-slate-100 border-b border-slate-200">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+          <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+          <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
+          <div className="flex-1 mx-2 h-4 bg-white rounded border border-slate-200 flex items-center px-2">
+            <span className="text-[9px] text-slate-400 font-mono truncate">{project.link.replace("https://", "")}</span>
+          </div>
+        </div>
+        {/* Screenshot */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={project.preview}
+          alt={`${project.name} preview`}
+          className="absolute inset-0 w-full object-cover object-top"
+          style={{ top: 32, height: "calc(100% - 32px)" }}
+        />
+        {/* Hover overlay */}
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-0 z-20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-200"
+          style={{ background: "rgba(0,0,0,0.45)", top: 32 }}
+        >
+          <span className="text-white text-xs font-bold tracking-widest uppercase px-4 py-2 border border-white/50 rounded-full">
+            View Live ↗
+          </span>
+        </a>
+      </div>
+
       <div className="p-7">
         <div className="mb-5">
-          <span className="text-4xl mb-3 block">{project.icon}</span>
           <h3 className="text-2xl font-black text-slate-900">{project.name}</h3>
           <p className="text-sm font-semibold mt-1" style={{ color: project.accent }}>{project.tagline}</p>
         </div>
