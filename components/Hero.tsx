@@ -151,6 +151,32 @@ export default function Hero() {
           <div className="w-1 h-2 bg-white/50 rounded-full" />
         </motion.div>
       </motion.div>
+
+      {/* ── Bottom dissolve — built into Hero so there's only one gradient, no seam ── */}
+      {/* Color washes out first (lower layer) */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: "220px",
+          background: "linear-gradient(180deg, transparent 0%, rgba(248,251,255,0.5) 40%, rgba(248,251,255,0.92) 72%, #f8fbff 100%)",
+        }}
+      />
+      {/* Grid renders on top of the color fade so lines are always visible at the seam */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: "300px",
+          backgroundImage: [
+            "linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px)",
+            "linear-gradient(rgba(37,99,235,0.14) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(37,99,235,0.14) 1px, transparent 1px)",
+          ].join(", "),
+          backgroundSize: "14px 14px, 14px 14px, 70px 70px, 70px 70px",
+          maskImage: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 72%, black 100%)",
+          WebkitMaskImage: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 72%, black 100%)",
+        }}
+      />
     </section>
   );
 }

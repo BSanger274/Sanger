@@ -11,7 +11,6 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
-      <FlowDivider kind="bleed" to="#f8fbff" />
       <Projects />
       <About />
       <FlowDivider kind="stitch" from="#ffffff" to="#f8fafc" tag="CONTACT" />
