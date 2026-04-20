@@ -642,6 +642,16 @@ export default function Projects() {
         <StadiumArt />
       </div>
 
+      {/* Bottom dissolve — graph paper fades out to white entering About (below cards) */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: "420px",
+          background:
+            "linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.18) 20%, rgba(255,255,255,0.52) 42%, rgba(255,255,255,0.82) 62%, rgba(255,255,255,0.96) 78%, #ffffff 100%)",
+        }}
+      />
+
       <div className="max-w-6xl mx-auto relative z-10">
         <div ref={headerRef} className="mb-14 max-w-2xl">
           <motion.p
@@ -687,15 +697,6 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Bottom dissolve — graph paper fades out to white entering About */}
-      <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none z-20"
-        style={{
-          height: "420px",
-          background:
-            "linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.18) 20%, rgba(255,255,255,0.52) 42%, rgba(255,255,255,0.82) 62%, rgba(255,255,255,0.96) 78%, #ffffff 100%)",
-        }}
-      />
     </section>
   );
 }
