@@ -12,42 +12,38 @@ export default function FlowDivider({
   tag?: string;
 }) {
   if (kind === "bleed") {
+    const gridLines = [
+      "linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px)",
+      "linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px)",
+      "linear-gradient(rgba(37,99,235,0.14) 1px, transparent 1px)",
+      "linear-gradient(90deg, rgba(37,99,235,0.14) 1px, transparent 1px)",
+    ].join(", ");
+
     return (
-      <div className="relative h-[480px] -mt-px -mb-px overflow-hidden">
-        {/* Animated hero gradient — full coverage base */}
-        <div className="absolute inset-0 hero-gradient" />
+      <div className="relative h-[560px] -mt-px -mb-px overflow-hidden">
+        {/* Layer 1 — graph paper base, exactly matches the section below */}
+        <div className="absolute inset-0" style={{ background: to }} />
 
-        {/* Progressive white wash — drains colour slowly top → bottom */}
+        {/* Layer 2 — blueprint grid, full coverage, always present */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.18) 20%, rgba(255,255,255,0.52) 42%, rgba(255,255,255,0.82) 62%, rgba(255,255,255,0.96) 78%, #ffffff 100%)",
-          }}
-        />
-
-        {/* Blueprint grid — eases in gently from the midpoint */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: [
-              "linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px)",
-              "linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px)",
-              "linear-gradient(rgba(37,99,235,0.14) 1px, transparent 1px)",
-              "linear-gradient(90deg, rgba(37,99,235,0.14) 1px, transparent 1px)",
-            ].join(", "),
+            backgroundImage: gridLines,
             backgroundSize: "14px 14px, 14px 14px, 70px 70px, 70px 70px",
-            maskImage:
-              "linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.7) 75%, black 100%)",
-            WebkitMaskImage:
-              "linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.7) 75%, black 100%)",
           }}
         />
 
-        {/* Blueprint colour cap — locks the bottom edge to the exact section bg */}
+        {/* Layer 3 — hero gradient dissolves away via mask, revealing grid beneath.
+            The color doesn't go through white — it peels back and the grid
+            was always sitting underneath it the whole time. */}
         <div
-          className="absolute inset-x-0 bottom-0 h-24"
-          style={{ background: `linear-gradient(180deg, transparent, ${to})` }}
+          className="absolute inset-0 hero-gradient"
+          style={{
+            maskImage:
+              "linear-gradient(180deg, black 0%, black 12%, rgba(0,0,0,0.92) 28%, rgba(0,0,0,0.65) 46%, rgba(0,0,0,0.28) 64%, rgba(0,0,0,0.06) 80%, transparent 92%)",
+            WebkitMaskImage:
+              "linear-gradient(180deg, black 0%, black 12%, rgba(0,0,0,0.92) 28%, rgba(0,0,0,0.65) 46%, rgba(0,0,0,0.28) 64%, rgba(0,0,0,0.06) 80%, transparent 92%)",
+          }}
         />
       </div>
     );
