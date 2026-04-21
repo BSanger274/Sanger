@@ -16,8 +16,20 @@ export default function Home() {
       {/* About → Contact dissolve */}
       <div
         style={{
-          height: "200px",
-          background: "linear-gradient(180deg, #ffffff 0%, #0b1120 60%, #080d1a 100%)",
+          height: "420px",
+          background: [
+            "linear-gradient(180deg,",
+            "#ffffff       0%,",
+            "#edf0fa      10%,",
+            "#ced6f0      22%,",
+            "#9aaad8      34%,",
+            "#5c72b8      45%,",
+            "#2d3f80      55%,",
+            "#141e4a      65%,",
+            "#0a1230      75%,",
+            "#080d1a      87%,",
+            "#080d1a     100%)",
+          ].join(" "),
         }}
       />
       <Contact />
