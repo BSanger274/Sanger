@@ -47,17 +47,13 @@ export default function Hero() {
       {/* ── Main content — left-aligned ── */}
       <div className="relative z-10 px-8 md:px-16 max-w-7xl mx-auto w-full pt-28 pb-40">
 
-        {/* Brand + availability row */}
+        {/* Availability badge */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="flex items-center gap-3 mb-10"
         >
-          <span className="text-blue-400/80 text-[10px] font-bold tracking-[0.35em] uppercase">
-            Sanger Designs
-          </span>
-          <span className="w-16 h-px bg-blue-500/30" />
           <span className="inline-flex items-center gap-1.5 bg-green-500/10 border border-green-500/25 text-green-400 text-[10px] font-semibold px-3 py-1.5 rounded-full">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
@@ -65,6 +61,7 @@ export default function Hero() {
             </span>
             Available for new projects
           </span>
+          <span className="text-white/20 text-[10px] font-mono tracking-widest uppercase">— Custom web &amp; fantasy platforms</span>
         </motion.div>
 
         {/* Headline */}

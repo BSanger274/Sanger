@@ -4,12 +4,14 @@ import { motion, useInView } from "framer-motion";
 import CountUp from "@/components/ui/CountUp";
 
 const capabilities = [
-  { label: "Full-Stack Web Apps", icon: "🌐" },
-  { label: "Real-Time Data Feeds", icon: "⚡" },
-  { label: "Fantasy Sports Platforms", icon: "🏆" },
-  { label: "Admin Dashboards", icon: "🎛️" },
-  { label: "Render & Vercel Deploy", icon: "🚀" },
-  { label: "API Integrations", icon: "🔌" },
+  "Full-Stack Web Apps",
+  "Real-Time Scoring",
+  "Fantasy Platforms",
+  "Live Leaderboards",
+  "Admin Dashboards",
+  "API Integrations",
+  "Vercel / Render Deploy",
+  "Custom from scratch",
 ];
 
 
@@ -37,9 +39,9 @@ export default function About() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl font-black text-gray-900 leading-tight mb-6"
             >
-              Built for the fans,
+              Your league deserves
               <br />
-              by a fan.
+              a real platform.
             </motion.h2>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -48,13 +50,12 @@ export default function About() {
               className="space-y-4 text-gray-500 leading-relaxed"
             >
               <p>
-                I build custom web tools that bring fantasy sports leagues to
-                life. From live scoring to real-time leaderboards, each project
-                is designed around what actually matters to the people playing.
+                Off-the-shelf tools cap out fast — no custom scoring, no live
+                updates, no control. I build from scratch so your platform does
+                exactly what your league needs, nothing less.
               </p>
               <p>
-                No templates. No bloat. Just clean, functional applications
-                deployed to the web and ready to handle game day.
+                Real-time data. Clean UI. Deployed and live before game day.
               </p>
             </motion.div>
 
@@ -62,18 +63,16 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="grid grid-cols-2 gap-3 mt-10"
+              className="flex flex-wrap gap-2 mt-10"
             >
               {capabilities.map((cap) => (
-                <div
-                  key={cap.label}
-                  className="card-stack flex items-center gap-3 p-3"
+                <span
+                  key={cap}
+                  className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full"
                 >
-                  <span className="text-xl">{cap.icon}</span>
-                  <span className="text-sm font-semibold text-slate-700">
-                    {cap.label}
-                  </span>
-                </div>
+                  <span className="w-1 h-1 rounded-full bg-blue-500 flex-shrink-0" />
+                  {cap}
+                </span>
               ))}
             </motion.div>
           </div>
@@ -101,19 +100,39 @@ export default function About() {
               ))}
             </div>
 
-            <div className="bg-gradient-to-br from-blue-600 to-violet-600 rounded-3xl p-8 text-white">
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="text-xl font-bold mb-2">Ready to Build?</h3>
-              <p className="text-white/80 text-sm leading-relaxed">
-                Have an idea for a fantasy platform, sports tool, or custom web
-                app? Let&apos;s turn it into something real.
-              </p>
-              <a
-                href="#contact"
-                className="inline-block mt-6 bg-white text-blue-600 font-semibold text-sm px-6 py-3 rounded-full hover:scale-105 transition-transform"
-              >
-                Start a Project
-              </a>
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 p-8 text-white">
+              {/* subtle grid */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage: [
+                    "linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px)",
+                    "linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px)",
+                  ].join(", "),
+                  backgroundSize: "24px 24px",
+                }}
+              />
+              {/* glow */}
+              <div
+                className="absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(37,99,235,0.25) 0%, transparent 70%)" }}
+              />
+              <div className="relative z-10">
+                <p className="text-blue-400 text-[10px] font-bold tracking-[0.3em] uppercase mb-3">Have an idea?</p>
+                <h3 className="text-xl font-bold mb-3 leading-snug">
+                  Let&apos;s build it<br />the right way.
+                </h3>
+                <p className="text-white/50 text-sm leading-relaxed mb-6">
+                  Bring your concept — I&apos;ll handle the architecture, design,
+                  and deployment end-to-end.
+                </p>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-full transition-all hover:scale-105"
+                >
+                  Start a Project →
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
