@@ -164,29 +164,6 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* ── Bottom dissolve: dark → light blueprint ── */}
-      <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none"
-        style={{
-          height: "260px",
-          background: "linear-gradient(180deg, transparent 0%, rgba(8,13,26,0.0) 5%, rgba(248,251,255,0.25) 45%, rgba(248,251,255,0.88) 72%, #f8fbff 100%)",
-        }}
-      />
-      <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none"
-        style={{
-          height: "320px",
-          backgroundImage: [
-            "linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px)",
-            "linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px)",
-            "linear-gradient(rgba(37,99,235,0.14) 1px, transparent 1px)",
-            "linear-gradient(90deg, rgba(37,99,235,0.14) 1px, transparent 1px)",
-          ].join(", "),
-          backgroundSize: "14px 14px, 14px 14px, 70px 70px, 70px 70px",
-          maskImage: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 70%, black 100%)",
-          WebkitMaskImage: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.65) 70%, black 100%)",
-        }}
-      />
     </section>
   );
 }

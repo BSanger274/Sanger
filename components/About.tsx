@@ -20,8 +20,26 @@ export default function About() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-32 px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section
+      id="about"
+      className="relative py-32 px-6"
+      style={{ background: "#080d1a" }}
+    >
+      {/* Blueprint grid overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: [
+            "linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px)",
+            "linear-gradient(rgba(37,99,235,0.09) 1px, transparent 1px)",
+            "linear-gradient(90deg, rgba(37,99,235,0.09) 1px, transparent 1px)",
+          ].join(", "),
+          backgroundSize: "14px 14px, 14px 14px, 70px 70px, 70px 70px",
+        }}
+      />
+
+      <div className="relative z-10 max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           {/* Left */}
           <div ref={ref}>
@@ -29,7 +47,7 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="text-blue-600 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
+              className="text-blue-400 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
             >
               About
             </motion.p>
@@ -37,7 +55,7 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-5xl font-black text-gray-900 leading-tight mb-6"
+              className="text-5xl font-black text-white leading-tight mb-6"
             >
               Your league deserves
               <br />
@@ -47,7 +65,7 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="space-y-4 text-gray-500 leading-relaxed"
+              className="space-y-4 text-white/50 leading-relaxed"
             >
               <p>
                 Off-the-shelf tools cap out fast — no custom scoring, no live
@@ -68,7 +86,7 @@ export default function About() {
               {capabilities.map((cap) => (
                 <span
                   key={cap}
-                  className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full"
+                  className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 text-white/60 text-xs font-semibold px-3 py-1.5 rounded-full"
                 >
                   <span className="w-1 h-1 rounded-full bg-blue-500 flex-shrink-0" />
                   {cap}
@@ -100,7 +118,7 @@ export default function About() {
               ))}
             </div>
 
-            <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 p-8 text-white">
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 text-white">
               {/* subtle grid */}
               <div
                 className="absolute inset-0 pointer-events-none"
