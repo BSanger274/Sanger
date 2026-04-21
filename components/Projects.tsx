@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import BlurText from "@/components/ui/BlurText";
 
 const projects = [
   {
@@ -561,6 +562,13 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-80px" });
   const [hovered, setHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [spotOpacity, setSpotOpacity] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
   return (
     <motion.div
@@ -568,8 +576,9 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => { setHovered(true); setSpotOpacity(1); }}
+      onMouseLeave={() => { setHovered(false); setSpotOpacity(0); }}
+      onMouseMove={handleMouseMove}
       className="relative bg-white overflow-hidden"
       style={{
         border: `1px solid #0f172a`,
@@ -580,6 +589,15 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
         transition: "box-shadow 0.2s ease, transform 0.2s ease",
       }}
     >
+      {/* Spotlight — follows cursor across the card */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[5] transition-opacity duration-500"
+        style={{
+          opacity: spotOpacity,
+          background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, rgba(37,99,235,0.07), transparent 65%)`,
+        }}
+      />
+
       {/* Shimmer — top bar only */}
       <div className="relative overflow-hidden" style={{ height: 6 }}>
         <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient}`} />
@@ -697,14 +715,12 @@ export default function Projects() {
           >
             My Work
           </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <BlurText
+            text="Live Projects"
             className="text-5xl font-black text-slate-900 leading-tight"
-          >
-            Live Projects
-          </motion.h2>
+            animateBy="words"
+            delay={120}
+          />
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}

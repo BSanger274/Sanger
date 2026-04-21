@@ -1,44 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
-const phrases = [
-  "Turning fantasy sports into live web experiences.",
-  "Building tools that fans actually love.",
-  "Where real-time data meets the game.",
-];
+import DecryptedText from "@/components/ui/DecryptedText";
 
 export default function Hero() {
-  const [displayText, setDisplayText] = useState("");
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isPausing, setIsPausing] = useState(false);
-
-  useEffect(() => {
-    if (isPausing) return;
-    const current = phrases[phraseIndex];
-    const speed = isDeleting ? 35 : 70;
-
-    const timeout = setTimeout(() => {
-      if (!isDeleting && displayText === current) {
-        setIsPausing(true);
-        setTimeout(() => { setIsPausing(false); setIsDeleting(true); }, 2500);
-        return;
-      }
-      if (isDeleting && displayText === "") {
-        setIsDeleting(false);
-        setPhraseIndex((prev) => (prev + 1) % phrases.length);
-        return;
-      }
-      setDisplayText(
-        isDeleting
-          ? current.slice(0, displayText.length - 1)
-          : current.slice(0, displayText.length + 1)
-      );
-    }, speed);
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, phraseIndex, isPausing]);
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -108,10 +72,16 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.6 }}
-          className="text-white/90 text-lg md:text-xl font-light min-h-[1.8rem] mb-14"
+          className="text-white/90 text-lg md:text-xl font-light mb-14"
         >
-          {displayText}
-          <span className="inline-block w-px h-5 bg-white ml-1 align-middle animate-pulse" />
+          <DecryptedText
+            text="Where real-time data meets the game."
+            animateOn="view"
+            sequential={true}
+            speed={38}
+            className="text-white/90"
+            encryptedClassName="text-white/30"
+          />
         </motion.div>
 
         <motion.div

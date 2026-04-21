@@ -1,6 +1,7 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import CountUp from "@/components/ui/CountUp";
 
 const capabilities = [
   { label: "Full-Stack Web Apps", icon: "🌐" },
@@ -11,43 +12,6 @@ const capabilities = [
   { label: "API Integrations", icon: "🔌" },
 ];
 
-function StatCounter({
-  end,
-  label,
-  suffix = "",
-}: {
-  end: number;
-  label: string;
-  suffix?: string;
-}) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (!isInView) return;
-    const duration = 1800;
-    const start = Date.now();
-    const step = () => {
-      const elapsed = Date.now() - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * end));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [isInView, end]);
-
-  return (
-    <div ref={ref} className="text-center">
-      <div className="text-5xl font-black text-gray-900 tabular-nums">
-        {count}
-        {suffix}
-      </div>
-      <div className="text-xs text-gray-500 mt-1 font-medium">{label}</div>
-    </div>
-  );
-}
 
 export default function About() {
   const ref = useRef<HTMLDivElement>(null);
@@ -122,10 +86,19 @@ export default function About() {
             className="space-y-6"
           >
             <div className="card-stack p-10 grid grid-cols-2 gap-10" style={{ "--card-accent": "#2563eb" } as React.CSSProperties}>
-              <StatCounter end={3} suffix="+" label="Live Websites" />
-              <StatCounter end={255} suffix="+" label="Players Tracked" />
-              <StatCounter end={100} suffix="%" label="Custom Built" />
-              <StatCounter end={17} label="Fantasy Teams" />
+              {[
+                { to: 3, suffix: "+", label: "Live Websites" },
+                { to: 255, suffix: "+", label: "Players Tracked" },
+                { to: 100, suffix: "%", label: "Custom Built" },
+                { to: 17, suffix: "", label: "Fantasy Teams" },
+              ].map(({ to, suffix, label }) => (
+                <div key={label} className="text-center">
+                  <div className="text-5xl font-black text-gray-900 tabular-nums">
+                    <CountUp to={to} suffix={suffix} duration={2} />
+                  </div>
+                  <div className="text-xs text-gray-500 mt-1 font-medium">{label}</div>
+                </div>
+              ))}
             </div>
 
             <div className="bg-gradient-to-br from-blue-600 to-violet-600 rounded-3xl p-8 text-white">
