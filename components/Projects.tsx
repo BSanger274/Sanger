@@ -241,6 +241,7 @@ const NFLPlan = () => {
 
 const MLBPlan = () => {
   const cx = 200, cy = 210;
+  const r2 = (n: number) => Math.round(n * 100) / 100; // 2dp prevents server/client float mismatch
   const hp = { x: cx, y: 330 };       // home plate
   const b1 = { x: cx + 78, y: cy + 42 }; // 1st base
   const b2 = { x: cx, y: cy - 36 };   // 2nd base
@@ -250,8 +251,8 @@ const MLBPlan = () => {
   const sections = Array.from({ length: 28 }, (_, i) => {
     const a = (i / 28) * Math.PI * 2 - Math.PI / 2;
     return {
-      x1: cx + Math.cos(a) * 148, y1: cy + Math.sin(a) * 148,
-      x2: cx + Math.cos(a) * 178, y2: cy + Math.sin(a) * 178,
+      x1: r2(cx + Math.cos(a) * 148), y1: r2(cy + Math.sin(a) * 148),
+      x2: r2(cx + Math.cos(a) * 178), y2: r2(cy + Math.sin(a) * 178),
     };
   });
 
@@ -259,8 +260,8 @@ const MLBPlan = () => {
   const upper = Array.from({ length: 42 }, (_, i) => {
     const a = (i / 42) * Math.PI * 2 - Math.PI / 2;
     return {
-      x1: cx + Math.cos(a) * 178, y1: cy + Math.sin(a) * 178,
-      x2: cx + Math.cos(a) * 194, y2: cy + Math.sin(a) * 194,
+      x1: r2(cx + Math.cos(a) * 178), y1: r2(cy + Math.sin(a) * 178),
+      x2: r2(cx + Math.cos(a) * 194), y2: r2(cy + Math.sin(a) * 194),
     };
   });
 
@@ -558,9 +559,16 @@ function StadiumArt() {
   );
 }
 
-function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-80px" });
+const cardVariants = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+function ProjectCard({ project }: { project: (typeof projects)[0] }) {
   const [hovered, setHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [spotOpacity, setSpotOpacity] = useState(0);
@@ -572,10 +580,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
 
   return (
     <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+      variants={cardVariants}
       onMouseEnter={() => { setHovered(true); setSpotOpacity(1); }}
       onMouseLeave={() => { setHovered(false); setSpotOpacity(0); }}
       onMouseMove={handleMouseMove}
@@ -741,11 +746,16 @@ export default function Projects() {
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.2, delayChildren: 0.1 } } }}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
-        </div>
+        </motion.div>
       </div>
 
     </section>

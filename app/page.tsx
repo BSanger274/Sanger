@@ -13,7 +13,13 @@ export default function Home() {
       <Hero />
       <Projects />
       <About />
-      <FlowDivider kind="stitch" from="#ffffff" to="#080d1a" tag="CONTACT" />
+      {/* About → Contact dissolve */}
+      <div
+        style={{
+          height: "200px",
+          background: "linear-gradient(180deg, #ffffff 0%, #0b1120 60%, #080d1a 100%)",
+        }}
+      />
       <Contact />
       <Footer />
     </main>
