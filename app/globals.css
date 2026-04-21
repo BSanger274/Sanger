@@ -6,6 +6,15 @@ html {
   scroll-behavior: smooth;
 }
 
+@keyframes hero-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-33.333%); }
+}
+
+.hero-marquee {
+  animation: hero-marquee 28s linear infinite;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;

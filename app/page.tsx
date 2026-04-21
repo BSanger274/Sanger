@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
       <Projects />
       <About />
-      <FlowDivider kind="stitch" from="#ffffff" to="#f8fafc" tag="CONTACT" />
+      <FlowDivider kind="stitch" from="#ffffff" to="#080d1a" tag="CONTACT" />
       <Contact />
       <Footer />
     </main>

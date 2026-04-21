@@ -29,20 +29,13 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="flex flex-col leading-none">
+        <a href="#" className="flex items-baseline leading-none">
           <span
             className={`text-2xl font-black tracking-tight transition-colors ${
               scrolled ? "text-gray-900" : "text-white"
             }`}
           >
             SANGER<span className="text-blue-500">.</span>
-          </span>
-          <span
-            className={`text-[10px] font-semibold tracking-[0.25em] uppercase text-center transition-colors ${
-              scrolled ? "text-blue-500" : "text-blue-300"
-            }`}
-          >
-            Designs
           </span>
         </a>
         <div className="hidden md:flex items-center gap-8">

@@ -2,7 +2,7 @@ const EMAIL = "benjamin.sanger@gmail.com";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 px-6 pt-14 pb-8">
+    <footer className="px-6 pt-14 pb-8" style={{ background: "#080d1a" }}>
       <div className="max-w-6xl mx-auto">
         {/* Top row */}
         <div className="grid sm:grid-cols-3 gap-10 pb-10 border-b border-white/10">
@@ -11,9 +11,6 @@ export default function Footer() {
             <div className="flex flex-col leading-none mb-3">
               <span className="text-white font-black text-2xl">
                 SANGER<span className="text-blue-400">.</span>
-              </span>
-              <span className="text-[10px] font-semibold tracking-[0.25em] uppercase text-blue-400">
-                Designs
               </span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
