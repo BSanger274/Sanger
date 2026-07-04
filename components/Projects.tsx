@@ -37,6 +37,22 @@ const projects = [
     gradient: "from-emerald-400 to-teal-500",
   },
   {
+    id: 4,
+    name: "Player Props",
+    tagline: "MLB Pitcher Strikeout Analyzer",
+    description:
+      "MLB pitcher prop tool with live stats from the MLB Stats API. K% splits across L5/L10/season, park factor adjustments, pitch-count ceilings, and daily prop line snapshots from sportsbooks with edge detection.",
+    tech: ["Next.js", "TypeScript", "MLB API", "The Odds API", "PostgreSQL", "Vercel"],
+    accent: "#0ea5e9",
+    pillBg: "#e0f2fe",
+    pillFg: "#0369a1",
+    icon: "⚾",
+    link: "https://player-props-ben-sangers-projects.vercel.app",
+    preview: "/previews/player-props.jpeg",
+    stats: [{ k: "LIVE", v: "MLB Stats" }, { k: "K%", v: "Splits" }, { k: "EDGE", v: "Detection" }],
+    gradient: "from-sky-400 to-blue-600",
+  },
+  {
     id: 3,
     name: "CoversEdge",
     tagline: "NCAAM Betting Line Comparison",
@@ -731,7 +747,7 @@ export default function Projects() {
             transition={{ duration: 0.5, delay: 0.35 }}
             className="mt-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase text-blue-600/70"
           >
-            <span>Sheet 01 / 03</span>
+            <span>Sheet 01 / 04</span>
             <span className="flex-1 h-px bg-blue-200" />
             <span>Scale 1:400</span>
           </motion.div>
