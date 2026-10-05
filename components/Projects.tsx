@@ -5,6 +5,22 @@ import BlurText from "@/components/ui/BlurText";
 
 const projects = [
   {
+    id: 5,
+    name: "The Hook Sports",
+    tagline: "ATS Pick'em Pool Platform",
+    description:
+      "Private pick'em pools for every sport. Lines lock the moment you submit your pick. Live leaderboards, ATS stat tracking, invite-code rooms, push notifications, and prize management — built for groups since 2010.",
+    tech: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Vercel", "better-auth"],
+    accent: "#f97316",
+    pillBg: "#fff7ed",
+    pillFg: "#c2410c",
+    icon: "🏈",
+    link: "https://picks-pool-ten.vercel.app",
+    preview: "/previews/picks-pool.jpeg",
+    stats: [{ k: "14K+", v: "Picks Locked" }, { k: "LIVE", v: "Lines" }, { k: "ATS", v: "Tracking" }],
+    gradient: "from-orange-400 to-amber-500",
+  },
+  {
     id: 1,
     name: "Slam-N-Jam",
     tagline: "NCAA Tournament Fantasy Scoring",
@@ -747,7 +763,7 @@ export default function Projects() {
             transition={{ duration: 0.5, delay: 0.35 }}
             className="mt-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase text-blue-600/70"
           >
-            <span>Sheet 01 / 04</span>
+            <span>Sheet 01 / 05</span>
             <span className="flex-1 h-px bg-blue-200" />
             <span>Scale 1:400</span>
           </motion.div>
