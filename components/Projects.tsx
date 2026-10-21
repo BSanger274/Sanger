@@ -772,13 +772,13 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-blue-600 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
+            className="text-blue-400 text-xs font-semibold tracking-[0.3em] uppercase mb-3"
           >
             My Work
           </motion.p>
           <BlurText
             text="Live Projects"
-            className="text-5xl font-black text-slate-900 leading-tight"
+            className="text-5xl font-black text-white leading-tight"
             animateBy="words"
             delay={120}
           />
@@ -786,7 +786,7 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-slate-600 text-lg mt-4"
+            className="text-white/50 text-lg mt-4"
           >
             Real tools built for real leagues — data-driven, always live, built to handle game day.
           </motion.p>
@@ -794,10 +794,10 @@ export default function Projects() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.35 }}
-            className="mt-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase text-blue-600/70"
+            className="mt-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase text-blue-400/70"
           >
             <span>Sheet 01 / 05</span>
-            <span className="flex-1 h-px bg-blue-200" />
+            <span className="flex-1 h-px bg-blue-800" />
             <span>Scale 1:400</span>
           </motion.div>
         </div>

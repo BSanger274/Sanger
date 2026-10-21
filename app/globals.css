@@ -50,12 +50,12 @@ body {
 
 /* Light paper — white with blue grid lines */
 .bg-blueprint-light {
-  background-color: #f8fbff;
+  background-color: #080d1a;
   background-image:
-    linear-gradient(rgba(37,99,235,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37,99,235,0.06) 1px, transparent 1px),
-    linear-gradient(rgba(37,99,235,0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37,99,235,0.14) 1px, transparent 1px);
+    linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px),
+    linear-gradient(rgba(37,99,235,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.09) 1px, transparent 1px);
   background-size: 14px 14px, 14px 14px, 70px 70px, 70px 70px;
 }
 
