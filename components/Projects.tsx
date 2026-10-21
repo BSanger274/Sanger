@@ -617,7 +617,7 @@ function ProjectCard({ project, featured = false }: { project: (typeof projects)
       onMouseEnter={() => { setHovered(true); setSpotOpacity(1); }}
       onMouseLeave={() => { setHovered(false); setSpotOpacity(0); }}
       onMouseMove={handleMouseMove}
-      className={`relative bg-white overflow-hidden ${featured ? "lg:flex lg:flex-row" : ""}`}
+      className={`relative bg-white overflow-hidden ${featured ? "lg:flex lg:flex-row" : "flex flex-col h-full"}`}
       style={{
         border: `1px solid #0f172a`,
         boxShadow: hovered
@@ -705,7 +705,7 @@ function ProjectCard({ project, featured = false }: { project: (typeof projects)
         </a>
       </div>
 
-      <div className={`p-7 ${featured ? "lg:flex lg:flex-col lg:justify-center" : ""}`}>
+      <div className={`p-7 ${featured ? "lg:flex lg:flex-col lg:justify-center" : "flex flex-col flex-1"}`}>
         {featured && (
           <span
             className="inline-block text-[9px] font-bold tracking-[0.25em] uppercase px-2.5 py-1 rounded-full mb-4"
@@ -745,7 +745,7 @@ function ProjectCard({ project, featured = false }: { project: (typeof projects)
           href={project.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-bold hover:gap-3 transition-all duration-200"
+          className="inline-flex items-center gap-1.5 text-sm font-bold hover:gap-3 transition-all duration-200 mt-auto"
           style={{ color: project.accent }}
         >
           View Live Site →
@@ -809,7 +809,7 @@ export default function Projects() {
           animate={isInView ? "visible" : "hidden"}
         >
           {projects.map((project, i) => (
-            <div key={project.id} className={i === 0 ? "md:col-span-2 lg:col-span-3" : ""}>
+            <div key={project.id} className={i === 0 ? "md:col-span-2 lg:col-span-3" : "h-full"}>
               <ProjectCard project={project} featured={i === 0} />
             </div>
           ))}
