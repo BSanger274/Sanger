@@ -592,15 +592,16 @@ function StadiumArt() {
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 60 },
+  hidden: { opacity: 0, y: 40, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
     transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-function ProjectCard({ project }: { project: (typeof projects)[0] }) {
+function ProjectCard({ project, featured = false }: { project: (typeof projects)[0]; featured?: boolean }) {
   const [hovered, setHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [spotOpacity, setSpotOpacity] = useState(0);
@@ -616,7 +617,7 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
       onMouseEnter={() => { setHovered(true); setSpotOpacity(1); }}
       onMouseLeave={() => { setHovered(false); setSpotOpacity(0); }}
       onMouseMove={handleMouseMove}
-      className="relative bg-white overflow-hidden"
+      className={`relative bg-white overflow-hidden ${featured ? "lg:flex lg:flex-row" : ""}`}
       style={{
         border: `1px solid #0f172a`,
         boxShadow: hovered
@@ -626,17 +627,20 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
         transition: "box-shadow 0.2s ease, transform 0.2s ease",
       }}
     >
-      {/* Spotlight — follows cursor across the card */}
+      {/* Spotlight — follows cursor, tinted to card accent */}
       <div
         className="absolute inset-0 pointer-events-none z-[5] transition-opacity duration-500"
         style={{
           opacity: spotOpacity,
-          background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, rgba(37,99,235,0.07), transparent 65%)`,
+          background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, ${project.accent}18, transparent 65%)`,
         }}
       />
 
-      {/* Shimmer — top bar only */}
-      <div className="relative overflow-hidden" style={{ height: 6 }}>
+      {/* Shimmer — top bar (or left bar on featured) */}
+      <div
+        className={`relative overflow-hidden flex-shrink-0 ${featured ? "lg:hidden" : ""}`}
+        style={{ height: 6 }}
+      >
         <div className={`absolute inset-0 bg-gradient-to-r ${project.gradient}`} />
         <div
           className="absolute top-0 bottom-0 w-1/2 pointer-events-none"
@@ -646,9 +650,25 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
           }}
         />
       </div>
+      {/* Left accent bar on featured horizontal layout */}
+      {featured && (
+        <div className={`hidden lg:block relative overflow-hidden flex-shrink-0`} style={{ width: 6 }}>
+          <div className={`absolute inset-0 bg-gradient-to-b ${project.gradient}`} />
+          <div
+            className="absolute left-0 right-0 h-1/2 pointer-events-none"
+            style={{
+              background: "linear-gradient(180deg, transparent, rgba(255,255,255,0.75), transparent)",
+              animation: hovered ? "card-scan-v 2.8s linear infinite" : "none",
+            }}
+          />
+        </div>
+      )}
 
       {/* Browser mockup preview */}
-      <div className="relative overflow-hidden border-b border-slate-100" style={{ height: 200 }}>
+      <div
+        className={`relative overflow-hidden border-slate-100 ${featured ? "lg:w-1/2 lg:flex-shrink-0 border-b lg:border-b-0 lg:border-r" : "border-b"}`}
+        style={{ height: featured ? undefined : 200, minHeight: featured ? 300 : undefined }}
+      >
         {/* Browser chrome bar */}
         <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-1.5 px-3 h-8 bg-slate-100 border-b border-slate-200">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
@@ -664,7 +684,12 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
           src={project.preview}
           alt={`${project.name} preview`}
           className="absolute inset-0 w-full object-cover object-top"
-          style={{ top: 32, height: "calc(100% - 32px)" }}
+          style={{
+            top: 32,
+            height: "calc(100% - 32px)",
+            transform: hovered ? "scale(1.03)" : "scale(1)",
+            transition: "transform 0.4s ease",
+          }}
         />
         {/* Hover overlay */}
         <a
@@ -680,9 +705,17 @@ function ProjectCard({ project }: { project: (typeof projects)[0] }) {
         </a>
       </div>
 
-      <div className="p-7">
+      <div className={`p-7 ${featured ? "lg:flex lg:flex-col lg:justify-center" : ""}`}>
+        {featured && (
+          <span
+            className="inline-block text-[9px] font-bold tracking-[0.25em] uppercase px-2.5 py-1 rounded-full mb-4"
+            style={{ background: `${project.accent}15`, color: project.accent }}
+          >
+            ★ Featured Project
+          </span>
+        )}
         <div className="mb-5">
-          <h3 className="text-2xl font-black text-slate-900">{project.name}</h3>
+          <h3 className={`font-black text-slate-900 ${featured ? "text-3xl" : "text-2xl"}`}>{project.name}</h3>
           <p className="text-sm font-semibold mt-1" style={{ color: project.accent }}>{project.tagline}</p>
         </div>
 
@@ -775,8 +808,10 @@ export default function Projects() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          {projects.map((project, i) => (
+            <div key={project.id} className={i === 0 ? "md:col-span-2 lg:col-span-3" : ""}>
+              <ProjectCard project={project} featured={i === 0} />
+            </div>
           ))}
         </motion.div>
       </div>
