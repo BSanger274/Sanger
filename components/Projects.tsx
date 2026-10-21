@@ -761,9 +761,6 @@ export default function Projects() {
 
   return (
     <section id="work" className="relative py-32 px-6 bg-blueprint-light overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none select-none">
-        <StadiumArt />
-      </div>
 
 
       <div className="max-w-6xl mx-auto relative z-10">
