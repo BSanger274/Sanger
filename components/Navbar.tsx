@@ -47,8 +47,12 @@ export default function Navbar() {
               SANGER
             </span>
             <div className="h-px bg-current" />
-            <div className="border border-current mt-[2px] flex items-center" style={{ padding: "2px 4px 3px" }}>
-              <span className="text-[7px] font-bold leading-none w-full block" style={{ textAlign: "justify", textAlignLast: "justify" }}>DESIGNS</span>
+            <div className="border border-current mt-[2px]" style={{ padding: "3px 0 3px" }}>
+              <div className="flex justify-between items-center px-[3px]">
+                {"DESIGNS".split("").map((c, i) => (
+                  <span key={i} className="text-[7px] font-bold leading-none">{c}</span>
+                ))}
+              </div>
             </div>
           </div>
         </a>
