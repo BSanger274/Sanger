@@ -40,14 +40,17 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Wordmark */}
-        <a href="#" className="flex items-baseline leading-none">
-          <span
-            className={`text-2xl font-black tracking-tight transition-colors ${
-              scrolled || menuOpen ? "text-gray-900" : "text-white"
-            }`}
-          >
-            SANGER<span className="text-blue-500">.</span>
-          </span>
+        <a href="#" className="flex items-center leading-none">
+          <div className={`flex flex-col items-stretch transition-colors ${scrolled || menuOpen ? "text-gray-900" : "text-white"}`}>
+            <div className="h-px bg-current w-full" />
+            <span className="text-[22px] font-black tracking-[-0.02em] leading-none px-0.5 py-[1px]">
+              SANGER
+            </span>
+            <div className="h-px bg-current w-full" />
+            <div className="border border-current mt-[2px] px-[5px] py-[1px] text-center">
+              <span className="text-[7px] font-bold tracking-[0.38em] leading-none">DESIGNS</span>
+            </div>
+          </div>
         </a>
 
         {/* Desktop nav */}

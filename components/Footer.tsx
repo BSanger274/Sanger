@@ -8,10 +8,15 @@ export default function Footer() {
         <div className="grid sm:grid-cols-3 gap-10 pb-10 border-b border-white/10">
           {/* Brand + tagline */}
           <div>
-            <div className="flex flex-col leading-none mb-3">
-              <span className="text-white font-black text-2xl">
-                SANGER<span className="text-blue-400">.</span>
+            <div className="flex flex-col items-stretch leading-none mb-3 text-white" style={{ width: "fit-content" }}>
+              <div className="h-px bg-current w-full" />
+              <span className="text-[22px] font-black tracking-[-0.02em] leading-none px-0.5 py-[1px]">
+                SANGER
               </span>
+              <div className="h-px bg-current w-full" />
+              <div className="border border-current mt-[2px] px-[5px] py-[1px] text-center">
+                <span className="text-[7px] font-bold tracking-[0.38em] leading-none">DESIGNS</span>
+              </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               Custom fantasy sports platforms & web apps. Built fast, deployed live, built to last.
