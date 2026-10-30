@@ -8,13 +8,13 @@ export default function Footer() {
         <div className="grid sm:grid-cols-3 gap-10 pb-10 border-b border-white/10">
           {/* Brand + tagline */}
           <div>
-            <div className="flex flex-col items-stretch leading-none mb-3 text-white" style={{ width: "fit-content" }}>
-              <div className="h-px bg-current w-full" />
-              <span className="text-[22px] font-black tracking-[-0.02em] leading-none px-0.5 py-[1px]">
+            <div className="flex flex-col items-stretch mb-3 text-white" style={{ width: "fit-content" }}>
+              <div className="h-px bg-current" />
+              <span className="text-[22px] font-black tracking-[-0.02em] leading-none py-[2px]">
                 SANGER
               </span>
-              <div className="h-px bg-current w-full" />
-              <div className="border border-current mt-[2px] px-[5px] py-[1px] text-center">
+              <div className="h-px bg-current" />
+              <div className="border border-current mt-[2px] flex items-center justify-center" style={{ padding: "2px 0 3px" }}>
                 <span className="text-[7px] font-bold tracking-[0.38em] leading-none">DESIGNS</span>
               </div>
             </div>

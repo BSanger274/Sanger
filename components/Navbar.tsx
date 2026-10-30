@@ -42,12 +42,12 @@ export default function Navbar() {
         {/* Wordmark */}
         <a href="#" className="flex items-center leading-none">
           <div className={`flex flex-col items-stretch transition-colors ${scrolled || menuOpen ? "text-gray-900" : "text-white"}`}>
-            <div className="h-px bg-current w-full" />
-            <span className="text-[22px] font-black tracking-[-0.02em] leading-none px-0.5 py-[1px]">
+            <div className="h-px bg-current" />
+            <span className="text-[22px] font-black tracking-[-0.02em] leading-none py-[2px]">
               SANGER
             </span>
-            <div className="h-px bg-current w-full" />
-            <div className="border border-current mt-[2px] px-[5px] py-[1px] text-center">
+            <div className="h-px bg-current" />
+            <div className="border border-current mt-[2px] flex items-center justify-center" style={{ padding: "2px 0 3px" }}>
               <span className="text-[7px] font-bold tracking-[0.38em] leading-none">DESIGNS</span>
             </div>
           </div>
