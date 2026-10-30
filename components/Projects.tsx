@@ -1,9 +1,17 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { motion, useInView } from "framer-motion";
 import BlurText from "@/components/ui/BlurText";
 
-const projects = [
+type Category = "sports" | "web";
+
+const projects: Array<{
+  id: number; name: string; tagline: string; description: string;
+  tech: string[]; accent: string; pillBg: string; pillFg: string;
+  icon: string; link: string; preview: string;
+  stats: { k: string; v: string }[];
+  gradient: string; category: Category;
+}> = [
   {
     id: 5,
     name: "The Hook Sports",
@@ -19,6 +27,7 @@ const projects = [
     preview: "/previews/picks-pool.jpeg",
     stats: [{ k: "14K+", v: "Picks Locked" }, { k: "LIVE", v: "Lines" }, { k: "ATS", v: "Tracking" }],
     gradient: "from-orange-400 to-amber-500",
+    category: "sports",
   },
   {
     id: 1,
@@ -35,6 +44,7 @@ const projects = [
     preview: "/previews/slam-n-jam.jpeg",
     stats: [{ k: "17", v: "Teams" }, { k: "255", v: "Players" }, { k: "LIVE", v: "Scoring" }],
     gradient: "from-orange-400 to-rose-500",
+    category: "sports",
   },
   {
     id: 2,
@@ -51,6 +61,7 @@ const projects = [
     preview: "/previews/fantasy-golf.jpeg",
     stats: [{ k: "LIVE", v: "Leaderboard" }, { k: "PGA", v: "Majors" }, { k: "$$", v: "Money" }],
     gradient: "from-emerald-400 to-teal-500",
+    category: "sports",
   },
   {
     id: 4,
@@ -67,6 +78,7 @@ const projects = [
     preview: "/previews/player-props.jpeg",
     stats: [{ k: "LIVE", v: "MLB Stats" }, { k: "K%", v: "Splits" }, { k: "EDGE", v: "Detection" }],
     gradient: "from-sky-400 to-blue-600",
+    category: "sports",
   },
   {
     id: 3,
@@ -83,6 +95,7 @@ const projects = [
     preview: "/previews/covers-edge.jpeg",
     stats: [{ k: "MOVE", v: "Line" }, { k: "SHARP", v: "Splits" }, { k: "DARK", v: "Mode" }],
     gradient: "from-violet-500 to-purple-600",
+    category: "sports",
   },
 ];
 
@@ -755,16 +768,30 @@ function ProjectCard({ project, featured = false }: { project: (typeof projects)
   );
 }
 
+type Filter = "all" | Category;
+
+const FILTERS: { key: Filter; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "sports", label: "Sports" },
+  { key: "web", label: "Web Design" },
+];
+
 export default function Projects() {
   const headerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(headerRef, { once: true, margin: "-50px" });
+  const [activeFilter, setActiveFilter] = useState<Filter>("all");
+
+  const filtered = useMemo(
+    () => activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter),
+    [activeFilter]
+  );
+
+  const isEmpty = filtered.length === 0;
 
   return (
     <section id="work" className="relative py-32 px-6 bg-blueprint-light overflow-hidden">
-
-
       <div className="max-w-6xl mx-auto relative z-10">
-        <div ref={headerRef} className="mb-14 max-w-2xl">
+        <div ref={headerRef} className="mb-10 max-w-2xl">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -785,34 +812,64 @@ export default function Projects() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-white/50 text-lg mt-4"
           >
-            Real tools built for real leagues — data-driven, always live, built to handle game day.
+            Custom platforms built to perform — sports, real estate, and everything in between.
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.35 }}
-            className="mt-5 flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase text-blue-400/70"
-          >
-            <span>Sheet 01 / 05</span>
-            <span className="flex-1 h-px bg-blue-800" />
-            <span>Scale 1:400</span>
-          </motion.div>
         </div>
 
+        {/* Filter tabs */}
         <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.2, delayChildren: 0.1 } } }}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex items-center gap-2 mb-12"
         >
-          {projects.map((project, i) => (
-            <div key={project.id} className={i === 0 ? "md:col-span-2 lg:col-span-3" : "h-full"}>
-              <ProjectCard project={project} featured={i === 0} />
-            </div>
+          {FILTERS.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setActiveFilter(key)}
+              className="px-4 py-2 text-xs font-bold tracking-[0.15em] uppercase transition-all duration-200"
+              style={{
+                border: `1px solid ${activeFilter === key ? "rgba(147,197,253,0.6)" : "rgba(147,197,253,0.15)"}`,
+                color: activeFilter === key ? "#bfdbfe" : "rgba(147,197,253,0.4)",
+                background: activeFilter === key ? "rgba(37,99,235,0.12)" : "transparent",
+              }}
+            >
+              {label}
+            </button>
           ))}
+          <span className="ml-auto font-mono text-[10px] tracking-[0.25em] uppercase text-blue-400/40">
+            {filtered.length} Project{filtered.length !== 1 ? "s" : ""}
+          </span>
         </motion.div>
-      </div>
 
+        {isEmpty ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col items-center justify-center py-24 text-center"
+          >
+            <p className="text-white/20 font-mono text-sm tracking-widest uppercase mb-2">Coming Soon</p>
+            <p className="text-white/40 text-lg font-semibold">Web Design projects launching shortly.</p>
+          </motion.div>
+        ) : (
+          <motion.div
+            key={activeFilter}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15, delayChildren: 0.05 } } }}
+            initial="hidden"
+            animate="visible"
+          >
+            {filtered.map((project, i) => {
+              const isFeatured = activeFilter === "all" && i === 0;
+              return (
+                <div key={project.id} className={isFeatured ? "md:col-span-2 lg:col-span-3" : "h-full"}>
+                  <ProjectCard project={project} featured={isFeatured} />
+                </div>
+              );
+            })}
+          </motion.div>
+        )}
+      </div>
     </section>
   );
 }

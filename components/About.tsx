@@ -57,7 +57,7 @@ export default function About() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl font-black text-white leading-tight mb-6"
             >
-              Your league deserves
+              Your project deserves
               <br />
               a real platform.
             </motion.h2>
@@ -68,12 +68,12 @@ export default function About() {
               className="space-y-4 text-white/50 leading-relaxed"
             >
               <p>
-                Off-the-shelf tools cap out fast — no custom scoring, no live
+                Off-the-shelf tools cap out fast — no custom logic, no live
                 updates, no control. I build from scratch so your platform does
-                exactly what your league needs, nothing less.
+                exactly what your business needs, nothing less.
               </p>
               <p>
-                Real-time data. Clean UI. Deployed and live before game day.
+                Real-time data. Clean UI. Deployed and live before your deadline.
               </p>
             </motion.div>
 
@@ -141,8 +141,8 @@ export default function About() {
                   Let&apos;s build it<br />the right way.
                 </h3>
                 <p className="text-white/50 text-sm leading-relaxed mb-6">
-                  Bring your concept — I&apos;ll handle the architecture, design,
-                  and deployment end-to-end.
+                  Bring your concept — I&apos;ll handle the design,
+                  architecture, and deployment end-to-end.
                 </p>
                 <a
                   href="#contact"

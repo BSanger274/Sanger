@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import DecryptedText from "@/components/ui/DecryptedText";
 
 const proof = [
-  "17 Fantasy Leagues", "255 Players Tracked", "3 Live Platforms",
-  "NCAA Tournament", "PGA Majors", "Real-Time Scoring",
-  "Always On Game Day", "Custom Built", "Fantasy Golf",
+  "Custom Built", "Always Live", "Real-Time Data",
+  "Fantasy Sports", "Real Estate", "Landing Pages",
+  "Full-Stack", "Vercel & Render", "Sanger Designs",
 ];
 
 export default function Hero() {
@@ -72,13 +72,13 @@ export default function Hero() {
           className="font-black leading-[0.9] tracking-tighter text-white mb-8"
           style={{ fontSize: "clamp(3.5rem, 9vw, 8rem)" }}
         >
-          Fantasy platforms
+          Custom platforms
           <br />
           <span
             className="text-transparent bg-clip-text"
             style={{ backgroundImage: "linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)" }}
           >
-            leagues can&apos;t
+            clients can&apos;t
           </span>
           <br />
           stop using.
@@ -92,7 +92,7 @@ export default function Hero() {
           className="text-white/40 text-lg md:text-xl font-light mb-12 max-w-lg"
         >
           <DecryptedText
-            text="Real-time scoring. Live leaderboards. Built to handle game day."
+            text="Real-time data. Polished UI. Built to perform before your deadline."
             animateOn="view"
             sequential={true}
             speed={30}
